@@ -32,6 +32,15 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    sourceSets {
+        getByName("main") {
+            java {
+                srcDirs("src/main/java", "src/main/java/ui/signup", "src/main/java/signup",
+                    "src/main/java/com/example/smartgrocerytracker/ui/signup"
+                )
+            }
+        }
+    }
 }
 
 dependencies {
@@ -43,6 +52,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
