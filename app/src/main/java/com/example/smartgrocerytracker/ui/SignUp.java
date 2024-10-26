@@ -15,7 +15,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.R;
+
+import com.example.smartgrocerytracker.services.signUpApiServices;
 
 public class SignUp extends AppCompatActivity {
     private EditText usernameEditText, emailEditText, passwordEditText, rePasswordEditText;
@@ -31,6 +35,7 @@ public class SignUp extends AppCompatActivity {
             return insets;
         });
 
+        RequestQueue queue = Volley.newRequestQueue(SignUp.this);
         usernameEditText = findViewById(R.id.username);
         emailEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
@@ -40,14 +45,12 @@ public class SignUp extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validateInputs()) {
-                    // Inputs are valid, proceed with sign-up logic (e.g., save to database)
-                    Toast.makeText(SignUp.this, "Sign Up Successful", Toast.LENGTH_SHORT).show();
+                String email  = emailEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+                String username  = usernameEditText.getText().toString().trim();
 
-                    // Move back to login page
-                    Intent intent = new Intent(SignUp.this, Login.class);
-                    startActivity(intent);
-                    finish();
+                if (validateInputs()) {
+                    signUpApiServices.sendPostRequest(SignUp.this,queue,email,password,username);
                 }
             }
         });
@@ -83,11 +86,10 @@ public class SignUp extends AppCompatActivity {
             return false;
         }
 
-        return true; // All validations passed
+        return true;
     }
 
     private boolean isValidPassword(String password) {
-        // Regex to check for at least one special character
         String specialCharacters = "[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]+";
         return password.matches(".*" + specialCharacters + ".*");
     }
