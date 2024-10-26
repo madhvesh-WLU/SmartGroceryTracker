@@ -1,0 +1,10 @@
+<resources>
+
+    <style name="SignUpButtonStyle">
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:backgroundTint">#00008B</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+</resources>
