@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,9 +71,17 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                startMainActivity();
-                String username = emailEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
-                loginApiServices.loginUser(Login.this,username,password,queue,sharedPreferences);
+
+                boolean isValid = validateEditText(emailEditText) & validateEditText(passwordEditText);  // Both fields must be valid
+
+                if (isValid) {
+                    String username = emailEditText.getText().toString().trim();
+                    String password = passwordEditText.getText().toString().trim();
+                    loginApiServices.loginUser(Login.this,username,password,queue,sharedPreferences);
+                } else {
+                    Toast.makeText(Login.this, "Please enter both username and password.", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
         });
@@ -80,5 +89,17 @@ public class Login extends AppCompatActivity {
     void startMainActivity() {
         Intent intent = new Intent(Login.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    private boolean validateEditText(EditText editText) {
+        String input = editText.getText().toString().trim();
+        if (input.isEmpty()) {
+            editText.setError(editText.getHint() + " is required");
+//            editText.setBackgroundResource(R.drawable.edittext_error_background);
+            return false;
+        }
+        editText.setError(null);  // Clear any previous error
+        editText.setBackgroundResource(android.R.drawable.edit_text);  // Reset to default background
+        return true;
     }
 }
