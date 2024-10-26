@@ -1,37 +1,25 @@
 package com.example.smartgrocerytracker.ui.home;
 
 import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
-import com.example.smartgrocerytracker.databinding.FragmentHomeBinding;
+import com.example.smartgrocerytracker.R;
 
 public class HomeFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
+    public HomeFragment() {
+        // Required empty public constructor
     }
 
+    @Nullable
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 }
