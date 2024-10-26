@@ -2,7 +2,9 @@ package com.example.smartgrocerytracker.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -11,10 +13,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.smartgrocerytracker.MainActivity;
 import com.example.smartgrocerytracker.R;
 
 public class Login extends AppCompatActivity {
-
+    private Button startloginButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,5 +37,18 @@ public class Login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        startloginButton = findViewById(R.id.login_button);
+        startloginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startMainActivity();
+
+            }
+
+        });
+    }
+    void startMainActivity() {
+        Intent intent = new Intent(Login.this, MainActivity.class);
+        startActivity(intent);
     }
 }
