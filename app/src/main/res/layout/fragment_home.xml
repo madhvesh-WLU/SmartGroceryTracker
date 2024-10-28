@@ -55,7 +55,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:progress="70"
+            android:progress="10"
             android:layout_marginTop="8dp"
             android:progressTint="#5FD068"/>
 
