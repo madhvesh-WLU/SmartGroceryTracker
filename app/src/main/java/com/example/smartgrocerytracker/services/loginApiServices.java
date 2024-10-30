@@ -13,6 +13,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.smartgrocerytracker.MainActivity;
+import com.example.smartgrocerytracker.ui.profile.UserProfile;
+import com.example.smartgrocerytracker.utils.SecurePreferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,10 +26,8 @@ public class loginApiServices {
 
     public static void loginUser(Context context, String username, String password, RequestQueue queue,SharedPreferences sharedPreferences) {
         String url = "http://10.0.2.2:8000/login/";
-
         JSONObject jsonObject = new JSONObject();
         try {
-            Log.i("asd",username + password);
             jsonObject.put("username", username);
             jsonObject.put("password", password);
         } catch (JSONException e) {
@@ -41,12 +41,34 @@ public class loginApiServices {
                         try {
                             JSONObject data = response.getJSONObject("data");
                             String token = data.getString("token");
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("auth_token", token);
-                            editor.putString("username", username);
-                            editor.apply();
+                            JSONObject user_response = data.getJSONObject("user_response");
+                            String emailStr = user_response.getString("email");
+                            String user_id = user_response.getString("user_id");
+                            String budget_id = user_response.getString("budget_id");
+
+                            SecurePreferences.saveAuthToken(context, token);
+
+//                            SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//                            editor.putString("username", username);
+//                            editor.putString("email", emailStr);
+//                            editor.putString("user_id", user_id);
+//                            editor.putString("budget_id", budget_id);
+//                            editor.apply();
                             Log.i("as", String.valueOf(data));
+
+//                            JSONObject user_response = data.getJSONObject("user_response");
+//                            String usernamename = user_response.getString("username");
+//                            String email = user_response.getString("email");
+//                            String user_id = user_response.getString("user_id");
+//                            UserProfile.getInstance().setUserData(usernamename,email,user_id);
+
+
                             Intent intent = new Intent(context, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                             Intent.FLAG_ACTIVITY_NEW_TASK |
+                            Intent.FLAG_ACTIVITY_NO_ANIMATION |
+                            Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             context.startActivity(intent);
                             Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show();
 

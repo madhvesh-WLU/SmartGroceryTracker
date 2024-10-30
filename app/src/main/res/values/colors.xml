@@ -4,6 +4,7 @@
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
+    <color name="teal">#75e8e7</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -12,4 +13,12 @@
     <color name="colorPrimary">#3F51B5</color> <!-- Blue shade -->
     <color name="colorPrimaryDark">#303F9F</color> <!-- Darker blue shade -->
     <color name="colorAccent">#FF4081</color> <!-- Pinkish accent color -->
+    <color name="inactive_color">#757575</color>
+    <color name="mainbackground">#f6f3fa</color>
+    <color name="lightgreen">#D3F0E2</color>
+
+
+
+
+
 </resources>

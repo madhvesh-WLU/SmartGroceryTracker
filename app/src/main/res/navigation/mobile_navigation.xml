@@ -23,4 +23,18 @@
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 
+    <fragment
+        android:id="@+id/nav_grocerylist"
+        android:name="com.example.smartgrocerytracker.ui.grocerylist.GroceryListFragment"
+        android:label="Grocery List"
+        tools:layout="@layout/fragment_grocerylist" />
+
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.smartgrocerytracker.ui.profile.ProfileFragment"
+        android:label="Your Profile"
+        tools:layout="@layout/fragment_profile" />
+
+
 </navigation>

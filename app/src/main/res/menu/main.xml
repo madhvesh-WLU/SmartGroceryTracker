@@ -8,7 +8,8 @@
         android:orderInCategory="100"
         android:title="@string/action_budget"
         android:icon="@drawable/budget"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        />
 
     <item
         android:id="@+id/action_settings3"
@@ -21,7 +22,7 @@
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_information"
-        android:icon="@drawable/information"
+        android:icon="@drawable/profile"
         app:showAsAction="always" />
 
 </menu>

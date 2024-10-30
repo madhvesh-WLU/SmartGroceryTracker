@@ -7,4 +7,18 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
+
+    <style name="CircularImageViewStyle">
+        <item name="shapeAppearanceOverlay">@style/CircularImageViewShape</item>
+    </style>
+
+    <style name="CircularImageViewShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">60dp</item> <!-- Adjust size to half of your image view size -->
+    </style>
+    <style name="CircularImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>
