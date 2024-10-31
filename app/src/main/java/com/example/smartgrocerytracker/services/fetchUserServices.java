@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.smartgrocerytracker.Config;
 import com.example.smartgrocerytracker.MainActivity;
 import com.example.smartgrocerytracker.ui.profile.UserProfile;
 import com.example.smartgrocerytracker.utils.SecurePreferences;
@@ -24,8 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class fetchUserServices {
-
-
     private static final String TAG = "fetchUserServices";
     private static final String USER_PREFS = "UserPref";
     private static final String EMAIL_KEY = "email";
@@ -33,7 +32,7 @@ public class fetchUserServices {
 
     public static void fetchUserDetails(Context context, RequestQueue queue) {
         String token = SecurePreferences.getAuthToken(context);
-        String url = "http://10.0.2.2:8000/user/";
+        String url = Config.USER_FETCH_URL;
         JSONObject jsonObject = new JSONObject();
         JsonObjectRequest fetchUserRequest = new JsonObjectRequest(Request.Method.GET, url,null,
                 new Response.Listener<JSONObject>() {
@@ -59,7 +58,7 @@ public class fetchUserServices {
 
                             } else {
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, "Response message: " + response.getString("message"));
+                                Log.e(TAG, response.getString("message"));
                             }
                         } catch (JSONException e) {
                             Log.e(TAG, "JSON parsing error: " + e.getMessage());

@@ -14,6 +14,7 @@
         android:gravity="center"
         android:paddingBottom="16dp"
         android:text="Set Your Budget"
+        android:textColor="#27104e"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -34,28 +35,31 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:text="Start Date"
-        android:textColor="@color/black" />
+        android:textColor="#64379f" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonStartDate"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Start Date" />
+        android:text="Select Start Date"
+        android:textColor="#27104e" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:text="End Date"
-        android:textColor="@color/black" />
+        android:textColor="#64379f" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonEndDate"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select End Date" />
+        android:text="Select End Date"
+        android:textColor="#27104e"
+        android:textColorLink="#27104e" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSubmit"
@@ -63,5 +67,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Submit" />
+        android:background="#27104e"
+        android:text="Submit"
+        app:icon="@drawable/submit"
+        app:iconGravity="textStart"
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
+        app:backgroundTint="#64379f" />
 </LinearLayout>

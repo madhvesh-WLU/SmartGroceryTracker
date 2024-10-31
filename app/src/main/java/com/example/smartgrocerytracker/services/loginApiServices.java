@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.smartgrocerytracker.Config;
 import com.example.smartgrocerytracker.MainActivity;
 import com.example.smartgrocerytracker.ui.profile.UserProfile;
 import com.example.smartgrocerytracker.utils.SecurePreferences;
@@ -25,7 +26,7 @@ import java.util.Map;
 public class loginApiServices {
 
     public static void loginUser(Context context, String username, String password, RequestQueue queue,SharedPreferences sharedPreferences) {
-        String url = "http://10.0.2.2:8000/login/";
+        String url = Config.LOGIN_URL;
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("username", username);
@@ -55,7 +56,7 @@ public class loginApiServices {
 //                            editor.putString("user_id", user_id);
 //                            editor.putString("budget_id", budget_id);
 //                            editor.apply();
-                            Log.i("as", String.valueOf(data));
+                            Log.i("Res:", String.valueOf(data));
 
 //                            JSONObject user_response = data.getJSONObject("user_response");
 //                            String usernamename = user_response.getString("username");

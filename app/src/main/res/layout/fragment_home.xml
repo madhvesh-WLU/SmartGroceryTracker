@@ -6,20 +6,28 @@
     android:orientation="vertical"
     android:background="@color/mainbackground"
     >
-
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Grocery Management"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#333"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"/>
     <LinearLayout
-        android:id="@+id/section_top1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-
+    android:id="@+id/section_top1"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.7"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello, Madhvesh"
+        android:text="Hello, User"
         android:textSize="24sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif"
@@ -28,8 +36,51 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
-    </LinearLayout>
-    <!-- 40% of the screen height -->
+</LinearLayout>
+
+                <!-- Monthly Spend Summary -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="0dp">
+
+                    <TextView
+                        android:id="@+id/monthly_spend"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Monthly Spend"
+                        android:textSize="16sp"
+                        android:textColor="#666" />
+
+                    <TextView
+                        android:id="@+id/spend_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Remaining ~ $300"
+                        android:textAlignment="textEnd"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="4dp"
+                        android:textColor="@android:color/holo_red_dark" />
+                </LinearLayout>
+
+                <!-- Spend Progress Bar -->
+                <ProgressBar
+                    android:id="@+id/spend_progress"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:progress="70"
+                    android:layout_marginBottom="20dp"
+                    android:progressTint="#5FD068"
+                    android:layout_marginHorizontal="20dp"
+                    />
+
+
     <LinearLayout
         android:id="@+id/section_top"
         android:layout_width="match_parent"
@@ -37,21 +88,16 @@
         android:layout_weight="3.5"
         android:background="#FFDDFFDD"
         android:gravity="center_vertical"
-
         android:orientation="vertical">
 
-        <!-- You can add components related to the first activity here -->
-        <!-- Example component -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="This is the Top Section (40%)"
-            android:textSize="18sp" />
+        <ImageView
+            android:id="@+id/bar_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/img" />
 
     </LinearLayout>
 
-    <!-- 60% of the screen height -->
     <LinearLayout
         android:id="@+id/section_bottom"
         android:layout_width="match_parent"
@@ -61,8 +107,6 @@
         android:gravity="center_vertical"
         >
 
-        <!-- You can add components related to the second activity here -->
-        <!-- Example component -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,143 +119,3 @@
 
 
 
-
-
-<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent">-->
-
-<!--    &lt;!&ndash;    <LinearLayout&ndash;&gt;-->
-<!--    &lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
-<!--    &lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;        android:orientation="vertical">&ndash;&gt;-->
-
-<!--    &lt;!&ndash;        &lt;!&ndash; Header Section with Title &ndash;&gt;&ndash;&gt;-->
-<!--    &lt;!&ndash;        <TextView&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:id="@+id/title"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:text="Grocery Management"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:textSize="24sp"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:textStyle="bold"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:textColor="#333"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:gravity="center_horizontal"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_gravity="center_horizontal"/>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;        &lt;!&ndash; Monthly Spend Summary &ndash;&gt;&ndash;&gt;-->
-<!--    &lt;!&ndash;        <LinearLayout&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:orientation="horizontal"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:gravity="center"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_marginTop="16dp">&ndash;&gt;-->
-
-<!--    &lt;!&ndash;            <TextView&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:id="@+id/monthly_spend"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_width="0dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_weight="1"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:text="Monthly Spend"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:textSize="16sp"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:textColor="#666" />&ndash;&gt;-->
-
-<!--    &lt;!&ndash;            <TextView&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:id="@+id/spend_amount"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_width="0dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_weight="1"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:text="$300"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:textSize="16sp"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:textColor="#666" />&ndash;&gt;-->
-<!--    &lt;!&ndash;        </LinearLayout>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;        &lt;!&ndash; Spend Progress Bar &ndash;&gt;&ndash;&gt;-->
-<!--    &lt;!&ndash;        <ProgressBar&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:id="@+id/spend_progress"&ndash;&gt;-->
-<!--    &lt;!&ndash;            style="@android:style/Widget.ProgressBar.Horizontal"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_height="8dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:progress="10"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_marginTop="8dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:progressTint="#5FD068"/>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;        &lt;!&ndash; Bar Chart Placeholder (ImageView or Custom Chart) &ndash;&gt;&ndash;&gt;-->
-<!--    &lt;!&ndash;        <ImageView&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:id="@+id/bar_chart"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_height="200dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_marginTop="16dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:src="@drawable/img" />&ndash;&gt;-->
-
-<!--    &lt;!&ndash;        &lt;!&ndash; Quick Access Buttons &ndash;&gt;&ndash;&gt;-->
-<!--    &lt;!&ndash;        <LinearLayout&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:orientation="horizontal"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:gravity="center"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_marginTop="16dp">&ndash;&gt;-->
-
-<!--    &lt;!&ndash;            <Button&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:id="@+id/btn_home"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_width="0dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_weight="1"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:text="Home"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:backgroundTint="#87CEEB" />&ndash;&gt;-->
-
-<!--    &lt;!&ndash;            <Button&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:id="@+id/btn_camera"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_width="0dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_weight="1"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:text="Camera"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:backgroundTint="#87CEEB" />&ndash;&gt;-->
-<!--    &lt;!&ndash;        </LinearLayout>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;        &lt;!&ndash; Additional Content &ndash;&gt;&ndash;&gt;-->
-<!--    &lt;!&ndash;        <TextView&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:id="@+id/grocery_list_title"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:text="Grocery List"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:textSize="20sp"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:textStyle="bold"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_marginTop="16dp" />&ndash;&gt;-->
-
-<!--    &lt;!&ndash;        &lt;!&ndash; Grocery List Placeholder &ndash;&gt;&ndash;&gt;-->
-<!--    &lt;!&ndash;        <LinearLayout&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:orientation="vertical"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_marginTop="8dp">&ndash;&gt;-->
-
-<!--    &lt;!&ndash;            &lt;!&ndash; Example Grocery List Items &ndash;&gt;&ndash;&gt;-->
-<!--    &lt;!&ndash;            <TextView&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:id="@+id/grocery_item_1"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:text="Item 1: Quantity - Price"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:padding="8dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:background="#E0F7FA"/>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;            <TextView&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:id="@+id/grocery_item_2"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:text="Item 2: Quantity - Price"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:padding="8dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:background="#E0F7FA"&ndash;&gt;-->
-<!--    &lt;!&ndash;                android:layout_marginTop="4dp"/>&ndash;&gt;-->
-<!--    &lt;!&ndash;        </LinearLayout>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;        &lt;!&ndash; Settings Button &ndash;&gt;&ndash;&gt;-->
-<!--    &lt;!&ndash;        <Button&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:id="@+id/btn_settings"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:text="Settings"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:layout_marginTop="16dp"&ndash;&gt;-->
-<!--    &lt;!&ndash;            android:backgroundTint="#F0E68C"/>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;    </LinearLayout>&ndash;&gt;-->
-<!--</ScrollView>-->
