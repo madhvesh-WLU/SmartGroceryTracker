@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="4dp"
+    android:background="#A56CC1"> <!-- Background color for the row -->
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:textColor="#000000"
+        android:background="@drawable/table_cell_border" />
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:textColor="#000000"
+        android:background="@drawable/table_cell_border" />
+
+
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:textColor="#000000"
+        android:background="@drawable/table_cell_border" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:textColor="#000000"
+        android:background="@drawable/table_cell_border" />
+</LinearLayout>

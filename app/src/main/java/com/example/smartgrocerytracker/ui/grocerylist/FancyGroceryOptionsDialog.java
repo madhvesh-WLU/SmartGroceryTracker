@@ -38,7 +38,9 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
         animatorSet.start();
 
         view.findViewById(R.id.manual_receipt_option).setOnClickListener(v -> {
-            Toast.makeText(requireContext(),"Next Feature Release",Toast.LENGTH_LONG).show();
+            // Show the new dialog to input bill data
+            BillInputDialogFragment billInputDialog = new BillInputDialogFragment();
+            billInputDialog.show(getParentFragmentManager(), "BillInputDialog");
             dismiss();
         });
 

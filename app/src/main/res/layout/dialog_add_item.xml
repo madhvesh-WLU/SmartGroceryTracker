@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="400dp"
+    android:layout_height="wrap_content"
+    android:padding="30dp"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/item_name"
+        android:hint="Item Name"
+        android:width="100dp"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/item_category"
+        android:hint="Category"
+        android:width="100dp"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+    <EditText
+        android:id="@+id/item_quantity"
+        android:hint="Quantity"
+        android:inputType="number"
+        android:width="100dp"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/item_price"
+        android:hint="Price"
+        android:inputType="numberDecimal"
+        android:width="100dp"
+        android:layout_width="match_parent"
+        android:padding="16dp"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/done_button"
+        android:text="Done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:text="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
