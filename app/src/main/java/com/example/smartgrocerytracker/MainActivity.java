@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case 3:
-
                 NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
                 navController.navigate(R.id.nav_profile);
                 return true;

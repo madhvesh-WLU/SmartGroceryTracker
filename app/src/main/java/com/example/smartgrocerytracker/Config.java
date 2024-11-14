@@ -9,4 +9,6 @@ public class Config {
     public static final String REGISTERATION_URL = BASE_URL + "/users/";
     public static final String USER_FETCH_URL = BASE_URL + "/user/";
 
+    public static final String BUDGET_STORE_URL = BASE_URL + "/budget/set";
+
 }
