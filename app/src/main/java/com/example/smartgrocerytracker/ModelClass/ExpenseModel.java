@@ -3,8 +3,8 @@ package com.example.smartgrocerytracker.ModelClass;
 public class ExpenseModel {
 
     private String expenseId;
-    private String billName;
-    private double billAmount;
+    private String billName;      // Considered as the bill name
+    private double billAmount;    // Total bill amount
     private String dateOfPurchase;
     private String description;
     private String budgetId;
@@ -12,7 +12,14 @@ public class ExpenseModel {
     private String userId;
     private String createdAt;
 
-    public ExpenseModel(String expenseId, String billName, double billAmount, String dateOfPurchase, String description, String budgetId, String storeId, String userId, String createdAt) {
+    // New fields for item-specific details
+    private String itemName;      // Name of the item
+    private String category;      // Category of the item
+    private int quantity;         // Quantity of the item
+    private double price;         // Price per unit or item
+
+    // Updated constructor with the new fields
+    public ExpenseModel(String expenseId, String billName, double billAmount, String dateOfPurchase, String description, String budgetId, String storeId, String userId, String createdAt, String itemName, String category, int quantity, double price) {
         this.expenseId = expenseId;
         this.billName = billName;
         this.billAmount = billAmount;
@@ -22,9 +29,46 @@ public class ExpenseModel {
         this.storeId = storeId;
         this.userId = userId;
         this.createdAt = createdAt;
+        this.itemName = itemName;
+        this.category = category;
+        this.quantity = quantity;
+        this.price = price;
     }
 
+    // Getters and setters for new fields
+    public String getItemName() {
+        return itemName;
+    }
 
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    // Existing getters and setters for other fields remain the same
     public String getExpenseId() {
         return expenseId;
     }

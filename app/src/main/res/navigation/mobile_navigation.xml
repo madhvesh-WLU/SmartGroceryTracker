@@ -27,8 +27,17 @@
         android:id="@+id/nav_grocerylist"
         android:name="com.example.smartgrocerytracker.ui.grocerylist.GroceryListFragment"
         android:label="Grocery List"
-        tools:layout="@layout/fragment_grocerylist" />
+        tools:layout="@layout/fragment_grocerylist">
+        <action
+            android:id="@+id/nav_expense_list"
+            app:destination="@id/expenseListFragment" />
+</fragment>
 
+    <fragment
+        android:id="@+id/expenseListFragment"
+        android:name="com.example.smartgrocerytracker.ui.grocerylist.ExpenseListFragment"
+        android:label="Expense List"
+        tools:layout="@layout/fragment_expense_list" />
 
     <fragment
         android:id="@+id/nav_profile"
@@ -36,5 +45,26 @@
         android:label="Your Profile"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/nav_expense_list"
+        android:name="com.example.smartgrocerytracker.ui.grocerylist.ExpenseListFragment"
+        android:label="Expense List"
+        tools:layout="@layout/fragment_expense_list" />
+
+    <fragment
+        android:id="@+id/nav_search_fragment"
+        android:name="com.example.smartgrocerytracker.ui.grocerylist.SearchFragment"
+        android:label="Search List"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/yearSearchFragment"
+        android:name="com.example.smartgrocerytracker.ui.grocerylist.YearSearchFragment"
+        android:label="Year Search"
+        tools:layout="@layout/fragment_year_search" />
+
+    <action
+        android:id="@+id/action_empty_to_yearSearch"
+        app:destination="@id/yearSearchFragment" />
 
 </navigation>
