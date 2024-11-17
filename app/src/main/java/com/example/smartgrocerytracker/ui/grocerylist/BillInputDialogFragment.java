@@ -1,7 +1,10 @@
 // BillInputDialogFragment.java
 package com.example.smartgrocerytracker.ui.grocerylist;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -119,6 +122,10 @@ public class BillInputDialogFragment extends DialogFragment {
                 int totalQuantity = Integer.parseInt(storeTotalQuantityEditText.getText().toString().trim());
                 int billAmount = Integer.parseInt(totalPriceEditText.getText().toString().trim());
 
+
+                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPref", MODE_PRIVATE);
+                String budget_id = sharedPreferences.getString("budget_id", null);
+
                 // Collect input data in a HashMap
                 Map<String, Object> expenseDetails = new HashMap<>();
                 expenseDetails.put("bill_name", billNameEditText.getText().toString().trim());
@@ -126,7 +133,7 @@ public class BillInputDialogFragment extends DialogFragment {
                 expenseDetails.put("total_quantity", totalQuantity);
                 expenseDetails.put("bill_amount", billAmount);
                 expenseDetails.put("description", storeNameEditText.getText().toString().trim());
-                expenseDetails.put("budget_id", "5dd59a28-b7d8-44a9-9930-7f14c6ab6b8e");
+                expenseDetails.put("budget_id", budget_id);
 
                 // Convert HashMap to JSON
                 JSONObject jsonObject = new JSONObject(expenseDetails);

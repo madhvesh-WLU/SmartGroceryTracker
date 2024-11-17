@@ -15,10 +15,7 @@
         android:icon="@drawable/g_list"
         />
 
-    <item
-        android:id="@+id/action_empty"
-        android:title=""
-        />
+
 
     <item
         android:id="@+id/nav_gallery"
@@ -32,4 +29,4 @@
         android:icon="@drawable/location"
         />
 
-</menu>
+    </menu>

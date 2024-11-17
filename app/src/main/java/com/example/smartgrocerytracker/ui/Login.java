@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.smartgrocerytracker.ForgotPasswordActivity;
 import com.example.smartgrocerytracker.MainActivity;
 import com.example.smartgrocerytracker.R;
 
@@ -41,6 +42,15 @@ public class Login extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        TextView forgotPasswordText = findViewById(R.id.forgot_password_text);
+        forgotPasswordText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
         });
 
         sharedPreferences = getSharedPreferences(SharedPrefName, MODE_PRIVATE);
