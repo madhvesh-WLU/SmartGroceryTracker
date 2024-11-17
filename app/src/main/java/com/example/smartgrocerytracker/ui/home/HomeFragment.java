@@ -1,7 +1,11 @@
 // HomeFragment.java
 package com.example.smartgrocerytracker.ui.home;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +27,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+        setUserHead();
         return binding.getRoot();
     }
 
@@ -45,6 +50,15 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null; // To avoid memory leaks
+        binding = null;
+    }
+    private void setUserHead() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPref", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "Guest");
+        if ( binding.welcomeTextView != null) {
+            binding.welcomeTextView.setText("Hello, " + username);
+        } else {
+            Log.e("UserName", "TextView not found.");
+        }
     }
 }
