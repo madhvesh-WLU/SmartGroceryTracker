@@ -43,14 +43,13 @@ public class loginApiServices {
                             JSONObject data = response.getJSONObject("data");
                             String token = data.getString("token");
                             JSONObject user_response = data.getJSONObject("user_response");
-                            String emailStr = user_response.getString("email");
                             String user_id = user_response.getString("user_id");
                             String budget_id = user_response.getString("budget_id");
 
                             SecurePreferences.saveAuthToken(context, token);
 
 //                            SharedPreferences.Editor editor = sharedPreferences.edit();
-//
+////
 //                            editor.putString("username", username);
 //                            editor.putString("email", emailStr);
 //                            editor.putString("user_id", user_id);
@@ -58,11 +57,9 @@ public class loginApiServices {
 //                            editor.apply();
                             Log.i("Res:", String.valueOf(data));
 
-//                            JSONObject user_response = data.getJSONObject("user_response");
 //                            String usernamename = user_response.getString("username");
 //                            String email = user_response.getString("email");
-//                            String user_id = user_response.getString("user_id");
-//                            UserProfile.getInstance().setUserData(usernamename,email,user_id);
+//                            UserProfile.getInstance().setUserData(usernamename,email,user_id,budget_id);
 
 
                             Intent intent = new Intent(context, MainActivity.class);

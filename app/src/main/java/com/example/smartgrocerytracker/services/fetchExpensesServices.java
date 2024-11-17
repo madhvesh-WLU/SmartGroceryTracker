@@ -40,7 +40,6 @@ public class fetchExpensesServices {
 
         String token = SecurePreferences.getAuthToken(context);
         String url = Config.EXPENSES_URL;
-        JSONObject jsonObject = new JSONObject();
         JsonObjectRequest fetchUserRequest = new JsonObjectRequest(Request.Method.GET, url,null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -54,7 +53,7 @@ public class fetchExpensesServices {
 
                                     JSONObject expenseObject = data.getJSONObject(i);
                                     String expenseId = expenseObject.getString("expense_id");
-                                    String billName = expenseObject.getString("bill_name");
+                                    String billName = expenseObject.optString("bill_name", null);
                                     double billAmount = expenseObject.getDouble("bill_amount");
                                     String dateOfPurchase = expenseObject.getString("date_of_purchase");
                                     String description = expenseObject.getString("description");
@@ -69,7 +68,7 @@ public class fetchExpensesServices {
                                     expenses.add(expense);
                                 }
 
-                                listener.onExpensesFetched(expenses); // Trigger the callback
+                                listener.onExpensesFetched(expenses);
 
                                 Toast.makeText(context, "Expenses retrieved: " + expenses.size(), Toast.LENGTH_SHORT).show();
                                 Log.e(TAG, expenses.toString());
@@ -87,6 +86,10 @@ public class fetchExpensesServices {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse.statusCode == 401)
+                {
+                    Toast.makeText(context, "Unauthorized please login", Toast.LENGTH_SHORT).show();
+                }
                 Log.e(TAG, "Volley error: " + error.getMessage());
                 Toast.makeText(context, "Failed to retrieve user details", Toast.LENGTH_SHORT).show();
             }

@@ -44,9 +44,10 @@ public class fetchUserServices {
                                 String username =  data.getString("username");
                                 String email = data.getString("email");
                                 String user_id = data.getString("user_id");
-                                String budget_id = data.getString("user_id");
+                                String budget_id = data.optString("budget_id", null);
 //
 //                              UserProfile.getInstance().setUserData(username,email,user_id);
+                                Log.i("Res:", String.valueOf(data));
 
                                 SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PREFS, Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
