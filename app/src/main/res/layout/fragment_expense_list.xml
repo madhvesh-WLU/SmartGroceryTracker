@@ -8,6 +8,7 @@
     android:background="@drawable/grocerylist">
 
 
+    <!--Bill Information-->
     <LinearLayout
         android:id="@+id/bill_info_container"
         android:layout_width="match_parent"
@@ -58,7 +59,7 @@
             android:layout_gravity="center"/>
     </LinearLayout>
 
-
+    <!--Grocery List Information Recycler View    -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/expenseRecyclerView"
         android:layout_width="match_parent"

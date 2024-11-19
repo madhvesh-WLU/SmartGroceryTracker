@@ -10,12 +10,10 @@
         />
 
     <item
-        android:id="@+id/nav_grocerylist"
-        android:title="List"
+        android:id="@+id/nav_expense_fragment"
+        android:title="Expense"
         android:icon="@drawable/g_list"
         />
-
-
 
     <item
         android:id="@+id/nav_gallery"
@@ -28,5 +26,7 @@
         android:title="Store"
         android:icon="@drawable/location"
         />
+
+
 
     </menu>

@@ -8,6 +8,9 @@ public class Config {
 
     public static final String EXPENSES_URL = BASE_URL + "/expenses/";
     public static final String ADD_EXPENSES_URL = BASE_URL + "/expenses/create/";
+    public static final String GET_FULL_EXPENSES_URL = BASE_URL + "/expenses/";
+
+    public static final String ADD_GROCERY_ITEM_URL = BASE_URL + "/grocery-item/create/";
 
     public static final String LOGIN_URL = BASE_URL + "/login/";
     public static final String REGISTERATION_URL = BASE_URL + "/users/";

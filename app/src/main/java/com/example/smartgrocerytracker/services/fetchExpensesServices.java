@@ -61,11 +61,9 @@ public class fetchExpensesServices {
                                     String storeId = expenseObject.optString("store_id", null);
                                     String userId = expenseObject.getString("user_id");
                                     String createdAt = expenseObject.getString("created_at");
-                                    String name = expenseObject.getString("name");
-
                                     Log.i("List nerw",expenseObject.toString());
 
-                                    ExpenseModel expense = new ExpenseModel(expenseId, billName, billAmount, dateOfPurchase, description, budgetId, storeId, userId, createdAt,null,null,0,0);
+                                    ExpenseModel expense = new ExpenseModel(expenseId, billName, billAmount, dateOfPurchase, description, budgetId, storeId, userId, createdAt,null);
                                     expenses.add(expense);
                                 }
 

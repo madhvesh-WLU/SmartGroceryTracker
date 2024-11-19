@@ -24,18 +24,18 @@
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
-        android:id="@+id/nav_grocerylist"
-        android:name="com.example.smartgrocerytracker.ui.grocerylist.GroceryListFragment"
-        android:label="Grocery List"
-        tools:layout="@layout/fragment_grocerylist">
+        android:id="@+id/nav_expense_fragment"
+        android:name="com.example.smartgrocerytracker.ui.expenses.ExpenseFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_expense" >
         <action
-            android:id="@+id/nav_expense_list"
+            android:id="@+id/action_expenseFragment_to_expenseListFragment"
             app:destination="@id/expenseListFragment" />
-</fragment>
+    </fragment>
 
     <fragment
         android:id="@+id/expenseListFragment"
-        android:name="com.example.smartgrocerytracker.ui.grocerylist.ExpenseListFragment"
+        android:name="com.example.smartgrocerytracker.ui.expenses.ExpenseListFragment"
         android:label="Expense List"
         tools:layout="@layout/fragment_expense_list" />
 
@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/nav_expense_list"
-        android:name="com.example.smartgrocerytracker.ui.grocerylist.ExpenseListFragment"
+        android:name="com.example.smartgrocerytracker.ui.expenses.ExpenseListFragment"
         android:label="Expense List"
         tools:layout="@layout/fragment_expense_list" />
 

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up button to navigate to GroceryListFragment
         Button groceryListButton = findViewById(R.id.grocerylist);
-        groceryListButton.setOnClickListener(v -> navigateToDestination(R.id.nav_grocerylist, true));
+        groceryListButton.setOnClickListener(v -> navigateToDestination(R.id.nav_expense_fragment, true));
 
         // Fetch user details if needed
         handleFetchUserDetails();
@@ -60,22 +60,20 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_grocerylist)
-                .setOpenableLayout(binding.drawerLayout)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_expense_fragment)
                 .build();
 
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(binding.appBarMain.bottomNavigationView, navController);
 
-        // Handle re-selection of navigation items
-        binding.appBarMain.bottomNavigationView.setOnItemReselectedListener(item -> {
-            if (item.getItemId() == R.id.nav_grocerylist) {
-                // Use popUpTo to clear any existing instance of GroceryListFragment before navigating
-                navigateToDestination(R.id.nav_grocerylist, true);  // Refresh GroceryListFragment
-            }
-        });
+//        // Handle re-selection of navigation items
+//        binding.appBarMain.bottomNavigationView.setOnItemReselectedListener(item -> {
+//            if (item.getItemId() == R.id.nav_grocerylist) {
+//                // Use popUpTo to clear any existing instance of GroceryListFragment before navigating
+//                navigateToDestination(R.id.nav_grocerylist, true);  // Refresh GroceryListFragment
+//            }
+//        });
 
-        // Handle item selection in BottomNavigationView using if-else
         binding.appBarMain.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
@@ -88,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_slideshow) {
                 navController.navigate(R.id.nav_slideshow);
                 return true;
-            } else if (itemId == R.id.nav_grocerylist) {
-                navigateToDestination(R.id.nav_grocerylist, false);  // Normal navigation to GroceryList
+            }else if (itemId == R.id.nav_expense_fragment) {
+                navigateToDestination(R.id.nav_expense_fragment, false);
                 return true;
             } else {
                 return false;

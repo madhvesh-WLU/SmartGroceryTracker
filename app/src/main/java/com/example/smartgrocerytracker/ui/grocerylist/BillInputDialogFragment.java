@@ -102,7 +102,7 @@ public class BillInputDialogFragment extends DialogFragment {
     private String formatSelectedDate(int day, int month, int year) {
         // Create a Calendar instance and set the date
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month , day);
+        calendar.set(year, month , day - 1);
 
         // Format the date using SimpleDateFormat
         SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd");

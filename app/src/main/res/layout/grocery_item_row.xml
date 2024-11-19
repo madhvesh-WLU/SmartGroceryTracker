@@ -5,7 +5,11 @@
     android:orientation="horizontal"
     android:padding="4dp"
     android:background="#A56CC1"> <!-- Background color for the row -->
-
+    <CheckBox
+        android:id="@+id/item_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
     <TextView
         android:id="@+id/item_name"
         android:layout_width="0dp"

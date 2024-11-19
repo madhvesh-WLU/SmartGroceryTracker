@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
 
         // Grocery List Button
         binding.grocerylist.setOnClickListener(v ->
-                navController.navigate(R.id.nav_grocerylist));
+                navController.navigate(R.id.nav_expense_fragment));
 
         binding.monthspend.setOnClickListener(v ->
                 navController.navigate(R.id.nav_search_fragment));
