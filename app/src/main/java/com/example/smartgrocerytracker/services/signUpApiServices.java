@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.smartgrocerytracker.Config;
 import com.example.smartgrocerytracker.ui.Login;
 
 import org.json.JSONException;
@@ -19,7 +20,7 @@ import org.json.JSONObject;
 
 public class signUpApiServices {
 
-    private static final String BASE_URL = "http://10.0.2.2:8000/users/";
+    private static final String BASE_URL = Config.REGISTERATION_URL;
 
     public static void sendPostRequest(Context context, RequestQueue queue, String email, String password, String username) {
         JSONObject postData = new JSONObject();

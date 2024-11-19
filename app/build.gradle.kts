@@ -54,10 +54,18 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.activity)
     implementation(libs.activity)
+    implementation(libs.legacy.support.v4)
+    implementation(libs.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-
+// http request
     implementation(libs.volley)
+
+// keystore sharedpref
+    implementation(libs.security.crypto)
+    implementation(libs.jwtdecode)
+    implementation(libs.material.v180)
+
 }

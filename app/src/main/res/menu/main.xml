@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/action_settings2"
+        android:orderInCategory="100"
+        android:title="@string/action_budget"
+        android:icon="@drawable/budget"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/action_settings3"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        android:icon="@drawable/settings"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" /> <item
-    android:id="@+id/action_settings2"
-    android:orderInCategory="100"
-    android:title="@string/action_settings"
-    app:showAsAction="never" /> <item
-    android:id="@+id/action_settings3"
-    android:orderInCategory="100"
-    android:title="@string/action_settings"
-    app:showAsAction="never" />
+        android:title="@string/action_information"
+        android:icon="@drawable/profile"
+        app:showAsAction="always" />
+
 </menu>

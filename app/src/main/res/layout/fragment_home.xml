@@ -1,141 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D3F0E2"
-    android:padding="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/mainpage">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="Grocery Management"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#333"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"/>
+    <LinearLayout
+    android:id="@+id/section_top1"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.7"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/welcomeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello, User"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif"
+        app:lineHeight="32sp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
-        <!-- Header Section with Title -->
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Grocery Management"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#333"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"/>
+</LinearLayout>
 
-        <!-- Monthly Spend Summary -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="16dp">
+                <!-- Monthly Spend Summary -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="0dp">
 
-            <TextView
-                android:id="@+id/monthly_spend"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Monthly Spend"
-                android:textSize="16sp"
-                android:textColor="#666" />
+                    <TextView
+                        android:id="@+id/monthly_spend"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Monthly Spend"
+                        android:textSize="16sp"
+                        android:textColor="#666" />
 
-            <TextView
-                android:id="@+id/spend_amount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="$300"
-                android:textSize="16sp"
-                android:textColor="#666" />
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/spend_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Remaining ~ $300"
+                        android:textAlignment="textEnd"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="4dp"
+                        android:textColor="@android:color/holo_red_dark" />
+                </LinearLayout>
 
-        <!-- Spend Progress Bar -->
-        <ProgressBar
-            android:id="@+id/spend_progress"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:progress="70"
-            android:layout_marginTop="8dp"
-            android:progressTint="#5FD068"/>
 
-        <!-- Bar Chart Placeholder (ImageView or Custom Chart) -->
-        <ImageView
-            android:id="@+id/bar_chart"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/img" />
+                <ProgressBar
+                    android:id="@+id/spend_progress"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:progress="70"
+                    android:layout_marginBottom="20dp"
+                    android:progressTint="#5FD068"
+                    android:layout_marginHorizontal="20dp"
+                    />
 
-        <!-- Quick Access Buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="16dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="627dp">
 
-            <Button
-                android:id="@+id/btn_home"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Home"
-                android:backgroundTint="#87CEEB" />
-
-            <Button
-                android:id="@+id/btn_camera"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Camera"
-                android:backgroundTint="#87CEEB" />
-        </LinearLayout>
-
-        <!-- Additional Content -->
-        <TextView
-            android:id="@+id/grocery_list_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Grocery List"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp" />
-
-        <!-- Grocery List Placeholder -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
-
-            <!-- Example Grocery List Items -->
-            <TextView
-                android:id="@+id/grocery_item_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Item 1: Quantity - Price"
-                android:padding="8dp"
-                android:background="#E0F7FA"/>
-
-            <TextView
-                android:id="@+id/grocery_item_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Item 2: Quantity - Price"
-                android:padding="8dp"
-                android:background="#E0F7FA"
-                android:layout_marginTop="4dp"/>
-        </LinearLayout>
-
-        <!-- Settings Button -->
         <Button
-            android:id="@+id/btn_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="#F0E68C"/>
+            android:id="@+id/grocerylist"
+            style="@style/SignUpButtonStyle"
+            android:layout_width="143dp"
+            android:layout_height="89dp"
+            android:layout_marginBottom="116dp"
+            android:background="@drawable/rounded_button"
+            android:text="Grocery List"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </LinearLayout>
-</ScrollView>
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/grocerylist"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <Button
+            android:id="@+id/budget"
+            style="@style/SignUpButtonStyle"
+            android:layout_width="142dp"
+            android:layout_height="94dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="220dp"
+            android:background="@drawable/rounded_button"
+            android:text="Budget remaining/Alerts"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/monthspend"
+            style="@style/SignUpButtonStyle"
+            android:layout_width="144dp"
+            android:layout_height="92dp"
+            android:layout_marginBottom="224dp"
+            android:background="@drawable/rounded_button"
+            android:text="Month's Spend/ Total Items"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.103"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+
+
+

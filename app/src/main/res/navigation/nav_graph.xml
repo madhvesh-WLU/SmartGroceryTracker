@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <!-- Home Fragment -->
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.smartgrocerytracker.ui.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+
+    <!-- Grocery List Fragment -->
+    <fragment
+        android:id="@+id/nav_grocerylist"
+        android:name="com.example.smartgrocerytracker.ui.grocerylist.GroceryListFragment"
+        android:label="Grocery List"
+        tools:layout="@layout/fragment_grocerylist">
+
+        <!-- Action to go back to Home -->
+        <action
+            android:id="@+id/action_grocerylist_to_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+
+    <action
+        android:id="@+id/action_home_to_grocerylist"
+        app:destination="@id/nav_grocerylist" />
+
+    <item
+        android:id="@+id/nav_expense_list"
+        android:title="Expense List" />
+</navigation>
