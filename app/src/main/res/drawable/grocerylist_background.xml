@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background Gradient -->
+    <item>
+        <shape>
+            <gradient
+                android:startColor="#E3F2FD"
+            android:endColor="#C5E1A5"
+            android:angle="45" />
+        </shape>
+    </item>
+
+
+    <item>
+        <bitmap
+            android:src="@drawable/grocery_pattern"
+        android:gravity="center"
+        android:alpha="0.2" />
+    </item>
+</layer-list>

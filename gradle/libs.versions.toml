@@ -36,6 +36,7 @@ volley = { module = "com.android.volley:volley", version.ref = "volley" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+mpandroidchart = "com.github.PhilJay:MPAndroidChart:v3.0.3"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

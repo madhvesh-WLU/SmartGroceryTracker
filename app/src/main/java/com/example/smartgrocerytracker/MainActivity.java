@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setupNavigation();
 
         // Set up button to navigate to GroceryListFragment
-        Button groceryListButton = findViewById(R.id.grocerylist);
+        TextView groceryListButton = findViewById(R.id.grocerylist);
         groceryListButton.setOnClickListener(v -> navigateToDestination(R.id.nav_expense_fragment, true));
 
         // Fetch user details if needed

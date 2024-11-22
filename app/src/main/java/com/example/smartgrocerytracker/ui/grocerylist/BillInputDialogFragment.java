@@ -80,6 +80,8 @@ public class BillInputDialogFragment extends DialogFragment {
         loadingSpinner = view.findViewById(R.id.loading_spinner);
     }
 
+    private boolean isDatePickerShowing = false;
+
     private void setupDatePicker() {
         dateOfPurchaseEditText.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
@@ -91,7 +93,6 @@ public class BillInputDialogFragment extends DialogFragment {
                     requireContext(),
                     (view, selectedYear, selectedMonth, selectedDay) -> {
                         String formattedDate = formatSelectedDate(selectedDay, selectedMonth, selectedYear);
-
                         dateOfPurchaseEditText.setText(formattedDate);
                     },
                     year, month, day);
@@ -99,10 +100,11 @@ public class BillInputDialogFragment extends DialogFragment {
         });
     }
 
+
     private String formatSelectedDate(int day, int month, int year) {
         // Create a Calendar instance and set the date
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month , day - 1);
+        calendar.set(year, month , day);
 
         // Format the date using SimpleDateFormat
         SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -118,7 +120,6 @@ public class BillInputDialogFragment extends DialogFragment {
             RequestQueue queue = Volley.newRequestQueue(requireContext());
             if (areInputsValid()) {
                 showLoadingSpinner(true);
-                openItemInputDialog();
                 int totalQuantity = Integer.parseInt(storeTotalQuantityEditText.getText().toString().trim());
                 int billAmount = Integer.parseInt(totalPriceEditText.getText().toString().trim());
 
@@ -156,26 +157,7 @@ public class BillInputDialogFragment extends DialogFragment {
     }
 
 
-    private void openItemInputDialog() {
-        ItemInputDialogFragment itemInputDialog = new ItemInputDialogFragment();
 
-        // Optionally, set a listener to handle item addition
-        itemInputDialog.setOnItemAddedListener((name, category, price, quantity) -> {
-            // Handle the item added, e.g., add it to a list or database
-            // You can handle this action in `BillInputDialogFragment` or pass it further
-        });
-
-        // Optionally, pass data as arguments if needed
-        Bundle bundle = new Bundle();
-        bundle.putString("bill_name", billNameEditText.getText().toString().trim());
-        bundle.putString("date_of_purchase", dateOfPurchaseEditText.getText().toString().trim());
-        bundle.putString("store_quantity", storeTotalQuantityEditText.getText().toString().trim());
-        bundle.putString("total_price", totalPriceEditText.getText().toString().trim());
-        bundle.putString("store_name", storeNameEditText.getText().toString().trim());
-        itemInputDialog.setArguments(bundle);
-
-        itemInputDialog.show(getParentFragmentManager(), "ItemInputDialog");
-    }
 
 
     private boolean areInputsValid() {

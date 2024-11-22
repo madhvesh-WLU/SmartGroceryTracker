@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background Gradient -->
+    <gradient
+        android:startColor="@color/white"
+    android:endColor="#9E9E9E"
+    android:angle="90" />
+
+    <!-- Rounded Corners -->
+    <corners android:radius="16dp" /> <!-- Customize radius as needed -->
+
+    <!-- Shadow Effect / Border -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/black" /> <!-- Light gray border for shadow effect -->
+
+    <!-- Padding Inside the Dialog -->
+    <padding
+        android:left="16dp"
+        android:top="16dp"
+        android:right="16dp"
+        android:bottom="16dp" />
+</shape>

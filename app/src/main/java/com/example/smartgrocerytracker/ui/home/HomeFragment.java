@@ -55,8 +55,8 @@ public class HomeFragment extends Fragment {
     private void setUserHead() {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPref", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Guest");
-        if ( binding.welcomeTextView != null) {
-            binding.welcomeTextView.setText("Hello, " + username);
+        if ( binding.welcomeview != null) {
+            binding.welcomeview.setText("Hello, " + username);
         } else {
             Log.e("UserName", "TextView not found.");
         }

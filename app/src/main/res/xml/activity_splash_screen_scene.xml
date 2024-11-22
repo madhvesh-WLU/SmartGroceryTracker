@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <!-- Transition for popping out -->
+    <Transition
+        motion:constraintSetStart="@id/start"
+        motion:constraintSetEnd="@id/middle"
+        motion:duration="800" />
+
+    <!-- Transition for popping back in -->
+    <Transition
+        motion:constraintSetStart="@id/middle"
+        motion:constraintSetEnd="@id/end"
+        motion:duration="800" />
+
+    <!-- Start ConstraintSet -->
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/backgroundLayout"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:layout_width="200dp"
+            android:layout_height="200dp" motion:layout_constraintVertical_bias="0.433" motion:layout_constraintStart_toStartOf="parent" motion:layout_constraintTop_toTopOf="parent" motion:layout_constraintBottom_toBottomOf="parent" motion:layout_constraintHorizontal_bias="0.483" motion:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint
+            android:id="@+id/imageView"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+    </ConstraintSet>
+
+    <!-- Middle ConstraintSet: Fully expanded -->
+    <ConstraintSet android:id="@+id/middle">
+        <Constraint
+            android:id="@+id/backgroundLayout"
+            android:scaleX="3"
+            android:scaleY="3"
+            android:layout_width="600dp"
+            android:layout_height="600dp" />
+
+        <Constraint
+            android:id="@+id/imageView"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:layout_width="300dp"
+            android:layout_height="300dp" />
+    </ConstraintSet>
+
+    <!-- End ConstraintSet: Return to original size -->
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/backgroundLayout"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
+
+        <Constraint
+            android:id="@+id/imageView"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+    </ConstraintSet>
+</MotionScene>

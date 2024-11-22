@@ -16,6 +16,20 @@
     <color name="inactive_color">#757575</color>
     <color name="mainbackground">#f6f3fa</color>
     <color name="lightgreen">#D3F0E2</color>
+    <color name="blue">#6FADE8</color>
+    <color name="blue_background">#1E90FF</color>
+    <color name="wine">#4B0101</color>
+    <color name="buttonblue">#0000FF</color>
+
+
+
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorPlaceholder">#9E9E9E</color>
+    <color name="colorTextWhite">#FFFFFF</color>
+    <color name="colorTextBlack">#000000</color>
+    <color name="colorTextPrimary">#2196F3</color>
+    <color name="colorButtonText">#FFFFFF</color>
+    <color name="colorShadow">#BDBDBD</color>
 
 
 

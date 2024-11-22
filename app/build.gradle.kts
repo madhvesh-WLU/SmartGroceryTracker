@@ -68,4 +68,6 @@ dependencies {
     implementation(libs.jwtdecode)
     implementation(libs.material.v180)
 
+    implementation(libs.mpandroidchart)
+
 }

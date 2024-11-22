@@ -1,139 +1,145 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@drawable/mainpage">
+    android:background="@drawable/shaped_background"
+    tools:context=".MainActivity">
 
+    <!-- Header Section -->
+
+    <!-- Card Section with Pie Chart -->
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/welcomeview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Grocery Management"
+        android:layout_marginTop="68dp"
+        android:text="Welcome, User"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#333"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"/>
-    <LinearLayout
-    android:id="@+id/section_top1"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="0.7"
-    android:gravity="center_vertical"
-    android:orientation="vertical">
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/welcomeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello, User"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:fontFamily="sans-serif"
-        app:lineHeight="32sp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
-
-                <!-- Monthly Spend Summary -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="0dp">
-
-                    <TextView
-                        android:id="@+id/monthly_spend"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Monthly Spend"
-                        android:textSize="16sp"
-                        android:textColor="#666" />
-
-                    <TextView
-                        android:id="@+id/spend_amount"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Remaining ~ $300"
-                        android:textAlignment="textEnd"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="4dp"
-                        android:textColor="@android:color/holo_red_dark" />
-                </LinearLayout>
-
-
-                <ProgressBar
-                    android:id="@+id/spend_progress"
-                    style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:progress="70"
-                    android:layout_marginBottom="20dp"
-                    android:progressTint="#5FD068"
-                    android:layout_marginHorizontal="20dp"
-                    />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_with_pie_chart"
         android:layout_width="match_parent"
-        android:layout_height="627dp">
+        android:layout_height="250dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toBottomOf="@id/welcomeview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-            android:id="@+id/grocerylist"
-            style="@style/SignUpButtonStyle"
-            android:layout_width="143dp"
-            android:layout_height="89dp"
-            android:layout_marginBottom="116dp"
-            android:background="@drawable/rounded_button"
-            android:text="Grocery List"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <FrameLayout
-            android:id="@+id/fragment_container"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/grocerylist"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
+            <!-- Pie Chart Visualization -->
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie_chart"
+                android:layout_width="363dp"
+                android:layout_height="184dp"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/budget"
-            style="@style/SignUpButtonStyle"
-            android:layout_width="142dp"
-            android:layout_height="94dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="220dp"
-            android:background="@drawable/rounded_button"
-            android:text="Budget remaining/Alerts"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <!-- Left to Spend Section -->
+    <TextView
+        android:id="@+id/left_to_spend_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"
+        android:padding="16dp"
+        android:text="Left to Spend\n$2,323.56 out of $4,500.00"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/card_with_pie_chart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
 
-        <Button
-            android:id="@+id/monthspend"
-            style="@style/SignUpButtonStyle"
-            android:layout_width="144dp"
-            android:layout_height="92dp"
-            android:layout_marginBottom="224dp"
-            android:background="@drawable/rounded_button"
-            android:text="Month's Spend/ Total Items"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.103"
-            app:layout_constraintStart_toStartOf="parent" />
+    <!-- GridLayout for Buttons with Icons -->
+    <GridLayout
+        android:id="@+id/grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="1"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/left_to_spend_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+        <!-- Add Expense Item -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_margin="8dp"
+            android:background="@drawable/grid_item_background">
 
+            <ImageView
+                android:id="@+id/add_expense_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/budget3"
+                android:contentDescription="Add Expense Icon" />
 
+            <TextView
+                android:id="@+id/grocerylist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Grocery List"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:textAlignment="center" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_margin="8dp"
+            android:background="@drawable/grid_item_background">
+
+            <ImageView
+                android:id="@+id/view_details_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/search1"
+                android:contentDescription="View Details Icon"
+                />
+
+            <TextView
+                android:id="@+id/monthspend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monthly Spend"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

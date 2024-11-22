@@ -1,57 +1,83 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:padding="4dp"
-    android:background="#A56CC1"> <!-- Background color for the row -->
-    <CheckBox
-        android:id="@+id/item_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-    <TextView
-        android:id="@+id/item_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:padding="4dp"
-        android:textColor="#000000"
-        android:background="@drawable/table_cell_border" />
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    android:background="@drawable/custom_item_background"> <!-- Custom background for CardView -->
 
-    <TextView
-        android:id="@+id/category"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:padding="4dp"
-        android:textColor="#000000"
-        android:background="@drawable/table_cell_border" />
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@drawable/custom_item_background"> <!-- Background for each row -->
 
+        <!-- Checkbox for Item Selection -->
+        <CheckBox
+            android:id="@+id/item_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:visibility="visible"
+            android:buttonTint="@color/black" /> <!-- Tint color for checkbox -->
 
-    <TextView
-        android:id="@+id/quantity"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:padding="4dp"
-        android:textColor="#000000"
-        android:background="@drawable/table_cell_border" />
+        <!-- Item Name -->
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/table_cell_border"
+            android:ellipsize="end"
+            android:maxLines="1" />
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:padding="4dp"
-        android:textColor="#000000"
-        android:background="@drawable/table_cell_border" />
-</LinearLayout>
+        <!-- Item Category -->
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/table_cell_border"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <!-- Item Quantity -->
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/table_cell_border"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <!-- Item Price -->
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/table_cell_border"
+            android:ellipsize="end"
+            android:maxLines="1" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

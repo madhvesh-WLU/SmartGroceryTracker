@@ -1,165 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainbackground"
-    app:layout_constraintBaseline_toBaselineOf="parent"
-    app:layout_constraintBaseline_toBottomOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintTop_toBottomOf="parent">
+    android:background="@color/mainbackground">
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView"
+    <!-- Top Section with Semicircle and User Image -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="576dp"
-        android:layout_margin="16dp"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="0dp">
+        android:layout_height="wrap_content">
+
+        <!-- Blue Semicircle Image at the Top -->
+        <ImageView
+            android:id="@+id/top_semi_circle"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/curved_shape"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <!-- User Image Overlapping the Semicircle -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/user_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="150dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/white"
+            android:padding="4dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/username"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearanceOverlay="@style/CircularImageView"
+            app:strokeColor="@android:color/white"
+            app:strokeWidth="4dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ScrollView to handle vertical overflow for user information -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:gravity="center"
+            android:paddingBottom="16dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
-                android:background="#CEC059"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/CircularImageView" />
-
-
+            <!-- User Name Below the Image -->
             <TextView
+                android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Hello folks"
+                android:layout_marginTop="16dp"
+                android:text="User"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="24dp"
-                android:text="User"
-                android:textSize="16sp" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <!-- MaterialCardView for User Details -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:hint="Username"
-                app:endIconDrawable="@drawable/username"
-                app:endIconMode="custom">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/username"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="madhu"
-                    android:inputType="textEmailAddress"
-                    android:textColor="#000000"
-                    android:textColorHint="#7C7C7C" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:padding="20dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:hint="Your Email"
-                app:endIconDrawable="@drawable/email"
-                app:endIconMode="custom">
+                    <!-- Username Input Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/username_input_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="Username"
+                        app:endIconDrawable="@drawable/username"
+                        app:endIconMode="custom"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="madhu@gmail.com"
-                    android:inputType="phone"
-                    android:textColor="#000000"
-                    android:textColorHint="#7C7C7C" />
-            </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:hint="madhu"
+                            android:inputType="textEmailAddress"
+                            android:textColor="#000000"
+                            android:textColorHint="#7C7C7C" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                    <!-- Email Input Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/email_input_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="Your Email"
+                        app:endIconDrawable="@drawable/email"
+                        app:endIconMode="custom"
+                        app:layout_constraintTop_toBottomOf="@id/username_input_layout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/edit_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:text="Edit Profile"
-                    android:textColor="@color/colorPrimary"
-                    app:backgroundTint="@color/white"
-                    app:iconGravity="textStart" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:hint="madhu@gmail.com"
+                            android:inputType="textEmailAddress"
+                            android:textColor="#000000"
+                            android:textColorHint="#7C7C7C" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/logout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#27104e"
-                    android:text="Logout"
-                    android:textColor="@color/white"
-                    app:icon="@drawable/baseline_logout_24"
-                    app:iconGravity="textStart" />
+                    <!-- Edit Profile and Logout Buttons -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/edit_profile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="Edit Profile"
+                        android:textColor="@color/colorPrimary"
+                        app:backgroundTint="@color/white"
+                        app:iconGravity="textStart"
+                        app:layout_constraintTop_toBottomOf="@id/email_input_layout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/logout"
+                        app:layout_constraintHorizontal_weight="1" />
 
-            </LinearLayout>
-
-
-            <!-- Website Field -->
-            <!--            <com.google.android.material.textfield.TextInputLayout-->
-            <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginBottom="16dp"-->
-            <!--                android:hint="Website"-->
-            <!--                app:endIconDrawable="@drawable/baseline_logout_24"-->
-            <!--                app:endIconMode="custom">-->
-
-            <!--                <com.google.android.material.textfield.TextInputEditText-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:inputType="textUri"-->
-            <!--                    android:text="www.vikasassudani.com" />-->
-            <!--            </com.google.android.material.textfield.TextInputLayout>-->
-
-            <!--            &lt;!&ndash; Password Field &ndash;&gt;-->
-            <!--            <com.google.android.material.textfield.TextInputLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:hint="Password"-->
-            <!--                app:endIconMode="password_toggle"-->
-            <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
-
-            <!--                <com.google.android.material.textfield.TextInputEditText-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:inputType="textPassword"-->
-            <!--                    android:text="************" />-->
-            <!--            </com.google.android.material.textfield.TextInputLayout>-->
-
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/logout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:backgroundTint="#27104e"
+                        android:text="Logout"
+                        android:textColor="@color/white"
+                        app:icon="@drawable/baseline_logout_24"
+                        app:iconGravity="textStart"
+                        app:layout_constraintTop_toBottomOf="@id/email_input_layout"
+                        app:layout_constraintStart_toEndOf="@id/edit_profile"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="1" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
+    </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

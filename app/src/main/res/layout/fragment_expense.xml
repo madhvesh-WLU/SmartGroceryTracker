@@ -4,7 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.grocerylist.GroceryListFragment">
+    tools:context=".ui.expenses.ExpenseFragment">
+
+
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bill_background"
+        android:alpha="0.2"
+        android:contentDescription="Faded Background Image" />
 
 
     <LinearLayout
@@ -13,61 +23,76 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <LinearLayout
-            android:id="@+id/bill_info_row"
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bill_info_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="4dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="10dp"
+            app:cardBackgroundColor="@android:color/white"
+            android:background="@drawable/custom_item_background">
 
-            <TextView
-                android:id="@+id/storeNameTextView"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/bill_info_row"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Store Name"
-                android:textSize="18sp"
-                android:textColor="#000000"
-                android:gravity="center"
-                android:padding="4dp"
-                android:background="@drawable/table_cell_border"/>
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-            <TextView
-                android:id="@+id/dateOfPurchaseTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Date"
-                android:textSize="18sp"
-                android:textColor="#000000"
-                android:gravity="center"
-                android:padding="4dp"
-                android:background="@drawable/table_cell_border"/>
+                <!-- Store Name -->
+                <TextView
+                    android:id="@+id/storeNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Store Name"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/custom_item_background" />
 
-            <TextView
-                android:id="@+id/totalPriceTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Price"
-                android:textSize="18sp"
-                android:textColor="#000000"
-                android:gravity="center"
-                android:padding="4dp"
-                android:background="@drawable/table_cell_border"/>
-        </LinearLayout>
 
-        <!-- Scrollable RecyclerView for the items -->
+                <TextView
+                    android:id="@+id/dateOfPurchaseTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Date"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/custom_item_background" />
+
+
+                <TextView
+                    android:id="@+id/totalPriceTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Price"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:background="@drawable/custom_item_background" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="664dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#FFFFFF"
+            android:background="@drawable/card_background"
             android:layout_marginBottom="55dp"
             android:scrollbars="vertical" />
     </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_gList"
@@ -78,5 +103,6 @@
         android:layout_marginBottom="80dp"
         android:tooltipText="Add New Receipt"
         app:srcCompat="@android:drawable/ic_input_add"
-        app:maxImageSize="30dp" />
+        app:maxImageSize="30dp"
+        app:backgroundTint="#ff6f00" />
 </FrameLayout>

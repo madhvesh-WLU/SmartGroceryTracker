@@ -1,9 +1,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="400dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/custom_dialog_background"
     android:padding="30dp"
     android:gravity="center">
+
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/dialog_icon"
+            android:layout_width="76dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Dialog Icon"
+            android:src="@drawable/additems" />
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New Item"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/item_name"
@@ -11,7 +39,12 @@
         android:width="100dp"
         android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPlaceholder"
+        android:background="@drawable/edit_text_background"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
 
     <EditText
         android:id="@+id/item_category"
@@ -19,9 +52,11 @@
         android:width="100dp"
         android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPlaceholder"
+        android:background="@drawable/edit_text_background"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/item_quantity"
@@ -30,26 +65,55 @@
         android:width="100dp"
         android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPlaceholder"
+        android:background="@drawable/edit_text_background"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
 
     <EditText
         android:id="@+id/item_price"
         android:hint="Price"
         android:inputType="numberDecimal"
         android:width="100dp"
-        android:layout_width="match_parent"
         android:padding="16dp"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPlaceholder"
+        android:background="@drawable/edit_text_background"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/done_button"
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/done_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/black"
+        android:elevation="4dp"
         android:text="Done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textColor="@android:color/white" />
 
-    <Button
-        android:id="@+id/cancel_button"
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/black"
+        android:elevation="4dp"
         android:text="Cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textColor="@android:color/white" />
+    </LinearLayout>
+
 </LinearLayout>
