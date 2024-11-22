@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Budget Details Header -->
+    <TextView
+        android:id="@+id/textViewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Budget Details"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:textColor="@color/black" />
+
+    <!-- Display Budget Amount -->
+    <TextView
+        android:id="@+id/textViewBudgetAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Budget Amount: $0"
+        android:textSize="16sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/black" />
+
+    <!-- Display Start Date -->
+    <TextView
+        android:id="@+id/textViewStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Date: YYYY-MM-DD"
+        android:textSize="16sp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/black" />
+
+    <!-- Display End Date -->
+    <TextView
+        android:id="@+id/textViewEndDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End Date: YYYY-MM-DD"
+        android:textSize="16sp"
+        android:paddingBottom="16dp"
+        android:textColor="@color/black" />
+
+    <!-- Buttons for Actions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <!-- Edit Budget Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonEditBudget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Edit Budget"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/colorPrimary" />
+
+        <!-- Close Dialog Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/black" />
+    </LinearLayout>
+
+</LinearLayout>
