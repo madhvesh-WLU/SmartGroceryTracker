@@ -81,6 +81,7 @@
 
         <!-- Add Expense Item -->
         <LinearLayout
+            android:id="@+id/grocerylist_main_button"
             android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_columnWeight="1"
@@ -111,6 +112,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/monthly_main_button"
             android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_columnWeight="1"

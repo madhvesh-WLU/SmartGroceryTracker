@@ -61,6 +61,7 @@
             android:textSize="18sp"
             android:gravity="center_vertical"
             android:padding="8dp"
+            android:text="Quantity"
             android:textColor="@android:color/white"
             android:background="@drawable/table_cell_border"
             android:ellipsize="end"

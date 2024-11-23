@@ -23,36 +23,51 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class addGroceryServices {
-    public static void postGroceryDetailsByExpenseID(Context context, RequestQueue queue, JSONArray requestData, String expense_id) {
+    private static final String TAG = "AddGroceryItemsServices";
+
+    public static void postGroceryDetailsByExpenseID(Context context, RequestQueue queue, JSONArray requestData, String expense_id,final Runnable onSuccess) {
         String token = SecurePreferences.getAuthToken(context);
-        String url = Config.ADD_GROCERY_ITEM_URL;
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url+expense_id, requestData,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.i("Asd",response.toString());
+        String url = Config.ADD_GROCERY_ITEM_URL + expense_id;
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("items", requestData);
+            Log.i(TAG,payload.toString());
+        } catch (JSONException e) {
+            Log.e(TAG, "Error creating payload: " + e.getMessage());
+            return;
+        }
+    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, payload,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.i(TAG, response.toString());
+                    try {
+                        Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                        if (onSuccess != null) {
+                            onSuccess.run();  // Call the onSuccess method (navigate back)
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String errorMessage = error.getMessage();
-                Toast.makeText(context, "Request failed: " + errorMessage, Toast.LENGTH_SHORT).show();
-                Log.e("Add expense", "Error: " + errorMessage);
-            }
-        }) {
-            // Send headers with your request
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "Bearer " + token);
-                Log.i("RequestHeaders", "Headers: " + headers.toString());
-                return headers;
-            }
-        };
-
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    String errorMessage = (error.getMessage() != null) ? error.getMessage() : "Unknown error";
+                    Toast.makeText(context, "Request failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Error: " + errorMessage);
+                }
+            }) {
+        @Override
+        public Map<String, String> getHeaders() throws AuthFailureError {
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Content-Type", "application/json");
+            headers.put("Authorization", "Bearer " + token);
+            Log.i(TAG, "Request Headers: " + headers.toString());
+            return headers;
+        }
+    };
         queue.add(request);
-    }
 }
-
+}

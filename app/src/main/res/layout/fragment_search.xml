@@ -38,7 +38,7 @@
 
     <!-- RecyclerView for Search Results -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_results_recycler_view"
+        android:id="@+id/budgetId_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

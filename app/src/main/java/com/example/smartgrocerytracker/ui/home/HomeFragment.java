@@ -38,10 +38,10 @@ public class HomeFragment extends Fragment {
         NavController navController = Navigation.findNavController(view);
 
         // Grocery List Button
-        binding.grocerylist.setOnClickListener(v ->
+        binding.grocerylistMainButton.setOnClickListener(v ->
                 navController.navigate(R.id.nav_expense_fragment));
 
-        binding.monthspend.setOnClickListener(v ->
+        binding.monthlyMainButton.setOnClickListener(v ->
                 navController.navigate(R.id.nav_search_fragment));
 
 

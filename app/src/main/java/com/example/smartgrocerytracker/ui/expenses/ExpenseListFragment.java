@@ -20,6 +20,7 @@ import com.example.smartgrocerytracker.ModelClass.GroceryItemModel;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.databinding.FragmentExpenseListBinding;
 import com.example.smartgrocerytracker.services.addGroceryServices;
+import com.example.smartgrocerytracker.services.updateExpenseServices;
 import com.example.smartgrocerytracker.ui.grocerylist.ItemInputDialogFragment;
 
 import org.json.JSONArray;
@@ -27,7 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExpenseListFragment extends Fragment {
 
@@ -38,9 +41,9 @@ public class ExpenseListFragment extends Fragment {
 
     private String billName;
     private String dateOfPurchase;
-    private String storeQuantity;
+    private String totalQuantity;
     private String totalPrice;
-    private String storeName;
+    private String description;
     private String expense_id;
     @Nullable
     @Override
@@ -57,9 +60,10 @@ public class ExpenseListFragment extends Fragment {
         if (getArguments() != null) {
             billName = getArguments().getString("bill_name");
             dateOfPurchase = getArguments().getString("date_of_purchase");
-            storeQuantity = getArguments().getString("store_quantity");
+            description = getArguments().getString("description");
+
+            totalQuantity = getArguments().getString("total_quantity");
             totalPrice = getArguments().getString("total_price");
-            storeName = getArguments().getString("store_name");
             expense_id = getArguments().getString("expense_id");
 
             displayBillInfo();
@@ -75,9 +79,10 @@ public class ExpenseListFragment extends Fragment {
 
     private void displayBillInfo() {
         binding.billNameTextView.setText(billName);
-        binding.dateOfPurchaseTextView.setText("Date of Purchase: " + dateOfPurchase);
-        binding.storeNameTextView.setText("Store Name: " + storeName);
-        binding.totalPriceTextView.setText("Total Price: $" + totalPrice);
+        binding.dateOfPurchaseTextView.setText(dateOfPurchase);
+        binding.descriptionTextView.setText(description);
+        binding.totalQuantityTextView.setText(totalQuantity);
+        binding.totalPriceTextView.setText(totalPrice);
     }
 
     private void setupRecyclerViewForGroceryItemView() {
@@ -97,12 +102,21 @@ public class ExpenseListFragment extends Fragment {
         binding.addItemButton.setOnClickListener(v -> showItemInputDialog());
         binding.submitButton.setOnClickListener(v -> onSubmit());
         binding.deleteItemButton.setOnClickListener(v -> deleteSelectedItem());
+        binding.editBillingInfoButton.setOnClickListener(v -> editSelectedItem());
+        binding.cancelButton.setOnClickListener(v -> cancelEdit());
+        binding.updateButton.setOnClickListener(v -> {
+            try {
+                updateInformation();
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void showItemInputDialog() {
         ItemInputDialogFragment itemInputDialog = new ItemInputDialogFragment();
         itemInputDialog.setOnItemAddedListener((name, category, price, quantity) -> {
-            GroceryItemModel newItem = new GroceryItemModel(name, null, quantity, category, price, true);
+            GroceryItemModel newItem = new GroceryItemModel(null,name, null, quantity, category, price, true);
             addedItemsList.add(newItem);
             List<GroceryItemModel> combinedItems = new ArrayList<>(groceryItemsList);
             combinedItems.addAll(addedItemsList);
@@ -111,6 +125,9 @@ public class ExpenseListFragment extends Fragment {
         itemInputDialog.show(getParentFragmentManager(), "ItemInputDialog");
     }
 
+
+
+    //Submit Grocery list creation/changes both with API
     private void onSubmit() {
         if (addedItemsList.isEmpty()) {
             Toast.makeText(getContext(), "No new items added. Nothing to submit.", Toast.LENGTH_SHORT).show();
@@ -120,23 +137,118 @@ public class ExpenseListFragment extends Fragment {
         try {
             for (GroceryItemModel item : addedItemsList) {
                 JSONObject itemObject = new JSONObject();
-                itemObject.put("item_name", item.getItemName());  // Use item name
-                itemObject.put("quantity", item.getQuantity());  // Quantity
-                itemObject.put("category", item.getCategory());  // Category
-                itemObject.put("price", item.getPrice());  // Price
-                itemObject.put("purchased", true);  // Purchased (true or false)
+                itemObject.put("item_name", item.getItemName());
+                itemObject.put("quantity", item.getQuantity());
+                itemObject.put("category", item.getCategory());
+                itemObject.put("price", item.getPrice());
+                itemObject.put("purchased", true);
                 jsonArray.put(itemObject);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestQueue queue = Volley.newRequestQueue(requireContext());
-        addGroceryServices.postGroceryDetailsByExpenseID(requireContext(), queue, jsonArray,expense_id);
-        Toast.makeText(getContext(), "Making API call", Toast.LENGTH_SHORT).show();
+        if(expense_id == null){
+            Toast.makeText(getContext(), expense_id, Toast.LENGTH_SHORT).show();
+
+        }
+        else{
+            addGroceryServices.postGroceryDetailsByExpenseID(requireContext(), queue, jsonArray, expense_id, new Runnable() {
+                @Override
+                public void run() {
+                    // Navigate back to the previous fragment
+                    NavController navController = NavHostFragment.findNavController(ExpenseListFragment.this);
+                    navController.popBackStack();
+                }
+            });
+        }
+
     }
+
+
+
+
+    //Nov 22nd Delete Grocery Items based on Selected fields with API
     private void deleteSelectedItem() {
-        groceryItemAdapter.deleteSelectedItem();
-        Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
+        groceryItemAdapter.deleteSelectedItem(expense_id);
+    }
+
+
+
+    //Nov 22nd Modfication functionality for Bill Information with API
+    private void editSelectedItem() {
+            // Toggle enabling and disabling EditText fields
+            binding.billNameTextView.setEnabled(true);
+            binding.dateOfPurchaseTextView.setEnabled(true);
+            binding.descriptionTextView.setEnabled(true);
+            binding.totalQuantityTextView.setEnabled(true);
+            binding.totalPriceTextView.setEnabled(true);
+
+            // Show Cancel and Update buttons, hide Edit Information button
+            binding.editBillingInfoButton.setVisibility(View.GONE);
+            binding.cancelButton.setVisibility(View.VISIBLE);
+            binding.updateButton.setVisibility(View.VISIBLE);
+        }
+    private void cancelEdit() {
+        // Revert changes and disable fields
+        binding.billNameTextView.setText(billName);
+        binding.dateOfPurchaseTextView.setText(dateOfPurchase);
+        binding.descriptionTextView.setText(description);
+        binding.totalQuantityTextView.setText(totalQuantity);
+        binding.totalPriceTextView.setText(totalPrice);
+
+        binding.billNameTextView.setEnabled(false);
+        binding.totalPriceTextView.setEnabled(false);
+        binding.dateOfPurchaseTextView.setEnabled(false);
+        binding.descriptionTextView.setEnabled(false);
+        binding.totalQuantityTextView.setEnabled(false);
+        binding.totalPriceTextView.setEnabled(false);
+
+        // Hide Cancel and Update buttons, show Edit Information button
+        binding.editBillingInfoButton.setVisibility(View.VISIBLE);
+        binding.cancelButton.setVisibility(View.GONE);
+        binding.updateButton.setVisibility(View.GONE);
+    }
+    private void updateInformation() throws JSONException {
+        // Save the updated information
+        billName = binding.billNameTextView.getText().toString();
+        dateOfPurchase = binding.dateOfPurchaseTextView.getText().toString();
+        description = binding.descriptionTextView.getText().toString();
+        totalQuantity = binding.totalQuantityTextView.getText().toString();
+        totalPrice = binding.totalPriceTextView.getText().toString();
+
+        float quantity = Float.parseFloat(totalQuantity);
+        float billAmount = Float.parseFloat(totalPrice);
+        Map<String, Object> expenseDetails = new HashMap<>();
+        expenseDetails.put("bill_name", billName);
+        expenseDetails.put("date_of_purchase", dateOfPurchase);
+        expenseDetails.put("total_quantity", quantity);
+        expenseDetails.put("bill_amount", billAmount);
+        expenseDetails.put("description", description);
+        expenseDetails.put("budget_id", "4534bb7c-523a-4bac-85a0-5f1dad3e2e8c");
+        JSONObject jsonObject = new JSONObject(expenseDetails);
+//        JSONObject updatedBillObject = new JSONObject();
+//        updatedBillObject.put("bill_name", billName);
+//        updatedBillObject.put("total_quantity", dateOfPurchase);
+//        updatedBillObject.put("category", storeName);
+//        updatedBillObject.put("bill_amount", totalPrice);
+//        updatedBillObject.put("purchased", true);
+        callUpdateApi(jsonObject);
+
+        // Hide Cancel and Update buttons, show Edit Information button
+        binding.editBillingInfoButton.setVisibility(View.VISIBLE);
+        binding.cancelButton.setVisibility(View.GONE);
+        binding.updateButton.setVisibility(View.GONE);
+
+        // Disable fields after update
+        binding.billNameTextView.setEnabled(false);
+        binding.dateOfPurchaseTextView.setEnabled(false);
+        binding.descriptionTextView.setEnabled(false);
+        binding.totalPriceTextView.setEnabled(false);
+    }
+    private void callUpdateApi(JSONObject updatedBillInfo) {
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        updateExpenseServices.putExpenseDetails(requireContext(), queue, updatedBillInfo, expense_id);
     }
 
     @Override

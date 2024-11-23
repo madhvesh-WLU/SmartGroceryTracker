@@ -9,6 +9,7 @@ public class ExpenseModel {
     private String expenseId;
     private String billName;
     private double billAmount;
+    private double totalQuantity;
     private String dateOfPurchase;
     private String description;
     private String budgetId;
@@ -20,12 +21,13 @@ public class ExpenseModel {
     private List<GroceryItemModel> groceryItems;
 
     // Constructor
-    public ExpenseModel(String expenseId, String billName, double billAmount, String dateOfPurchase,
+    public ExpenseModel(String expenseId, String billName, double billAmount, double totalQuantity,String dateOfPurchase,
                         String description, String budgetId, String storeId, String userId, String createdAt,
                         List<GroceryItemModel> groceryItems) {
         this.expenseId = expenseId;
         this.billName = billName;
         this.billAmount = billAmount;
+        this.totalQuantity = totalQuantity;
         this.dateOfPurchase = dateOfPurchase;
         this.description = description;
         this.budgetId = budgetId;
@@ -44,6 +46,9 @@ public class ExpenseModel {
 
     public double getBillAmount() { return billAmount; }
     public void setBillAmount(double billAmount) { this.billAmount = billAmount; }
+
+    public double getTotalQuantity() { return totalQuantity; }
+    public void setTotalQuantity(double totalQuantity) { this.totalQuantity = totalQuantity; }
 
     public String getDateOfPurchase() { return dateOfPurchase; }
     public void setDateOfPurchase(String dateOfPurchase) { this.dateOfPurchase = dateOfPurchase; }

@@ -7,7 +7,6 @@
     android:padding="16dp"
     android:background="@drawable/grocerylist_background">
 
-    <!-- Billing Information Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/bill_info_card"
         android:layout_width="match_parent"
@@ -27,45 +26,108 @@
             android:padding="16dp"
             android:background="@drawable/custom_billing_background">
 
-            <TextView
+            <!-- Editable Bill Name -->
+
+            <EditText
                 android:id="@+id/billNameTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
                 android:text="Bill Name:"
                 android:drawableLeft="@drawable/ic_bill"
                 android:textColor="#000000"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:enabled="false" /> <!-- Initially disabled -->
 
-            <TextView
+            <!-- Editable Date -->
+            <EditText
                 android:id="@+id/dateOfPurchaseTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Date:"
                 android:textSize="18sp"
                 android:drawableLeft="@drawable/calender"
                 android:textColor="#000000"
-                android:padding="4dp" />
+                android:padding="4dp"
+                android:enabled="false" />
 
-            <TextView
-                android:id="@+id/storeNameTextView"
-                android:layout_width="wrap_content"
+            <!-- Editable Store Name -->
+            <EditText
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Store:"
+                android:text="Description"
                 android:textSize="18sp"
                 android:textColor="#000000"
                 android:drawableLeft="@drawable/store"
-                android:padding="4dp" />
+                android:padding="4dp"
+                android:enabled="false" />
 
-            <TextView
+            <!-- Editable Store Name -->
+            <EditText
+                android:id="@+id/totalQuantityTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Quantity"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:drawableLeft="@drawable/store"
+                android:padding="4dp"
+                android:enabled="false" />
+
+            <!-- Editable Total Price -->
+            <EditText
                 android:id="@+id/totalPriceTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_price"
                 android:text="Total:"
                 android:textSize="18sp"
                 android:textColor="#000000"
-                android:padding="4dp" />
+                android:padding="4dp"
+                android:enabled="false" />
+
+            <!-- Edit Button -->
+            <Button
+                android:id="@+id/editBillingInfoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Information"
+                android:textColor="#ffffff"
+                android:backgroundTint="#4CAF50"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="16sp"
+                android:drawableLeft="@drawable/g_list" />
+            <!-- Cancel Button (Initially Hidden) -->
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textColor="#ffffff"
+                android:backgroundTint="#f44336"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <!-- Update Button (Initially Hidden) -->
+            <Button
+                android:id="@+id/updateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:textColor="#ffffff"
+                android:backgroundTint="#4CAF50"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:visibility="gone" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

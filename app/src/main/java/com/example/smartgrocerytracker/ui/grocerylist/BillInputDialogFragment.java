@@ -4,12 +4,14 @@ package com.example.smartgrocerytracker.ui.grocerylist;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -29,8 +31,10 @@ import com.example.smartgrocerytracker.services.addExpenseServices;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -41,7 +45,7 @@ public class BillInputDialogFragment extends DialogFragment {
     private EditText dateOfPurchaseEditText;
     private EditText storeTotalQuantityEditText;
     private EditText totalPriceEditText;
-    private EditText storeNameEditText;
+    private EditText descriptionEditText;
     private Button nextButton;
     private ProgressBar loadingSpinner;
 
@@ -75,7 +79,7 @@ public class BillInputDialogFragment extends DialogFragment {
         dateOfPurchaseEditText = view.findViewById(R.id.date_of_purchase);
         storeTotalQuantityEditText = view.findViewById(R.id.total_quantity);
         totalPriceEditText = view.findViewById(R.id.total_price);
-        storeNameEditText = view.findViewById(R.id.store_name);
+        descriptionEditText = view.findViewById(R.id.store_name);
         nextButton = view.findViewById(R.id.save_bill_button);
         loadingSpinner = view.findViewById(R.id.loading_spinner);
     }
@@ -114,14 +118,22 @@ public class BillInputDialogFragment extends DialogFragment {
         return isoFormat.format(calendar.getTime());
     }
 
-
+    // Method to hide the keyboard
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
     private void setupNextButton() {
         nextButton.setOnClickListener(v -> {
+            hideKeyboard(v);
             RequestQueue queue = Volley.newRequestQueue(requireContext());
             if (areInputsValid()) {
                 showLoadingSpinner(true);
-                int totalQuantity = Integer.parseInt(storeTotalQuantityEditText.getText().toString().trim());
-                int billAmount = Integer.parseInt(totalPriceEditText.getText().toString().trim());
+                float totalQuantity = Float.parseFloat(storeTotalQuantityEditText.getText().toString().trim());
+                float billAmount = Float.parseFloat(totalPriceEditText.getText().toString().trim());
+
 
 
                 SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPref", MODE_PRIVATE);
@@ -133,8 +145,10 @@ public class BillInputDialogFragment extends DialogFragment {
                 expenseDetails.put("date_of_purchase", dateOfPurchaseEditText.getText().toString().trim());
                 expenseDetails.put("total_quantity", totalQuantity);
                 expenseDetails.put("bill_amount", billAmount);
-                expenseDetails.put("description", storeNameEditText.getText().toString().trim());
+                expenseDetails.put("description", descriptionEditText.getText().toString().trim());
                 expenseDetails.put("budget_id", budget_id);
+                List<Map<String, Object>> groceryItems = new ArrayList<>();
+                expenseDetails.put("grocery_items", groceryItems);
 
                 // Convert HashMap to JSON
                 JSONObject jsonObject = new JSONObject(expenseDetails);
@@ -143,12 +157,12 @@ public class BillInputDialogFragment extends DialogFragment {
                     showLoadingSpinner(false);
                     navigateToExpenseListFragment();
                     dismiss();
-                }, 2000);
+                }, 700);
             } else {
                 showLoadingSpinner(true);
                 new Handler().postDelayed(() -> {
                     showLoadingSpinner(false);
-                }, 2000);
+                }, 100);
 
 
                 Toast.makeText(getContext(), "All fields are required. Please fill them in.", Toast.LENGTH_SHORT).show();
@@ -165,7 +179,7 @@ public class BillInputDialogFragment extends DialogFragment {
                 !isEditTextEmpty(dateOfPurchaseEditText) &&
                 !isEditTextEmpty(storeTotalQuantityEditText) &&
                 !isEditTextEmpty(totalPriceEditText) &&
-                !isEditTextEmpty(storeNameEditText);
+                !isEditTextEmpty(descriptionEditText);
     }
 
     private boolean isEditTextEmpty(EditText editText) {
@@ -176,9 +190,9 @@ public class BillInputDialogFragment extends DialogFragment {
         Bundle bundle = new Bundle();
         bundle.putString("bill_name", billNameEditText.getText().toString().trim());
         bundle.putString("date_of_purchase", dateOfPurchaseEditText.getText().toString().trim());
-        bundle.putString("store_quantity", storeTotalQuantityEditText.getText().toString().trim());
+        bundle.putString("description", descriptionEditText.getText().toString().trim());
+        bundle.putString("total_quantity", storeTotalQuantityEditText.getText().toString().trim());
         bundle.putString("total_price", totalPriceEditText.getText().toString().trim());
-        bundle.putString("store_name", storeNameEditText.getText().toString().trim());
 
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.nav_expense_list, bundle);
