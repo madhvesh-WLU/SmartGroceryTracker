@@ -131,19 +131,39 @@
             android:background="@android:color/transparent" />
     </androidx.cardview.widget.CardView>
 
-    <!-- Save Bill Button -->
-    <Button
-        android:id="@+id/save_bill_button"
-        android:layout_width="350dp"
+    <!-- Save and Cancel Buttons Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Next"
-        android:textColor="@color/white"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <!-- Save Bill Button -->
+        <Button
+            android:id="@+id/save_bill_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:textColor="@android:color/white"
+            android:minWidth="120dp"
+            android:minHeight="48dp"
+            android:padding="14dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/orange"/>
+
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="#FFA500"
         android:minWidth="120dp"
         android:minHeight="48dp"
         android:padding="14dp"
-        android:layout_marginBottom="16dp"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/black"/>
+        android:backgroundTint="@color/white" />
+    </LinearLayout>
 
     <!-- Loading Spinner -->
     <ProgressBar

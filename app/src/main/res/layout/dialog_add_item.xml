@@ -16,7 +16,7 @@
 
         <ImageView
             android:id="@+id/dialog_icon"
-            android:layout_width="76dp"
+            android:layout_width="90dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="8dp"
             android:contentDescription="Dialog Icon"
@@ -90,30 +90,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="20dp">
+        android:gravity="center">
 
         <Button
             android:id="@+id/done_button"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:text="Done"
+            android:textColor="@android:color/white"
+            android:minWidth="120dp"
+            android:minHeight="48dp"
+            android:padding="14dp"
             android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/black"
-        android:elevation="4dp"
-        android:text="Done"
-        android:textColor="@android:color/white" />
+            android:backgroundTint="@color/orange"/>
 
         <Button
             android:id="@+id/cancel_button"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/black"
-        android:elevation="4dp"
-        android:text="Cancel"
-        android:textColor="@android:color/white" />
+            android:text="Cancel"
+            android:textColor="#FFA500"
+            android:minWidth="120dp"
+            android:minHeight="48dp"
+            android:padding="14dp"
+            android:backgroundTint="@color/white"/>
     </LinearLayout>
 
 </LinearLayout>

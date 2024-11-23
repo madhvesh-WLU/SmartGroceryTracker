@@ -1,13 +1,5 @@
 <resources>
 
-    <style name="SignUpButtonStyle">
-        <item name="android:padding">16dp</item>
-        <item name="android:layout_marginTop">24dp</item>
-        <item name="android:backgroundTint">#00008B</item>
-        <item name="android:textColor">#FFFFFF</item>
-    </style>
-
-
     <style name="CircularImageViewStyle">
         <item name="shapeAppearanceOverlay">@style/CircularImageViewShape</item>
     </style>
@@ -19,6 +11,14 @@
     <style name="CircularImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="OrangeButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/rounded_button_background</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>

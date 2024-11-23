@@ -1,19 +1,27 @@
-<androidx.cardview.widget.CardView
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="8dp"
-    android:background="@drawable/custom_item_background"> <!-- Custom background for CardView -->
+    android:orientation="vertical"
+    android:padding="8dp">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="@drawable/custom_item_background"> <!-- Background for each row -->
+        android:gravity="center_vertical"
+        android:background="@drawable/custom_item_background"
+        android:padding="4dp"> <!-- Reduced padding for a more compact layout -->
 
         <!-- Checkbox for Item Selection -->
         <CheckBox
@@ -21,8 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:visibility="visible"
-            android:buttonTint="@color/black" /> <!-- Tint color for checkbox -->
+            android:buttonTint="@color/black" />
 
         <!-- Item Name -->
         <TextView
@@ -30,11 +37,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/table_cell_border"
+            android:textColor="@android:color/black"
             android:ellipsize="end"
             android:maxLines="1" />
 
@@ -44,11 +50,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/table_cell_border"
+            android:textColor="@android:color/black"
             android:ellipsize="end"
             android:maxLines="1" />
 
@@ -58,11 +63,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/table_cell_border"
+            android:textColor="@android:color/black"
             android:ellipsize="end"
             android:maxLines="1" />
 
@@ -72,12 +76,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/table_cell_border"
+            android:textColor="@android:color/black"
             android:ellipsize="end"
             android:maxLines="1" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
+    </LinearLayout>
