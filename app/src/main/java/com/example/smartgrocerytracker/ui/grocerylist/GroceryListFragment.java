@@ -1,5 +1,6 @@
 package com.example.smartgrocerytracker.ui.grocerylist;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.databinding.FragmentGrocerylistBinding;
 import com.example.smartgrocerytracker.services.fetchExpensesServices;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class GroceryListFragment extends Fragment implements fetchExpensesServices.ExpenseFetchListener {
@@ -42,9 +44,8 @@ public class GroceryListFragment extends Fragment implements fetchExpensesServic
         setupOptionButton();
 
         binding.billInfoRow.setOnClickListener(v -> {
-
             binding.billInfoRow.setBackgroundColor(getResources().getColor(R.color.inactive_color));
-            onBillRowClick();  // Navigate or perform other actions
+            onBillRowClick();
         });
 
         return binding.getRoot();
@@ -63,6 +64,9 @@ public class GroceryListFragment extends Fragment implements fetchExpensesServic
         binding.dateOfPurchaseTextView.setText(dateOfPurchase);
         binding.storeNameTextView.setText(storeName);
 
+        // Set up the date picker to open on a single click
+        binding.dateOfPurchaseTextView.setOnClickListener(v -> openDatePicker());
+
         if (totalPrice != null && !totalPrice.trim().isEmpty()) {
             try {
                 double priceValue = Double.parseDouble(totalPrice.trim());
@@ -73,6 +77,25 @@ public class GroceryListFragment extends Fragment implements fetchExpensesServic
         } else {
             binding.totalPriceTextView.setText("");
         }
+    }
+
+    private void openDatePicker() {
+        if (getContext() == null) return; // Ensure context is not null
+
+        // Get the current date
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Create and show the DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), // Use requireContext()
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    // Format and set the selected date in the TextView
+                    dateOfPurchase = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
+                    binding.dateOfPurchaseTextView.setText(dateOfPurchase);
+                }, year, month, day);
+        datePickerDialog.show();
     }
 
     private void setupRecyclerView() {
