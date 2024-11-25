@@ -46,7 +46,7 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         expenseList = new ArrayList<>();
-        adapter = new ExpenseViewAdapter(expenseList, this);
+        adapter = new ExpenseViewAdapter(expenseList, this,requireContext());
         recyclerView.setAdapter(adapter);
 
         setupOptionButton();

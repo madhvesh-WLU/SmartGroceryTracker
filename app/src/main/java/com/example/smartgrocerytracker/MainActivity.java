@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (itemId == R.id.action_settings2) {
             showBudgetInputDialog();
-            Snackbar.make(binding.getRoot(), "Budget action clicked", Snackbar.LENGTH_SHORT).show();
             return true;
         } else if (itemId == R.id.action_settings3) {
             Snackbar.make(binding.getRoot(), "Settings action clicked", Snackbar.LENGTH_SHORT).show();

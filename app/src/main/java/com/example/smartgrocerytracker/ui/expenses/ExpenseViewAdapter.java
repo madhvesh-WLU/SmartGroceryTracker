@@ -1,5 +1,10 @@
 package com.example.smartgrocerytracker.ui.expenses;
 
+import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smartgrocerytracker.Config;
 import com.example.smartgrocerytracker.ModelClass.ExpenseModel;
 import com.example.smartgrocerytracker.R;
 
@@ -20,15 +26,17 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
 
     private List<ExpenseModel> expenseList;
     private final OnExpenseClickListener clickListener;
-
+    private String searchQuery; // To store the current query
+    private final Context context; // Store context for accessing resources
     // Interface for handling item clicks
     public interface OnExpenseClickListener {
         void onExpenseClick(ExpenseModel expense);
     }
 
-    public ExpenseViewAdapter(List<ExpenseModel> expenseList, OnExpenseClickListener clickListener) {
+    public ExpenseViewAdapter(List<ExpenseModel> expenseList, OnExpenseClickListener clickListener, Context context) {
         this.expenseList = expenseList;
         this.clickListener = clickListener;
+        this.context = context;
     }
 
     @NonNull
@@ -46,11 +54,36 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
         String date = formatDate(expense);
         holder.dateOfPurchaseTextView.setText(date);
         holder.totalPriceTextView.setText(String.valueOf("$" + expense.getBillAmount()));
-
+        // Highlight matching text in bill_name
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            holder.storeNameTextView.setText(getHighlightedText(expense.getBillName(), searchQuery));
+        } else {
+            holder.storeNameTextView.setText(expense.getBillName());
+        }
         // Set item click listener
-        holder.itemView.setOnClickListener(v -> clickListener.onExpenseClick(expense));
+        holder.itemView.setOnClickListener(v -> {
+            if(clickListener !=null) clickListener.onExpenseClick(expense);});
     }
 
+    public void updateData(List<ExpenseModel> newExpenses, String query) {
+        this.expenseList = newExpenses;
+        this.searchQuery = query; // Update the current query
+        notifyDataSetChanged();
+    }
+    private Spannable getHighlightedText(String fullText, String query) {
+        Spannable spannable = new SpannableString(fullText);
+        int start = fullText.toLowerCase().indexOf(query.toLowerCase());
+        if (start >= 0) {
+            int end = start + query.length();
+            spannable.setSpan(
+                    new ForegroundColorSpan(context.getResources().getColor(R.color.colorAccent)), // Replace with your highlight color
+                    start,
+                    end,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            );
+        }
+        return spannable;
+    }
     @Override
     public int getItemCount() {
         return expenseList.size();

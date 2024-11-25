@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -15,11 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.example.smartgrocerytracker.ModelClass.ExpenseModel;
 import com.example.smartgrocerytracker.ModelClass.GroceryItemModel;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.databinding.FragmentExpenseListBinding;
 import com.example.smartgrocerytracker.services.addGroceryServices;
+import com.example.smartgrocerytracker.services.fetchGroceryListServices;
+import com.example.smartgrocerytracker.services.searchGroceryItemsServices;
 import com.example.smartgrocerytracker.services.updateExpenseServices;
 import com.example.smartgrocerytracker.ui.grocerylist.ItemInputDialogFragment;
 
@@ -32,12 +34,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ExpenseListFragment extends Fragment {
+public class ExpenseListFragment extends Fragment implements searchGroceryItemsServices.GroceryItemsFetchListener {
 
     private FragmentExpenseListBinding binding;
     private GroceryItemAdapter groceryItemAdapter;
     private final List<GroceryItemModel> groceryItemsList = new ArrayList<>();
     private final List<GroceryItemModel> addedItemsList = new ArrayList<>();
+    private RequestQueue queue;
 
     private String billName;
     private String dateOfPurchase;
@@ -45,17 +48,65 @@ public class ExpenseListFragment extends Fragment {
     private String totalPrice;
     private String description;
     private String expense_id;
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         binding = FragmentExpenseListBinding.inflate(inflater, container, false);
-        retrieveBillInfoFromArguments();
-        setupRecyclerViewForGroceryItemView();
-        setupButtonListeners();
-//        showItemInputDialog();
         return binding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Initialize the RequestQueue
+        queue = Volley.newRequestQueue(requireContext());
+
+        retrieveBillInfoFromArguments();
+        setupRecyclerViewForGroceryItemView();
+        setupButtonListeners();
+
+        // Set up search functionality
+        binding.grocerySearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterResults(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterResults(newText);
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Filters the grocery items based on the search query.
+     *
+     * @param query The search query entered by the user.
+     */
+    private void filterResults(String query) {
+        if (query.isEmpty()) {
+            // Reset to original grocery items if the query is empty
+            fetchGroceryListServices.fetchGroceryList(requireContext(), queue, expense_id, fetchedExpense -> {
+                groceryItemsList.clear();
+                groceryItemsList.addAll(fetchedExpense.getGroceryItems());
+                groceryItemAdapter.updateData(groceryItemsList, "");
+            });
+            return;
+        }
+
+        // Call the searchGroceryItems API to fetch filtered grocery items
+        searchGroceryItemsServices.searchGroceryItems(requireContext(), queue, query, expense_id, this);
+    }
+
+    /**
+     * Retrieves the expense details passed via arguments.
+     */
     private void retrieveBillInfoFromArguments() {
         if (getArguments() != null) {
             billName = getArguments().getString("bill_name");
@@ -68,7 +119,6 @@ public class ExpenseListFragment extends Fragment {
 
             displayBillInfo();
 
-
             List<GroceryItemModel> groceryItems = (List<GroceryItemModel>) getArguments().getSerializable("grocery_items");
             if (groceryItems != null) {
                 groceryItemsList.addAll(groceryItems);
@@ -76,7 +126,9 @@ public class ExpenseListFragment extends Fragment {
         }
     }
 
-
+    /**
+     * Displays the expense bill information.
+     */
     private void displayBillInfo() {
         binding.billNameTextView.setText(billName);
         binding.dateOfPurchaseTextView.setText(dateOfPurchase);
@@ -85,6 +137,9 @@ public class ExpenseListFragment extends Fragment {
         binding.totalPriceTextView.setText(totalPrice);
     }
 
+    /**
+     * Sets up the RecyclerView with the GroceryItemAdapter.
+     */
     private void setupRecyclerViewForGroceryItemView() {
         List<GroceryItemModel> combinedItems = new ArrayList<>(groceryItemsList);
         combinedItems.addAll(addedItemsList);
@@ -94,10 +149,9 @@ public class ExpenseListFragment extends Fragment {
         binding.expenseRecyclerView.setAdapter(groceryItemAdapter);
     }
 
-    private void onExpenseClick(ExpenseModel expense) {
-        Toast.makeText(getContext(), "Clicked: " + expense.getBillName(), Toast.LENGTH_SHORT).show();
-    }
-
+    /**
+     * Handles click events for adding, submitting, deleting, and editing grocery items.
+     */
     private void setupButtonListeners() {
         binding.addItemButton.setOnClickListener(v -> showItemInputDialog());
         binding.submitButton.setOnClickListener(v -> onSubmit());
@@ -113,21 +167,24 @@ public class ExpenseListFragment extends Fragment {
         });
     }
 
+    /**
+     * Shows the dialog to input a new grocery item.
+     */
     private void showItemInputDialog() {
         ItemInputDialogFragment itemInputDialog = new ItemInputDialogFragment();
         itemInputDialog.setOnItemAddedListener((name, category, price, quantity) -> {
-            GroceryItemModel newItem = new GroceryItemModel(null,name, null, quantity, category, price, true);
+            GroceryItemModel newItem = new GroceryItemModel(null, name, null, quantity, category, price, true);
             addedItemsList.add(newItem);
             List<GroceryItemModel> combinedItems = new ArrayList<>(groceryItemsList);
             combinedItems.addAll(addedItemsList);
-            groceryItemAdapter.updateData(combinedItems);
+            groceryItemAdapter.updateData(combinedItems, binding.grocerySearchView.getQuery().toString());
         });
         itemInputDialog.show(getParentFragmentManager(), "ItemInputDialog");
     }
 
-
-
-    //Submit Grocery list creation/changes both with API
+    /**
+     * Submits the added grocery items to the backend.
+     */
     private void onSubmit() {
         if (addedItemsList.isEmpty()) {
             Toast.makeText(getContext(), "No new items added. Nothing to submit.", Toast.LENGTH_SHORT).show();
@@ -147,12 +204,11 @@ public class ExpenseListFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
-        if(expense_id == null){
-            Toast.makeText(getContext(), expense_id, Toast.LENGTH_SHORT).show();
 
-        }
-        else{
+        if (expense_id == null) {
+            Toast.makeText(getContext(), "Expense ID is null", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
             addGroceryServices.postGroceryDetailsByExpenseID(requireContext(), queue, jsonArray, expense_id, new Runnable() {
                 @Override
                 public void run() {
@@ -162,33 +218,35 @@ public class ExpenseListFragment extends Fragment {
                 }
             });
         }
-
     }
 
-
-
-
-    //Nov 22nd Delete Grocery Items based on Selected fields with API
+    /**
+     * Deletes selected grocery items.
+     */
     private void deleteSelectedItem() {
         groceryItemAdapter.deleteSelectedItem(expense_id);
     }
 
-
-
-    //Nov 22nd Modfication functionality for Bill Information with API
+    /**
+     * Enables editing of billing information.
+     */
     private void editSelectedItem() {
-            // Toggle enabling and disabling EditText fields
-            binding.billNameTextView.setEnabled(true);
-            binding.dateOfPurchaseTextView.setEnabled(true);
-            binding.descriptionTextView.setEnabled(true);
-            binding.totalQuantityTextView.setEnabled(true);
-            binding.totalPriceTextView.setEnabled(true);
+        // Toggle enabling and disabling EditText fields
+        binding.billNameTextView.setEnabled(true);
+        binding.dateOfPurchaseTextView.setEnabled(true);
+        binding.descriptionTextView.setEnabled(true);
+        binding.totalQuantityTextView.setEnabled(true);
+        binding.totalPriceTextView.setEnabled(true);
 
-            // Show Cancel and Update buttons, hide Edit Information button
-            binding.editBillingInfoButton.setVisibility(View.GONE);
-            binding.cancelButton.setVisibility(View.VISIBLE);
-            binding.updateButton.setVisibility(View.VISIBLE);
-        }
+        // Show Cancel and Update buttons, hide Edit Information button
+        binding.editBillingInfoButton.setVisibility(View.GONE);
+        binding.cancelButton.setVisibility(View.VISIBLE);
+        binding.updateButton.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Cancels the editing of billing information.
+     */
     private void cancelEdit() {
         // Revert changes and disable fields
         binding.billNameTextView.setText(billName);
@@ -209,6 +267,10 @@ public class ExpenseListFragment extends Fragment {
         binding.cancelButton.setVisibility(View.GONE);
         binding.updateButton.setVisibility(View.GONE);
     }
+
+    /**
+     * Updates the billing information by sending data to the backend.
+     */
     private void updateInformation() throws JSONException {
         // Save the updated information
         billName = binding.billNameTextView.getText().toString();
@@ -225,14 +287,8 @@ public class ExpenseListFragment extends Fragment {
         expenseDetails.put("total_quantity", quantity);
         expenseDetails.put("bill_amount", billAmount);
         expenseDetails.put("description", description);
-        expenseDetails.put("budget_id", "4534bb7c-523a-4bac-85a0-5f1dad3e2e8c");
+        expenseDetails.put("budget_id", "4534bb7c-523a-4bac-85a0-5f1dad3e2e8c"); // Example budget_id
         JSONObject jsonObject = new JSONObject(expenseDetails);
-//        JSONObject updatedBillObject = new JSONObject();
-//        updatedBillObject.put("bill_name", billName);
-//        updatedBillObject.put("total_quantity", dateOfPurchase);
-//        updatedBillObject.put("category", storeName);
-//        updatedBillObject.put("bill_amount", totalPrice);
-//        updatedBillObject.put("purchased", true);
         callUpdateApi(jsonObject);
 
         // Hide Cancel and Update buttons, show Edit Information button
@@ -246,9 +302,33 @@ public class ExpenseListFragment extends Fragment {
         binding.descriptionTextView.setEnabled(false);
         binding.totalPriceTextView.setEnabled(false);
     }
+
+    /**
+     * Calls the update API to update billing information.
+     *
+     * @param updatedBillInfo The JSON object containing updated billing information.
+     */
     private void callUpdateApi(JSONObject updatedBillInfo) {
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
         updateExpenseServices.putExpenseDetails(requireContext(), queue, updatedBillInfo, expense_id);
+    }
+
+    /**
+     * Callback method when grocery items are fetched from the search API.
+     *
+     * @param groceryItems The list of fetched grocery items.
+     */
+    @Override
+    public void onGroceryFetched(List<GroceryItemModel> groceryItems) {
+        if (groceryItems != null && !groceryItems.isEmpty()) {
+            groceryItemsList.clear();
+            groceryItemsList.addAll(groceryItems);
+            groceryItemAdapter.updateData(groceryItemsList, binding.grocerySearchView.getQuery().toString());
+            Toast.makeText(getContext(), "Grocery items retrieved: " + groceryItems.size(), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "No matching grocery items found.", Toast.LENGTH_SHORT).show();
+            groceryItemsList.clear();
+            groceryItemAdapter.updateData(groceryItemsList, binding.grocerySearchView.getQuery().toString());
+        }
     }
 
     @Override
@@ -257,9 +337,3 @@ public class ExpenseListFragment extends Fragment {
         binding = null; // Avoid memory leaks
     }
 }
-
-
-
-
-
-

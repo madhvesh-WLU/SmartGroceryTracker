@@ -13,6 +13,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.services.fetchBudgetDetails;
 import com.example.smartgrocerytracker.services.storeBudgetServices;
+import com.example.smartgrocerytracker.services.updateBudgetDetails;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -31,16 +32,17 @@ public class BudgetDialog {
         this.context = context;
     }
 
-    public void showBudgetDialog() {
-        // Retrieve budget_id from SharedPreferences
+    public void showBudgetDialog(String currentBudget, String currentStartDate, String currentEndDate, boolean isEditMode) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("UserPref", Context.MODE_PRIVATE);
         String budgetId = sharedPreferences.getString("budget_id", null);
 
-        // Create a BottomSheetDialog
         BottomSheetDialog dialog = new BottomSheetDialog(context);
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        if (Objects.equals(budgetId, "null")) {
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        // Check if we're in Edit mode or Setup mode
+        if (isEditMode || Objects.equals(budgetId, "null")) {
             // Inflate and display the setup layout
             View setupView = inflater.inflate(R.layout.dialog_budget, null);
             dialog.setContentView(setupView);
@@ -52,11 +54,37 @@ public class BudgetDialog {
 
             final Date[] startDate = {null};
             final Date[] endDate = {null};
-            SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-            // Setup start date picker
+            // Change button text dynamically
+            if (isEditMode) {
+                buttonSubmit.setText("Update");
+            } else {
+                buttonSubmit.setText("Submit");
+            }
+
+            // Pre-fill data if available
+            if (currentBudget != null) editTextBudget.setText(currentBudget);
+            if (currentStartDate != null) {
+                try {
+                    startDate[0] = isoFormat.parse(currentStartDate);
+                    buttonStartDate.setText(currentStartDate);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (currentEndDate != null) {
+                try {
+                    endDate[0] = isoFormat.parse(currentEndDate);
+                    buttonEndDate.setText(currentEndDate);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Start Date Picker
             buttonStartDate.setOnClickListener(v -> {
                 Calendar calendar = Calendar.getInstance();
+                if (startDate[0] != null) calendar.setTime(startDate[0]);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(context, (view, year, month, dayOfMonth) -> {
                     calendar.set(year, month, dayOfMonth);
                     startDate[0] = calendar.getTime();
@@ -65,9 +93,10 @@ public class BudgetDialog {
                 datePickerDialog.show();
             });
 
-            // Setup end date picker
+            // End Date Picker
             buttonEndDate.setOnClickListener(v -> {
                 Calendar calendar = Calendar.getInstance();
+                if (endDate[0] != null) calendar.setTime(endDate[0]);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(context, (view, year, month, dayOfMonth) -> {
                     calendar.set(year, month, dayOfMonth);
                     endDate[0] = calendar.getTime();
@@ -76,7 +105,7 @@ public class BudgetDialog {
                 datePickerDialog.show();
             });
 
-            // Handle budget submission
+            // Handle Submit
             buttonSubmit.setOnClickListener(v -> {
                 String budgetInput = editTextBudget.getText().toString();
 
@@ -91,8 +120,16 @@ public class BudgetDialog {
                     String formattedEndDate = isoFormat.format(endDate[0]);
 
                     RequestQueue queue = Volley.newRequestQueue(context);
-                    storeBudgetServices.sendBudgetRequest(context, queue, budget, formattedStartDate, formattedEndDate);
+                    if (isEditMode) {
+                        // Update logic (use appropriate service for updating budget)
+                        updateBudgetDetails.putBudgetRequest(context, queue, budgetId, budget, formattedStartDate, formattedEndDate);
+                    } else {
+                        // Create logic
+                        storeBudgetServices.sendBudgetRequest(context, queue, budget, formattedStartDate, formattedEndDate);
+                    }
 
+//                    storeBudgetServices.sendBudgetRequest(context, queue, budget, formattedStartDate, formattedEndDate);
+//
                     dialog.dismiss();
                 } catch (NumberFormatException e) {
                     Toast.makeText(context, "Please enter a valid number for the budget", Toast.LENGTH_SHORT).show();
@@ -100,41 +137,40 @@ public class BudgetDialog {
             });
 
         } else {
-            if (budgetId != null && !budgetId.equals("null")) {
-                // Fetch updated budget details with listener
-                RequestQueue queue = Volley.newRequestQueue(context);
-                fetchBudgetDetails.getBudgetService(context, queue, budgetId, new fetchBudgetDetails.BudgetDetailsUpdateListener() {
-                    @Override
-                    public void onBudgetDetailsUpdated(String amount, String startDate, String endDate) {
-                        View detailsView = inflater.inflate(R.layout.dialog_budget_details, null);
-                        dialog.setContentView(detailsView);
+            // Show details layout
+            RequestQueue queue = Volley.newRequestQueue(context);
+            fetchBudgetDetails.getBudgetService(context, queue, budgetId, new fetchBudgetDetails.BudgetDetailsUpdateListener() {
+                @Override
+                public void onBudgetDetailsUpdated(String amount, String startDate, String endDate) {
+                    View detailsView = inflater.inflate(R.layout.dialog_budget_details, null);
+                    dialog.setContentView(detailsView);
 
-                        TextView budget_amount = detailsView.findViewById(R.id.textViewBudgetAmount);
-                        TextView start_date = detailsView.findViewById(R.id.textViewStartDate);
-                        TextView end_date = detailsView.findViewById(R.id.textViewEndDate);
+                    TextView budget_amount = detailsView.findViewById(R.id.textViewBudgetAmount);
+                    TextView start_date = detailsView.findViewById(R.id.textViewStartDate);
+                    TextView end_date = detailsView.findViewById(R.id.textViewEndDate);
 
-                        // Display the updated budget details
-                        budget_amount.setText("Budget Amount: " + amount);
-                        start_date.setText("Start Date: " + startDate);
-                        end_date.setText("End Date: " + endDate);
+                    budget_amount.setText("Budget Amount: " + amount);
+                    start_date.setText("Start Date: " + startDate);
+                    end_date.setText("End Date: " + endDate);
 
-                        // Handle Edit Budget action
-                        MaterialButton buttonEditBudget = detailsView.findViewById(R.id.buttonEditBudget);
-                        MaterialButton buttonClose = detailsView.findViewById(R.id.buttonClose);
+                    MaterialButton buttonEditBudget = detailsView.findViewById(R.id.buttonEditBudget);
+                    MaterialButton buttonClose = detailsView.findViewById(R.id.buttonClose);
 
-                        // Handle Edit Budget action
-                        buttonEditBudget.setOnClickListener(v -> {
-                            dialog.dismiss();
-                            showBudgetDialog(); // Re-open with setup layout
-                        });
+                    buttonEditBudget.setOnClickListener(v -> {
+                        dialog.dismiss();
+                        showBudgetDialog(amount, startDate, endDate, true);
+                    });
 
-                        // Handle Close action
-                        buttonClose.setOnClickListener(v -> dialog.dismiss());
-                    }
-                });
-            }
+                    buttonClose.setOnClickListener(v -> dialog.dismiss());
+                }
+            });
         }
 
         dialog.show();
+    }
+
+    // Overloaded method for default setup
+    public void showBudgetDialog() {
+        showBudgetDialog(null, null, null, false);
     }
 }

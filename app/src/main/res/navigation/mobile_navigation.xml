@@ -56,9 +56,8 @@
         android:name="com.example.smartgrocerytracker.ui.grocerylist.SearchFragment"
         android:label="Search List"
         tools:layout="@layout/fragment_search" >
-
     <action
-        android:id="@+id/action_expenseFragment_to_expenseListFragment"
+        android:id="@+id/action_searchFragment_to_expenseListFragment"
         app:destination="@id/expenseListFragment" />
     </fragment>
 

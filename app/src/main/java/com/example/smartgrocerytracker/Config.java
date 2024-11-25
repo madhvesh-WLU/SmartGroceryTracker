@@ -11,9 +11,11 @@ public class Config {
     public static final String ADD_EXPENSES_URL = BASE_URL + "/expenses/create/";
     public static final String UPDATE_EXPENSES_URL = BASE_URL + "/expenses/update/";
     public static final String GET_FULL_EXPENSES_URL = BASE_URL + "/expenses/";
+    public static final String SEARCH_EXPENSES_URL = BASE_URL + "/expenses/search";
 
     public static final String ADD_GROCERY_ITEM_URL = BASE_URL + "/grocery-item/create/";
     public static final String DELETE_GROCERY_ITEM_URL = BASE_URL + "/grocery-item/delete/";
+    public static final String SEARCH_GROCERY_ITEM_URL = BASE_URL + "/grocery-item/search/";
 
 
     public static final String LOGIN_URL = BASE_URL + "/login/";

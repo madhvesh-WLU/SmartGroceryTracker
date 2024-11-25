@@ -64,12 +64,10 @@ public class fetchBudgetDetails {
                                 editor.putString("start_date", startDate);
                                 editor.putString("end_date", endDate);
                                 editor.apply();
-// Notify the listener that the data is updated
+                                // Notify the listener that the data is updated
                                 if (listener != null) {
                                     listener.onBudgetDetailsUpdated(amount, startDate, endDate);
                                 }
-                                Toast.makeText(context, "Budget details saved in SharedPreferences", Toast.LENGTH_SHORT).show();
-
 
                             } else {
                                 // Handle case where success is false

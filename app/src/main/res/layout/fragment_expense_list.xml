@@ -26,6 +26,11 @@
             android:padding="16dp"
             android:background="@drawable/custom_billing_background">
 
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/grocery_search_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:queryHint="Search items..." />
             <!-- Editable Bill Name -->
 
             <EditText
@@ -128,8 +133,10 @@
                 android:padding="12dp"
                 android:textSize="16sp"
                 android:visibility="gone" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -154,6 +161,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
 
         <Button
             android:id="@+id/addItemButton"
