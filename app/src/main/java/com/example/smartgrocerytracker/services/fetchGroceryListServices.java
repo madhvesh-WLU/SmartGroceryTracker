@@ -46,14 +46,15 @@ public class fetchGroceryListServices {
         JsonObjectRequest fetchUserRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
                 // Parse ExpenseModel fields
-                String billName = response.getString("bill_name");
-                double billAmount = response.getDouble("bill_amount");
-                String dateOfPurchase = response.getString("date_of_purchase");
-                String description = response.getString("description");
-                String budgetId = response.getString("budget_id");
+                String billName = response.optString("bill_name",null);
+                double billAmount = response.optDouble("bill_amount");
+                double totalQuantity = response.optDouble("total_quantity");
+                String dateOfPurchase = response.optString("date_of_purchase",null);
+                String description = response.optString("description",null);
+                String budgetId = response.optString("budget_id",null);
                 String storeId = response.optString("store_id", null);
 //                String userId = response.optString("user_id",null);
-                String createdAt = response.getString("created_at");
+                String createdAt = response.optString("created_at",null);
 
                 // Parse grocery items
                 List<GroceryItemModel> groceryItems = new ArrayList<>();
@@ -61,6 +62,7 @@ public class fetchGroceryListServices {
                 for (int i = 0; i < itemsArray.length(); i++) {
                     JSONObject item = itemsArray.getJSONObject(i);
                     GroceryItemModel groceryItem = new GroceryItemModel(
+                            item.getString("item_id"),
                             item.getString("item_name"),
                             null,
                             item.getInt("quantity"),
@@ -79,6 +81,7 @@ public class fetchGroceryListServices {
                         expenseId,
                         billName,
                         billAmount,
+                        totalQuantity,
                         dateOfPurchase,
                         description,
                         budgetId,

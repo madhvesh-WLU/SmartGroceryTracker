@@ -1,87 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    android:background="@drawable/custom_item_background"> <!-- Custom background for CardView -->
 
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
-
+    <!-- Container for Item Content -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@drawable/custom_item_background"
-        android:padding="4dp"> <!-- Reduced padding for a more compact layout -->
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Checkbox for Item Selection -->
-        <CheckBox
-            android:id="@+id/item_checkbox"
-            android:layout_width="wrap_content"
+        <!-- Item Header with Checkbox, Item Name, and Price -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:buttonTint="@color/black" />
-
-        <!-- Item Name -->
-        <TextView
-            android:id="@+id/item_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="16sp"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="8dp"
-            android:textColor="@android:color/black"
-            android:ellipsize="end"
-            android:maxLines="1" />
+            android:paddingBottom="8dp">
 
-        <!-- Item Category -->
-        <TextView
-            android:id="@+id/category"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:padding="8dp"
-            android:textColor="@android:color/black"
-            android:ellipsize="end"
-            android:maxLines="1" />
+            <!-- Checkbox for Item Selection aligned to the left -->
+            <CheckBox
+                android:id="@+id/item_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:buttonTint="@color/black" />
 
-        <!-- Item Quantity -->
-        <TextView
-            android:id="@+id/quantity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:padding="8dp"
-            android:textColor="@android:color/black"
-            android:ellipsize="end"
-            android:maxLines="1" />
+            <!-- Item Name TextView aligned next to the CheckBox -->
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Item Name"
+                android:textColor="@color/vibrant_orange"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <!-- Item Price -->
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="0dp"
+            <!-- Item Price TextView aligned to the right -->
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:text="Price"
+                android:maxLines="1"
+                android:ellipsize="end" />
+        </LinearLayout>
+
+        <!-- Horizontal Layout for Category and Quantity -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="16sp"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="8dp"
-            android:textColor="@android:color/black"
-            android:ellipsize="end"
-            android:maxLines="1" />
+            android:paddingBottom="8dp">
+
+            <!-- Item Category -->
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:paddingEnd="8dp"
+                android:text="Category"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <!-- Quantity -->
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:text="Quantity"
+                android:gravity="end"
+                android:maxLines="1"
+                android:ellipsize="end" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
-    </LinearLayout>

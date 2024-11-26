@@ -1,48 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="400dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/custom_dialog_background"
+    android:background="@drawable/card_background"
     android:padding="24dp"
-    android:gravity="center">
+    android:orientation="vertical">
 
-    <!-- Heading Section with Icon and Title -->
+    <!-- Header Section -->
     <LinearLayout
-        android:layout_width="400dp"
-        android:layout_height="61dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:gravity="left"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/dialog_icon"
-            android:layout_width="120dp"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginEnd="8dp"
             android:contentDescription="Dialog Icon"
             android:src="@drawable/bill_dialog" />
 
         <TextView
             android:id="@+id/dialog_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="ADD NEW BILL"
             android:fontFamily="@font/inter"
             android:textColor="@color/black"
             android:textSize="24sp"
+            android:layout_gravity="center"
             android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/close_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:src="@drawable/cross"
+            android:padding="16dp"
+            android:contentDescription="Close Button" />
     </LinearLayout>
 
-    <!-- Bill Name -->
-    <androidx.cardview.widget.CardView
+    <!-- Input Fields -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
+        android:orientation="vertical">
 
+        <!-- Bill Name -->
         <EditText
             android:id="@+id/bill_name"
             android:layout_width="match_parent"
@@ -51,17 +61,10 @@
             android:inputType="text"
             android:minHeight="48dp"
             android:padding="16dp"
-            android:background="@android:color/transparent" />
-    </androidx.cardview.widget.CardView>
+            android:background="@drawable/edit_text_background"
+            android:layout_marginBottom="12dp" />
 
-    <!-- Date of Purchase -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
-
+        <!-- Date of Purchase -->
         <EditText
             android:id="@+id/date_of_purchase"
             android:layout_width="match_parent"
@@ -71,36 +74,22 @@
             android:inputType="date"
             android:minHeight="48dp"
             android:padding="16dp"
-            android:background="@android:color/transparent" />
-    </androidx.cardview.widget.CardView>
+            android:background="@drawable/edit_text_background"
+            android:layout_marginBottom="12dp" />
 
-    <!-- Store Name -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
-
+        <!-- Store Name -->
         <EditText
             android:id="@+id/store_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
             android:hint="Store Name"
             android:inputType="text"
             android:minHeight="48dp"
             android:padding="16dp"
-            android:background="@android:color/transparent" />
-    </androidx.cardview.widget.CardView>
+            android:layout_marginBottom="12dp" />
 
-    <!-- Total Quantity -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
-
+        <!-- Total Quantity -->
         <EditText
             android:id="@+id/total_quantity"
             android:layout_width="match_parent"
@@ -109,17 +98,10 @@
             android:inputType="numberDecimal"
             android:minHeight="48dp"
             android:padding="16dp"
-            android:background="@android:color/transparent" />
-    </androidx.cardview.widget.CardView>
+            android:background="@drawable/edit_text_background"
+            android:layout_marginBottom="12dp" />
 
-    <!-- Total Price -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
-
+        <!-- Total Price -->
         <EditText
             android:id="@+id/total_price"
             android:layout_width="match_parent"
@@ -128,48 +110,33 @@
             android:inputType="numberDecimal"
             android:minHeight="48dp"
             android:padding="16dp"
-            android:background="@android:color/transparent" />
-    </androidx.cardview.widget.CardView>
-
-    <!-- Save and Cancel Buttons Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <!-- Save Bill Button -->
-        <Button
-            android:id="@+id/save_bill_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            android:textColor="@android:color/white"
-            android:minWidth="120dp"
-            android:minHeight="48dp"
-            android:padding="14dp"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/orange"/>
-
-
-        <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:textColor="#FFA500"
-        android:minWidth="120dp"
-        android:minHeight="48dp"
-        android:padding="14dp"
-        android:backgroundTint="@color/white" />
+            android:background="@drawable/edit_text_background"
+            android:layout_marginBottom="20dp" />
     </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_bill_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="24dp"
+        android:background="@drawable/rounded_button_background"
+        android:text="Next"
+        android:textColor="@android:color/white"
+        app:backgroundTint="@color/vibrant_orange"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Loading Spinner -->
     <ProgressBar
         android:id="@+id/loading_spinner"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>

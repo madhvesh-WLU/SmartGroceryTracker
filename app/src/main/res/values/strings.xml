@@ -15,4 +15,9 @@
     <string name="menu_slideshow">Stores</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="categories">
+        <item>Dairy</item>
+        <item>Juice</item>
+    </string-array>
 </resources>

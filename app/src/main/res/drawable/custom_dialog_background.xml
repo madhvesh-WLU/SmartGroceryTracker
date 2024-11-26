@@ -10,11 +10,6 @@
     <!-- Rounded Corners -->
     <corners android:radius="16dp" /> <!-- Customize radius as needed -->
 
-    <!-- Shadow Effect / Border -->
-    <stroke
-        android:width="2dp"
-        android:color="@color/black" /> <!-- Light gray border for shadow effect -->
-
     <!-- Padding Inside the Dialog -->
     <padding
         android:left="16dp"

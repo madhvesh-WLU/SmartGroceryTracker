@@ -48,6 +48,7 @@ public class fetchExpensesServices {
                             if (response.getBoolean("success")) {
                                 JSONArray data = response.getJSONArray("data");
                                 Log.i("List nerw",response.toString());
+
                                 List<ExpenseModel> expenses = new ArrayList<>();
                                 for (int i = 0; i < data.length(); i++) {
 
@@ -55,6 +56,7 @@ public class fetchExpensesServices {
                                     String expenseId = expenseObject.getString("expense_id");
                                     String billName = expenseObject.optString("bill_name", null);
                                     double billAmount = expenseObject.getDouble("bill_amount");
+                                    double totalQuantity = expenseObject.getDouble("total_quantity");
                                     String dateOfPurchase = expenseObject.getString("date_of_purchase");
                                     String description = expenseObject.getString("description");
                                     String budgetId = expenseObject.optString("budget_id", null);
@@ -63,7 +65,7 @@ public class fetchExpensesServices {
                                     String createdAt = expenseObject.getString("created_at");
                                     Log.i("List nerw",expenseObject.toString());
 
-                                    ExpenseModel expense = new ExpenseModel(expenseId, billName, billAmount, dateOfPurchase, description, budgetId, storeId, userId, createdAt,null);
+                                    ExpenseModel expense = new ExpenseModel(expenseId, billName, billAmount, totalQuantity,dateOfPurchase, description, budgetId, storeId, userId, createdAt,null);
                                     expenses.add(expense);
                                 }
 

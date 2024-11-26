@@ -81,10 +81,12 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
             @Override
             public void onExpensesFetched(ExpenseModel expense) {
                 Bundle bundle = new Bundle();
-            bundle.putString("bill_name", expense.getBillName());
+            bundle.putString("bill_name", "Bill");
             bundle.putString("date_of_purchase", expense.getDateOfPurchase());
             bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
+            bundle.putString("total_quantity", String.valueOf(expense.getTotalQuantity()));
             bundle.putString("expense_id", expense.getExpenseId());
+            bundle.putString("description", expense.getDescription());
             bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) expense.getGroceryItems());
 
             NavController navController = NavHostFragment.findNavController(requireParentFragment());

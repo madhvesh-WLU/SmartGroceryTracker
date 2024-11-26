@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class GroceryItemModel implements Serializable {
 
+    private String itemId;
     private String itemName;
     private String userId;
     private int quantity;
@@ -12,7 +13,8 @@ public class GroceryItemModel implements Serializable {
     private boolean purchased;
 
     // Constructor
-    public GroceryItemModel(String itemName, String userId, int quantity, String category, double price, boolean purchased) {
+    public GroceryItemModel(String itemId, String itemName, String userId, int quantity, String category, double price, boolean purchased) {
+        this.itemId = itemId;
         this.itemName = itemName;
         this.userId = userId;
         this.quantity = quantity;
@@ -20,6 +22,11 @@ public class GroceryItemModel implements Serializable {
         this.price = price;
         this.purchased = purchased;
     }
+
+    public String getItemId() {
+        return itemId;
+    }
+
 
     // Getters and setters
     public String getItemName() { return itemName; }

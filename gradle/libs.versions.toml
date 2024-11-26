@@ -37,6 +37,7 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 mpandroidchart = "com.github.PhilJay:MPAndroidChart:v3.0.3"
+gif = "pl.droidsonroids.gif:android-gif-drawable:1.2.+"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

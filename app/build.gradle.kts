@@ -70,4 +70,5 @@ dependencies {
 
     implementation(libs.mpandroidchart)
 
+    implementation(libs.gif)
 }

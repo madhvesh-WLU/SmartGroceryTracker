@@ -24,14 +24,18 @@ import com.example.smartgrocerytracker.utils.BudgetDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private GifImageView gifImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -55,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null)
                         .setAnchorView(R.id.fab).show()
         );
+
+        GifImageView gifImageView = findViewById(R.id.gifimageview);
+        gifImageView.setImageResource(R.drawable.giphy);
     }
 
     private void setupNavigation() {

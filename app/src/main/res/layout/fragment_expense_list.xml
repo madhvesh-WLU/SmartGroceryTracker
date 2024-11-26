@@ -8,7 +8,6 @@
     android:padding="16dp"
     android:background="@drawable/grocerylist_background">
 
-    <!-- Billing Information Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/bill_info_card"
         android:layout_width="match_parent"
@@ -28,122 +27,202 @@
             android:padding="16dp"
             android:background="@drawable/custom_billing_background">
 
+            <!-- Bill Name and Edit Icon in the Same Line -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
+
+                <!-- Bill Name TextView -->
+                <TextView
+                    android:id="@+id/billNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="Bill Name"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+                <EditText
+                    android:id="@+id/editBillName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:hint="Bill Name"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:drawableLeft="@drawable/ic_bill"
+                    android:visibility="gone" />
+
+                <!-- Edit Button Icon -->
+                <ImageButton
+                    android:id="@+id/editBillingInfoButton"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/edit"
+                    android:contentDescription="Edit Billing Information" />
+            </LinearLayout>
+
+            <!-- Bill Information Fields -->
+            <!-- Date of Purchase: TextView and EditText -->
             <TextView
-                android:id="@+id/billNameTextView"
-                android:layout_width="wrap_content"
+                android:id="@+id/dateOfPurchaseTextView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
-                android:text="Bill Name:"
-                android:drawableLeft="@drawable/ic_bill"
+                android:text="Date"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/dateOfPurchaseTextView"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/editDateOfPurchase"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Date:"
+                android:padding="4dp"
+                android:hint="Date"
+                android:textColor="#000000"
                 android:textSize="18sp"
                 android:drawableLeft="@drawable/calender"
-                android:textColor="#000000"
-                android:padding="4dp" />
+                android:visibility="gone" />
 
+            <!-- Description: TextView and EditText -->
             <TextView
-                android:id="@+id/storeNameTextView"
-                android:layout_width="wrap_content"
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Store:"
-                android:textSize="18sp"
+                android:padding="4dp"
+                android:text="Description"
                 android:textColor="#000000"
-                android:drawableLeft="@drawable/store"
-                android:padding="4dp" />
+                android:textSize="18sp" />
 
+            <EditText
+                android:id="@+id/editDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:hint="Description"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/store"
+                android:visibility="gone" />
+
+            <!-- Total Quantity: TextView and EditText -->
+            <TextView
+                android:id="@+id/totalQuantityTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="Total Quantity"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTotalQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:hint="Total Quantity"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/store"
+                android:visibility="gone" />
+
+            <!-- Total Price: TextView and EditText -->
             <TextView
                 android:id="@+id/totalPriceTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="Total Price"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTotalPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:hint="Total Price"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:drawableLeft="@drawable/ic_price"
+                android:visibility="gone" />
+
+            <!-- Update and Cancel Buttons (Initially Hidden) -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_price"
-                android:text="Total:"
-                android:textSize="18sp"
-                android:textColor="#000000"
-                android:padding="4dp" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center">
+
+                <Button
+                    android:id="@+id/cancelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:textColor="#ffffff"
+                    android:backgroundTint="#f44336"
+                    android:layout_marginEnd="8dp"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/updateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Update"
+                    android:textColor="#ffffff"
+                    android:backgroundTint="#4CAF50"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Header Section -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/headercard"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/addItemButton1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="6dp"
+        android:text="Add Item"
+        android:backgroundTint="@color/vibrant_orange"
+        android:textColor="@android:color/black"
+        android:drawableLeft="@drawable/additem"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintTop_toBottomOf="@id/bill_info_card"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="6dp"
-            android:background="@color/colorShadow">
+    <TextView
+        android:id="@+id/addItemMessageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please add items"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toTopOf="@id/expenseRecyclerView"
+        app:layout_constraintBottom_toBottomOf="@id/expenseRecyclerView"
+        app:layout_constraintStart_toStartOf="@id/expenseRecyclerView"
+        app:layout_constraintEnd_toEndOf="@id/expenseRecyclerView"
+        android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/header_item_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Name"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@android:color/black" />
 
-            <TextView
-                android:id="@+id/header_category"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Category"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/header_quantity"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Quantity"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/header_price"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Price"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- RecyclerView for the list of expenses -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/expenseRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/headercard"
+        app:layout_constraintTop_toBottomOf="@id/bill_info_card"
         app:layout_constraintBottom_toTopOf="@id/control_button_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -154,49 +233,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+
         android:orientation="horizontal"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
+        <!-- Add Item ImageButton -->
+        <ImageButton
             android:id="@+id/addItemButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:padding="8dp"
-            android:backgroundTint="#42A5F5"
-            android:drawableLeft="@drawable/additem"
-            android:text="Add Item"
-            android:textSize="14sp"
-            android:textColor="@android:color/white" />
+            android:src="@drawable/additem"
+            android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Add Item"
+            app:tint="@color/vibrant_orange" />
 
-        <Button
+        <!-- Delete Item ImageButton -->
+        <ImageButton
             android:id="@+id/deleteItemButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:padding="8dp"
-            android:backgroundTint="#F44336"
-            android:drawableLeft="@drawable/delete"
-            android:text="Delete"
-            android:textSize="14sp"
-            android:textColor="@android:color/white" />
+            android:src="@drawable/delete"
+            android:layout_marginBottom="15dp"
+            app:tint="@color/red"
+            android:contentDescription="Delete Item"
+        android:background="?attr/selectableItemBackgroundBorderless"
+             />
 
-        <Button
+        <!-- Submit Item ImageButton -->
+        <ImageButton
             android:id="@+id/submitButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
-            android:backgroundTint="#66BB6A"
-            android:drawableLeft="@drawable/submititems"
-            android:text="Submit"
-            android:textSize="14sp"
-            android:textColor="@android:color/white" />
-
+            android:src="@drawable/submititems"
+        android:contentDescription="Submit"
+        android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/green" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
