@@ -85,77 +85,77 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="72dp"
-    android:columnCount="2"
-    android:rowCount="1"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent">
+        android:columnCount="2"
+        android:rowCount="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/left_to_spend_label"
+        app:layout_constraintStart_toStartOf="@+id/left_to_spend_label"
+        app:layout_constraintTop_toBottomOf="@+id/left_to_spend_label">
 
-    <!-- Add Expense Item -->
-    <LinearLayout
-        android:id="@+id/grocerylist_main_button"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_row="0"
-        android:layout_column="0"
-        android:layout_columnWeight="1"
-        android:layout_gravity="fill"
-        android:layout_margin="8dp"
-        android:background="@drawable/grid_item_background"
-        android:gravity="center"
-        android:orientation="vertical">
+        <!-- Add Expense Item -->
+        <LinearLayout
+            android:id="@+id/grocerylist_main_button"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="8dp"
+            android:background="@drawable/grid_item_background"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/add_expense_icon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:contentDescription="Add Expense Icon"
-            android:src="@drawable/budget3" />
+            <ImageView
+                android:id="@+id/add_expense_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:contentDescription="Add Expense Icon"
+                android:src="@drawable/budget3" />
 
-        <TextView
-            android:id="@+id/grocerylist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Add Grocery List"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/grocerylist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Add Grocery List"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
 
-    <!-- Monthly Spend Item -->
-    <LinearLayout
-        android:id="@+id/monthly_main_button"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_row="0"
-        android:layout_column="1"
-        android:layout_columnWeight="1"
-        android:layout_gravity="fill"
-        android:layout_margin="8dp"
-        android:background="@drawable/grid_item_background"
-        android:gravity="center"
-        android:orientation="vertical">
+        <!-- Monthly Spend Item -->
+        <LinearLayout
+            android:id="@+id/monthly_main_button"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="8dp"
+            android:background="@drawable/grid_item_background"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/view_details_icon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:contentDescription="View Details Icon"
-            android:src="@drawable/search1" />
+            <ImageView
+                android:id="@+id/view_details_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:contentDescription="View Details Icon"
+                android:src="@drawable/search1" />
 
-        <TextView
-            android:id="@+id/monthspend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Monthly Spend"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-    </LinearLayout>
-</GridLayout>
+            <TextView
+                android:id="@+id/monthspend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Monthly Spend"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </GridLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
