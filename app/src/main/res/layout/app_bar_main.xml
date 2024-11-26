@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
 
     <!-- AppBar with Gradient Background for Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
@@ -19,52 +19,65 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/bottom_nav_background"
-        android:title="Smart Grocery Tracker"
-        android:titleTextColor="@android:color/white"
-        app:popupTheme="@style/Theme.SmartGroceryTracker.PopupOverlay" />
+            android:title="Smart Grocery Tracker"
+            android:titleTextColor="@android:color/white"
+            app:popupTheme="@style/Theme.SmartGroceryTracker.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
+    <!-- Main Content Layout -->
     <include layout="@layout/content_main" />
 
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:backgroundTint="@color/colorPrimary"
+        android:layout_height="match_parent">
+
+        <!-- BottomAppBar -->
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:backgroundTint="@color/colorPrimaryDark"
         app:elevation="12dp"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="50dp"
+        app:fabCradleVerticalOffset="10dp"
         app:hideOnScroll="true">
 
-
+        <!-- BottomNavigationView inside BottomAppBar -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:padding="0dp"
             android:background="@drawable/bottom_nav_background"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_menu"
-        app:itemRippleColor="?attr/colorControlHighlight"
-        app:itemIconTint="@color/bottom_nav_item_color"
-        app:itemTextColor="@color/bottom_nav_item_color" />
+            app:menu="@menu/bottom_menu"
+            app:labelVisibilityMode="labeled"
+            app:itemIconTint="@color/bottom_nav_item_color"
+            app:itemTextColor="@color/bottom_nav_item_color"
+            app:itemRippleColor="?attr/colorControlHighlight" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <!-- Floating Action Button with Shadow and Vivid Color -->
+    <!-- Floating Action Button (FAB) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="26dp"
-        android:backgroundTint="@color/colorAccent"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/bottomAppBar"
+        app:layout_anchorGravity="center"
+        android:backgroundTint="#ff6f00"
         android:tint="@android:color/white"
         android:elevation="10dp"
-        app:layout_anchor="@id/bottomAppBar"
-        app:maxImageSize="30dp"
-        app:srcCompat="@drawable/ocr_scan" />
+        app:maxImageSize="36dp"
+        app:srcCompat="@drawable/ocr_scan"
+        tools:ignore="ContentDescription" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>

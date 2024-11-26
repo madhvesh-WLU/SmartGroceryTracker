@@ -77,60 +77,129 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="10dp">
 
-            <EditText
+            <!-- Username Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidth="2dp"
+                app:boxStrokeWidthFocused="3dp"
+                app:boxStrokeColor="@color/username_field_stroke"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
-                android:textFontWeight="5"
+                android:drawableStart="@drawable/user_login"
+                android:drawablePadding="12dp"
+                android:paddingStart="20dp"
+                android:drawableTint="@color/colorTextBlack"
+                android:fontFamily="@font/segoer"
                 android:hint="Username"
-                android:drawableStart="@drawable/username"
-                android:gravity="center"
-                android:background="@drawable/rounded_btn"
-                android:textColorHint="@color/black"
-                android:layout_marginBottom="8dp" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/colorTextBlack"
+                android:textColorHint="@color/colorPlaceholder" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:hint="Email Address"
-                android:gravity="center"
-                android:drawableStart="@drawable/email"
-                android:background="@drawable/rounded_btn"
-                android:textColorHint="@color/black"
-                android:layout_marginBottom="8dp" />
+        <!-- Email Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="@android:color/white"
+            app:boxStrokeWidth="2dp"
+            app:boxStrokeWidthFocused="3dp"
+            app:boxStrokeColor="@color/username_field_stroke"
+        android:layout_marginBottom="16dp">
 
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:hint="Password"
-                android:gravity="center"
-                android:drawableStart="@drawable/password"
-                android:background="@drawable/rounded_btn"
-                android:textColorHint="@color/black"
-                android:layout_marginBottom="8dp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:drawableStart="@drawable/email_signup"
+            android:drawablePadding="12dp"
+            android:paddingStart="20dp"
+            android:drawableTint="@color/colorTextBlack"
+            android:fontFamily="@font/segoer"
+            android:hint="Email Address"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/colorTextBlack"
+            android:textColorHint="@color/colorPlaceholder" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/re_password"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:hint="Confirm Password"
-                android:drawableStart="@drawable/password"
-                android:gravity="center"
-                android:background="@drawable/rounded_btn"
-                android:textColorHint="@color/black" />
-        </LinearLayout>
+    <!-- Password Field -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxBackgroundMode="outline"
+        app:boxBackgroundColor="@android:color/white"
+        app:boxStrokeWidth="2dp"
+        app:boxStrokeWidthFocused="3dp"
+        app:boxStrokeColor="@color/username_field_stroke"
+    app:passwordToggleEnabled="true"
+    app:passwordToggleTint="@color/colorPrimary"
+    android:layout_marginBottom="16dp">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:drawableStart="@drawable/password"
+        android:drawablePadding="12dp"
+        android:paddingStart="20dp"
+        android:drawableTint="@color/colorTextBlack"
+        android:fontFamily="@font/segoer"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColor="@color/colorTextBlack"
+        android:textColorHint="@color/colorPlaceholder" />
+</com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Confirm Password Field -->
+<com.google.android.material.textfield.TextInputLayout
+android:id="@+id/layout_re_password"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+app:boxBackgroundMode="outline"
+app:boxBackgroundColor="@android:color/white"
+app:boxStrokeWidth="2dp"
+app:boxStrokeWidthFocused="3dp"
+app:boxStrokeColor="@color/username_field_stroke"
+    app:passwordToggleEnabled="true"
+    app:passwordToggleTint="@color/colorPrimary">
+
+<com.google.android.material.textfield.TextInputEditText
+android:id="@+id/re_password"
+android:layout_width="match_parent"
+android:layout_height="65dp"
+android:drawableStart="@drawable/password"
+android:drawablePadding="12dp"
+android:paddingStart="20dp"
+android:drawableTint="@color/colorTextBlack"
+android:fontFamily="@font/segoer"
+android:hint="Confirm Password"
+android:inputType="textPassword"
+android:textColor="@color/colorTextBlack"
+android:textColorHint="@color/colorPlaceholder" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/signup"
-        android:layout_width="265dp"
+        android:layout_width="150dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="44dp"
-        android:background="@color/mainbackground"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/button_background"
         android:text="Sign Up"
         android:textColor="@color/mainbackground"
     android:textStyle="bold"

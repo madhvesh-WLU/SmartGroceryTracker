@@ -2,27 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <item
         android:id="@+id/action_settings2"
         android:orderInCategory="100"
         android:title="@string/action_budget"
-        android:icon="@drawable/budget2"
+        android:icon="@drawable/budget_icom"
         app:showAsAction="always"
-        />
+        app:iconTint="@color/bottom_nav_item_color" />
 
     <item
         android:id="@+id/action_settings3"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         android:icon="@drawable/settings"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        app:iconTint="@color/bottom_nav_item_color" />
 
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_information"
-        android:icon="@drawable/user_toolbar"
-        app:showAsAction="always" />
-
+        android:icon="@drawable/user_icon"
+        app:showAsAction="always"
+        app:iconTint="@color/bottom_nav_item_color" />
 </menu>

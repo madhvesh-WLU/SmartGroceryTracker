@@ -52,4 +52,9 @@
     <string name="your_email">Your Email</string>
     <string name="edit_profile">Edit Profile</string>
 
+
+    <string-array name="categories">
+        <item>Dairy</item>
+        <item>Juice</item>
+    </string-array>
 </resources>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,8 @@ public class ItemInputDialogFragment extends DialogFragment {
     private Button doneButton;
     private Button cancelButton;
     private OnItemAddedListener listener;
+
+    private ImageButton closeButton;
 
     // Listener interface to handle item addition
     public interface OnItemAddedListener {
@@ -56,19 +59,31 @@ public class ItemInputDialogFragment extends DialogFragment {
         initializeViews(view);
         setupDoneButton();
         setupCancelButton();
-
+        setupCloseButton();
         return view;
     }
 
     // Initializes all view components
     private void initializeViews(View view) {
         itemNameEditText = view.findViewById(R.id.item_name);
+        closeButton=view.findViewById(R.id.close_button);
         itemCategoryEditText = view.findViewById(R.id.item_category);
         itemPriceEditText = view.findViewById(R.id.item_price);
         itemQuantityEditText = view.findViewById(R.id.item_quantity);
         doneButton = view.findViewById(R.id.done_button);
         cancelButton = view.findViewById(R.id.cancel_button);
     }
+
+    private void setupCloseButton()
+    {
+        closeButton.setOnClickListener(v -> {
+            // Clear focus and dismiss the dialog immediately
+            if (getDialog() != null) {
+                getDialog().dismiss();
+            }
+        });
+    }
+
 
     // Configures the Done button to validate input and add the item
     private void setupDoneButton() {

@@ -321,7 +321,7 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
         if (start >= 0) {
             int end = start + query.length();
             // You can define a highlight color in your colors.xml
-            int highlightColor = context.getResources().getColor(R.color.colorAccent, null);
+            int highlightColor = context.getResources().getColor(R.color.buttonblue, null);
             spannable.setSpan(
                     new ForegroundColorSpan(highlightColor), // Highlight color
                     start,

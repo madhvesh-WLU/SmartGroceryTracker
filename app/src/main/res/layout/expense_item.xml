@@ -1,43 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="6dp"
-    android:background="@drawable/card_background"
-    android:elevation="4dp"
-    android:orientation="horizontal"
-    android:padding="16dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    android:background="@drawable/custom_item_background">
 
-    <TextView
-        android:id="@+id/storeNameTextView"
-        android:layout_width="0dp"
+    <!-- Container for Item Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:padding="4dp"
-        android:text="Store Name"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/dateOfPurchaseTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:padding="4dp"
-        android:text="Date"
-        android:textAlignment="textEnd"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        <!-- Horizontal Layout for Store Name and Price -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp">
 
-    <TextView
-        android:id="@+id/totalPriceTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:padding="4dp"
-        android:text="Price"
-        android:textAlignment="textEnd"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+            <!-- Store Name and Date of Purchase in Vertical Layout -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-</LinearLayout>
+                <!-- Store Name TextView -->
+                <TextView
+                    android:id="@+id/storeNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:text="Store Name"
+                    android:textColor="@color/vibrant_orange"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- Date of Purchase TextView -->
+                <TextView
+                    android:id="@+id/dateOfPurchaseTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date of Purchase"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Price and Quantity in Vertical Layout -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Price TextView -->
+                <TextView
+                    android:id="@+id/priceTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:text="Price"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="end"
+                    android:textAlignment="textEnd" />
+
+                <!-- Quantity TextView -->
+                <TextView
+                    android:id="@+id/quantityTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quantity"
+                    android:layout_gravity="end"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp"
+                    android:textAlignment="textEnd" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

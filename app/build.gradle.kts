@@ -60,12 +60,6 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    //Camera
-    implementation(libs.camera.core)
-    implementation(libs.camera.camera2)
-    implementation(libs.camera.lifecycle)
-    implementation(libs.camera.view)
-
 // http request
     implementation(libs.volley)
 
@@ -75,8 +69,6 @@ dependencies {
     implementation(libs.material.v180)
 
     implementation(libs.mpandroidchart)
-
-    //Scan bill
-    implementation(libs.zxing.android.embedded)
+    implementation(libs.gif)
 
 }

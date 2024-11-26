@@ -24,71 +24,12 @@
         android:padding="10dp">
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/bill_info_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="10dp"
-            app:cardBackgroundColor="@android:color/white"
-            android:background="@drawable/custom_item_background">
-
-            <LinearLayout
-                android:id="@+id/bill_info_row"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <!-- Store Name -->
-                <TextView
-                    android:id="@+id/storeNameTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Store Name"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:background="@drawable/custom_item_background" />
-
-
-                <TextView
-                    android:id="@+id/dateOfPurchaseTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Date"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:background="@drawable/custom_item_background" />
-
-
-                <TextView
-                    android:id="@+id/totalPriceTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Price"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:background="@drawable/custom_item_background" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/card_background"
             android:layout_marginBottom="55dp"
             android:scrollbars="vertical" />
     </LinearLayout>

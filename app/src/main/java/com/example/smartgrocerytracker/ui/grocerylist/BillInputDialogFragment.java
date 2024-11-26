@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -49,6 +50,8 @@ public class BillInputDialogFragment extends DialogFragment {
     private Button nextButton;
     private ProgressBar loadingSpinner;
 
+    private ImageButton closeButton;
+
     public BillInputDialogFragment() {
         // Required empty public constructor
     }
@@ -62,6 +65,7 @@ public class BillInputDialogFragment extends DialogFragment {
         initializeViews(view);
         setupDatePicker();
         setupNextButton();
+        setupCloseButton();
 
         return view;
     }
@@ -76,12 +80,22 @@ public class BillInputDialogFragment extends DialogFragment {
     }
     private void initializeViews(View view) {
         billNameEditText = view.findViewById(R.id.bill_name);
+        closeButton= view.findViewById(R.id.close_button);
         dateOfPurchaseEditText = view.findViewById(R.id.date_of_purchase);
         storeTotalQuantityEditText = view.findViewById(R.id.total_quantity);
         totalPriceEditText = view.findViewById(R.id.total_price);
         descriptionEditText = view.findViewById(R.id.store_name);
         nextButton = view.findViewById(R.id.save_bill_button);
         loadingSpinner = view.findViewById(R.id.loading_spinner);
+    }
+
+    private void setupCloseButton() {
+        closeButton.setOnClickListener(v -> {
+            if (getDialog() != null) {
+                getDialog().dismiss();
+            }
+        });
+
     }
 
     private boolean isDatePickerShowing = false;

@@ -18,7 +18,6 @@ volley = "1.2.1"
 activity = "1.9.3"
 legacySupportV4 = "1.0.0"
 recyclerview = "1.3.2"
-zxingAndroidEmbedded = "4.3.0"
 
 [libraries]
 camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCore" }
@@ -43,7 +42,7 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 mpandroidchart = "com.github.PhilJay:MPAndroidChart:v3.0.3"
-zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
+gif = "pl.droidsonroids.gif:android-gif-drawable:1.2.+"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

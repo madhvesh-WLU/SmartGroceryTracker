@@ -10,28 +10,38 @@
     <!-- Header Section -->
 
     <!-- Card Section with Pie Chart -->
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifimageview"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/giphy"
+        app:layout_constraintBottom_toTopOf="@+id/welcomeview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/welcomeview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginBottom="16dp"
         android:text="Welcome, User"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/card_with_pie_chart" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_with_pie_chart"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
-        app:layout_constraintTop_toBottomOf="@id/welcomeview"
+        app:layout_constraintBottom_toTopOf="@id/left_to_spend_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -54,94 +64,95 @@
         android:id="@+id/left_to_spend_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/card_background"
+        android:gravity="center"
         android:padding="16dp"
         android:text="Left to Spend\n$2,323.56 out of $4,500.00"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/card_with_pie_chart"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/grid_layout" />
 
     <!-- GridLayout for Buttons with Icons -->
     <GridLayout
         android:id="@+id/grid_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:rowCount="1"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@id/left_to_spend_label"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="16dp">
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="72dp"
+    android:columnCount="2"
+    android:rowCount="1"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Add Expense Item -->
-        <LinearLayout
-            android:id="@+id/grocerylist_main_button"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_margin="8dp"
-            android:background="@drawable/grid_item_background">
+    <!-- Add Expense Item -->
+    <LinearLayout
+        android:id="@+id/grocerylist_main_button"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
+        android:layout_margin="8dp"
+        android:background="@drawable/grid_item_background"
+        android:gravity="center"
+        android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/add_expense_icon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/budget3"
-                android:contentDescription="Add Expense Icon" />
+        <ImageView
+            android:id="@+id/add_expense_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="Add Expense Icon"
+            android:src="@drawable/budget3" />
 
-            <TextView
-                android:id="@+id/grocerylist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add Grocery List"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp"
-                android:textAlignment="center" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/grocerylist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Add Grocery List"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/monthly_main_button"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_margin="8dp"
-            android:background="@drawable/grid_item_background">
+    <!-- Monthly Spend Item -->
+    <LinearLayout
+        android:id="@+id/monthly_main_button"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
+        android:layout_margin="8dp"
+        android:background="@drawable/grid_item_background"
+        android:gravity="center"
+        android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/view_details_icon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/search1"
-                android:contentDescription="View Details Icon"
-                />
+        <ImageView
+            android:id="@+id/view_details_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="View Details Icon"
+            android:src="@drawable/search1" />
 
-            <TextView
-                android:id="@+id/monthspend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Monthly Spend"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp"
-                android:textAlignment="center" />
-        </LinearLayout>
-    </GridLayout>
+        <TextView
+            android:id="@+id/monthspend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Monthly Spend"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+</GridLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>

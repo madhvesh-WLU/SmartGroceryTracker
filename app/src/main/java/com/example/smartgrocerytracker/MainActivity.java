@@ -34,6 +34,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.Nullable;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int CAMERA_REQUEST_CODE = 101;
@@ -69,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 requestCameraPermission();
             }
+            GifImageView gifImageView = findViewById(R.id.gifimageview);
+            gifImageView.setImageResource(R.drawable.giphy);
         });
     }
 

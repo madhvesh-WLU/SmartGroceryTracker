@@ -40,14 +40,14 @@ public class YearSearchFragment extends Fragment {
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.monthSpinner.setAdapter(monthAdapter);
 
-        // Setup category spinner
+       /* // Setup category spinner
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_item, getCategories());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.categorySpinner.setAdapter(categoryAdapter);
 
         // Search button click listener
-        binding.searchButton.setOnClickListener(v -> performSearch());
+        binding.searchButton.setOnClickListener(v -> performSearch());*/
     }
 
     private String[] getYears() {
@@ -69,7 +69,7 @@ public class YearSearchFragment extends Fragment {
         // Implement search logic based on selected year, month, and category
         String selectedYear = binding.yearSpinner.getSelectedItem().toString();
         String selectedMonth = binding.monthSpinner.getSelectedItem().toString();
-        String selectedCategory = binding.categorySpinner.getSelectedItem().toString();
+       //String selectedCategory = binding.categorySpinner.getSelectedItem().toString();
 
         // Use these selections to filter your data
     }

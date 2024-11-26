@@ -96,7 +96,7 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
             super(itemView);
             storeNameTextView = itemView.findViewById(R.id.storeNameTextView);
             dateOfPurchaseTextView = itemView.findViewById(R.id.dateOfPurchaseTextView);
-            totalPriceTextView = itemView.findViewById(R.id.totalPriceTextView);
+            totalPriceTextView = itemView.findViewById(R.id.priceTextView);
         }
     }
 
