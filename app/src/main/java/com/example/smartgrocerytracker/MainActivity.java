@@ -1,14 +1,22 @@
 package com.example.smartgrocerytracker;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -24,7 +32,11 @@ import com.example.smartgrocerytracker.utils.BudgetDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.Nullable;
+
 public class MainActivity extends AppCompatActivity {
+    private static final int CAMERA_PERMISSION_CODE = 100;
+    private static final int CAMERA_REQUEST_CODE = 101;
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -49,13 +61,18 @@ public class MainActivity extends AppCompatActivity {
         // Fetch user details if needed
         handleFetchUserDetails();
 
-        // Set up FAB action
-        binding.appBarMain.fab.setOnClickListener(view ->
-                Snackbar.make(view, "Next Feature Release", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .setAnchorView(R.id.fab).show()
-        );
+        // Set up FAB for camera
+        binding.appBarMain.fab.setOnClickListener(view -> {
+            // Check for camera permissions
+            if (checkCameraPermission()) {
+                openCameraForScanning();
+            } else {
+                requestCameraPermission();
+            }
+        });
     }
+
+
 
     private void setupNavigation() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -129,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
             showBudgetInputDialog();
             return true;
         } else if (itemId == R.id.action_settings3) {
-            Snackbar.make(binding.getRoot(), "Settings action clicked", Snackbar.LENGTH_SHORT).show();
+            NavController navControllers = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+            navControllers.navigate(R.id.settingsFragment);
             return true;
         } else if (itemId == R.id.action_settings) {
             navigateToDestination(R.id.nav_profile, false);
@@ -143,6 +161,63 @@ public class MainActivity extends AppCompatActivity {
     private void showBudgetInputDialog() {
         BudgetDialog budgetDialog = new BudgetDialog(this);
         budgetDialog.showBudgetDialog();
+    }
+
+    private boolean checkCameraPermission() {
+        boolean isGranted = checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        Log.d("CameraPermission", "Is camera permission granted: " + isGranted);
+        return isGranted;
+    }
+
+    private void requestCameraPermission() {
+        requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+    }
+
+
+    private void openCameraForScanning() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+
+//        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+//        } else {
+            // Log the issue for debugging
+//            Toast.makeText(this, "No camera app found on the device.", Toast.LENGTH_SHORT).show();
+            // Optional: Simulate a captured image for testing purposes
+//            simulateCapturedImage();
+//        }
+    }
+
+    // Simulate a captured image for testing in case the camera app is unavailable
+    private void simulateCapturedImage() {
+        Bitmap simulatedImage = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
+        simulatedImage.eraseColor(android.graphics.Color.RED); // Example: a red bitmap
+        showCapturedImageDialog(simulatedImage);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
+            showCapturedImageDialog(capturedImage);
+        }
+    }
+
+    private void showCapturedImageDialog(Bitmap image) {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_captured_image, null);
+        ImageView imageView = dialogView.findViewById(R.id.capturedImageView);
+        imageView.setImageBitmap(image);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Captured Bill")
+                .setView(dialogView)
+                .setPositiveButton("Save", (dialog, which) -> {
+                    Toast.makeText(this, "Bill saved successfully!", Toast.LENGTH_SHORT).show();
+                    // Save image logic here
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     @Override

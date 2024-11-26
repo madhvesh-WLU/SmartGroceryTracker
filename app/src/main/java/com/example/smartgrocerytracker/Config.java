@@ -24,6 +24,7 @@ public class Config {
 
     public static final String BUDGET_STORE_URL = BASE_URL + "/budget/set";
     public static final String GET_BUDGET_URL = BASE_URL + "/budget/get/";
+    public static final String UPDATE_BUDGET_URL = BASE_URL + "/budget/update/";
 
 
 }

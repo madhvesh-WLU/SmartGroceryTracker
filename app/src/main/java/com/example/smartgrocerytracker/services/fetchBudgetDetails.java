@@ -24,13 +24,13 @@ public class fetchBudgetDetails {
 
     // Interface to notify when the data is fetched and updated
     public interface BudgetDetailsUpdateListener {
-        void onBudgetDetailsUpdated(String amount, String startDate, String endDate);
+        void onBudgetDetailsUpdated(String amount, String startDate, String endDate, String spent_amount);
     }
 
 
     public static void getBudgetService(Context context, RequestQueue queue, String budget_id, BudgetDetailsUpdateListener listener) {
         String token = SecurePreferences.getAuthToken(context);
-        String url = Config.GET_BUDGET_URL + budget_id;  // Assuming your URL includes the budget_id
+        String url = Config.GET_BUDGET_URL + budget_id;
 
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -66,7 +66,7 @@ public class fetchBudgetDetails {
                                 editor.apply();
                                 // Notify the listener that the data is updated
                                 if (listener != null) {
-                                    listener.onBudgetDetailsUpdated(amount, startDate, endDate);
+                                    listener.onBudgetDetailsUpdated(amount, startDate, endDate, spentAmount);
                                 }
 
                             } else {

@@ -16,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.ForgotPasswordActivity;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.utils.LoginUtils;
+import com.example.smartgrocerytracker.utils.TokenValidator;
 
 public class Login extends AppCompatActivity {
 
@@ -29,6 +30,9 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!TokenValidator.handleAuthentication(this)) {
+            setContentView(R.layout.activity_login);
+        }
         setContentView(R.layout.activity_login);
 
         // Initialize Views

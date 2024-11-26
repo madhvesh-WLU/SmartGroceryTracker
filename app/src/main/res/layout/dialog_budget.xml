@@ -61,17 +61,46 @@
         android:textColor="#27104e"
         android:textColorLink="#27104e" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonSubmit"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="#27104e"
-        android:text="Submit"
-        app:icon="@drawable/submit"
-        app:iconGravity="textStart"
-        android:textColor="@color/white"
-        app:iconTint="@color/white"
-        app:backgroundTint="#64379f" />
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:background="#27104e"
+            android:text="Cancel"
+            android:textColor="@color/white"
+            app:backgroundTint="#64379f"
+            app:icon="@drawable/delete"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSubmit"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:background="#27104e"
+            android:text="Submit"
+            android:textColor="@color/white"
+            app:backgroundTint="#64379f"
+            app:icon="@drawable/submit"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white" />
+
+    </LinearLayout>
+
 </LinearLayout>

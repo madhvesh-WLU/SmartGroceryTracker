@@ -51,6 +51,7 @@ public class BudgetDialog {
             MaterialButton buttonStartDate = setupView.findViewById(R.id.buttonStartDate);
             MaterialButton buttonEndDate = setupView.findViewById(R.id.buttonEndDate);
             MaterialButton buttonSubmit = setupView.findViewById(R.id.buttonSubmit);
+            MaterialButton cancelButton =  setupView.findViewById(R.id.cancelButton);
 
             final Date[] startDate = {null};
             final Date[] endDate = {null};
@@ -121,18 +122,21 @@ public class BudgetDialog {
 
                     RequestQueue queue = Volley.newRequestQueue(context);
                     if (isEditMode) {
-                        // Update logic (use appropriate service for updating budget)
                         updateBudgetDetails.putBudgetRequest(context, queue, budgetId, budget, formattedStartDate, formattedEndDate);
                     } else {
-                        // Create logic
                         storeBudgetServices.sendBudgetRequest(context, queue, budget, formattedStartDate, formattedEndDate);
                     }
 
-//                    storeBudgetServices.sendBudgetRequest(context, queue, budget, formattedStartDate, formattedEndDate);
-//
                     dialog.dismiss();
                 } catch (NumberFormatException e) {
                     Toast.makeText(context, "Please enter a valid number for the budget", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
                 }
             });
 
@@ -141,15 +145,17 @@ public class BudgetDialog {
             RequestQueue queue = Volley.newRequestQueue(context);
             fetchBudgetDetails.getBudgetService(context, queue, budgetId, new fetchBudgetDetails.BudgetDetailsUpdateListener() {
                 @Override
-                public void onBudgetDetailsUpdated(String amount, String startDate, String endDate) {
+                public void onBudgetDetailsUpdated(String amount, String startDate, String endDate, String spentAmount) {
                     View detailsView = inflater.inflate(R.layout.dialog_budget_details, null);
                     dialog.setContentView(detailsView);
 
                     TextView budget_amount = detailsView.findViewById(R.id.textViewBudgetAmount);
                     TextView start_date = detailsView.findViewById(R.id.textViewStartDate);
+                    TextView spent_amount = detailsView.findViewById(R.id.textViewSpentAmount);
                     TextView end_date = detailsView.findViewById(R.id.textViewEndDate);
 
                     budget_amount.setText("Budget Amount: " + amount);
+                    spent_amount.setText("Spent Amount: " + spentAmount);
                     start_date.setText("Start Date: " + startDate);
                     end_date.setText("End Date: " + endDate);
 

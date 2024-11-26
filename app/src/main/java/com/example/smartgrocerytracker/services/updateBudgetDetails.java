@@ -21,10 +21,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class updateBudgetDetails {
-    private static final String BASE_URL = Config.BUDGET_STORE_URL;
     private static final String TAG = "store";
 
     public static void putBudgetRequest(Context context, RequestQueue queue, String budgetId, Integer budgetAmount, String startDate, String endDate) {
+        final String BASE_URL = Config.UPDATE_BUDGET_URL +budgetId ;
         String token = SecurePreferences.getAuthToken(context);
         Log.i("check",startDate);
         Log.i("check", endDate);
@@ -41,7 +41,7 @@ public class updateBudgetDetails {
             return;
         }
 
-        JsonObjectRequest fetchUserRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL,postData,
+        JsonObjectRequest fetchUserRequest = new JsonObjectRequest(Request.Method.PUT, BASE_URL,postData,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
