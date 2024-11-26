@@ -16,7 +16,8 @@
         android:layout_height="150dp"
         android:layout_marginBottom="4dp"
         android:src="@drawable/giphy"
-        app:layout_constraintBottom_toTopOf="@+id/welcomeview"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -29,9 +30,10 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:layout_margin="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/card_with_pie_chart" />
+        app:layout_constraintTop_toBottomOf="@id/gifimageview" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_with_pie_chart"
@@ -41,7 +43,8 @@
         android:layout_marginBottom="16dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
-        app:layout_constraintBottom_toTopOf="@id/left_to_spend_label"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/welcomeview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -74,7 +77,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/grid_layout" />
+        app:layout_constraintTop_toBottomOf="@id/card_with_pie_chart" />
 
     <!-- GridLayout for Buttons with Icons -->
     <GridLayout
