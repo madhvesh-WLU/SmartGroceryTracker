@@ -1,21 +1,22 @@
 package com.example.smartgrocerytracker.ui.slideshow;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,10 +35,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SlideshowFragment extends Fragment implements OnMapReadyCallback {
 
+    private static final String TAG = "SlideshowFragment";
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private List<String[]> placeList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -58,85 +66,120 @@ public class SlideshowFragment extends Fragment implements OnMapReadyCallback {
         // Initialize FusedLocationProviderClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
+        // Initialize RecyclerView
+        recyclerView = root.findViewById(R.id.nearby_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        adapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+            @NonNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.place_item, parent, false);
+                return new RecyclerView.ViewHolder(view) {};
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+                View itemView = holder.itemView;
+                TextView name = itemView.findViewById(R.id.place_name);
+                TextView address = itemView.findViewById(R.id.place_address);
+                TextView status = itemView.findViewById(R.id.place_status);
+                TextView distance = itemView.findViewById(R.id.place_distance);
+                TextView estTime = itemView.findViewById(R.id.place_est_time);
+
+                String[] place = placeList.get(position);
+                name.setText(place[0]);     // Name
+                address.setText(place[1]);  // Address
+                status.setText(place[2]);   // Open/Closed
+                distance.setText(place[3]); // Distance
+                estTime.setText(place[4]);  // Estimated time
+            }
+
+            @Override
+            public int getItemCount() {
+                Log.d(TAG, "RecyclerView item count: " + placeList.size());
+                return placeList.size();
+            }
+        };
+        recyclerView.setAdapter(adapter);
+
         return root;
     }
-
-
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Check Location Permissions
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return;
         }
 
-        // Enable My Location Layer
         mMap.setMyLocationEnabled(true);
 
-        // Ensure GPS is enabled
-        LocationManager locationManager = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(requireContext(), "Please enable GPS for accurate location", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        // Get and Show User's Live Location
         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
                 LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("You are here"));
 
-                // Show nearby grocery stores
-                showNearbyGroceryStores(location);
+                // Fetch and display nearby stores
+                fetchNearbyStores(location);
             } else {
-                Log.e("LocationDebug", "Failed to retrieve user details: location is null");
-                Toast.makeText(requireContext(), "Failed to retrieve user details. Try again.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Failed to retrieve location.");
+                Toast.makeText(requireContext(), "Location not available.", Toast.LENGTH_SHORT).show();
             }
-        }).addOnFailureListener(e -> {
-            Log.e("LocationDebug", "Failed to retrieve user details: " + e.getMessage());
-            Toast.makeText(requireContext(), "Failed to retrieve user details. Try again.", Toast.LENGTH_SHORT).show();
         });
     }
 
-
-    private void showNearbyGroceryStores(Location location) {
-        String apiKey = "AIzaSyDwXvYsGKTh2JU-C4jLRxslfdaZgwgjCHU";
+    private void fetchNearbyStores(Location location) {
+        String apiKey = "AIzaSyDwXvYsGKTh2JU-C4jLRxslfdaZgwgjCHU"; // Replace with your API key
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
                 "?location=" + location.getLatitude() + "," + location.getLongitude() +
-                "&radius=5000" +
-                "&type=grocery_or_supermarket" +
+                "&radius=5000" + // Increased radius to 5000 meters
+                "&type=grocery_or_supermarket" + // You can change to "store" or "food" for broader results
                 "&key=" + apiKey;
 
-        // Use Volley to make a network request
+        Log.d(TAG, "Requesting nearby stores with URL: " + url);
+
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
+                        Log.d(TAG, "API Response: " + response.toString());
                         JSONArray results = response.getJSONArray("results");
+                        placeList.clear();
+                        Log.d(TAG, "Number of places fetched: " + results.length());
                         for (int i = 0; i < results.length(); i++) {
                             JSONObject place = results.getJSONObject(i);
-                            JSONObject geometry = place.getJSONObject("geometry");
-                            JSONObject placeLocationObj = geometry.getJSONObject("location");
-
-                            double lat = placeLocationObj.getDouble("lat");
-                            double lng = placeLocationObj.getDouble("lng");
                             String name = place.getString("name");
+                            String address = place.optString("vicinity", "Unknown Address");
+                            boolean openNow = place.optJSONObject("opening_hours") != null &&
+                                    place.getJSONObject("opening_hours").optBoolean("open_now", false);
+                            String status = openNow ? "Open" : "Closed";
 
-                            // Add marker to map
-                            LatLng placeLocation = new LatLng(lat, lng);
-                            mMap.addMarker(new MarkerOptions().position(placeLocation).title(name));
+                            double distance = Math.random() * 5; // Mock distance for now
+                            String distStr = String.format("%.1f mi", distance);
+
+                            int estTime = (int) (distance * 5); // Mock: 5 min/mile
+                            placeList.add(new String[]{name, address, status, distStr, estTime + " min"});
                         }
+
+                        if (placeList.isEmpty()) {
+                            Log.w(TAG, "No places found.");
+                            Toast.makeText(requireContext(), "No nearby stores found.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.d(TAG, "Places added to RecyclerView: " + placeList.size());
+                        }
+                        adapter.notifyDataSetChanged();
                     } catch (Exception e) {
-                        Log.e("PlacesError", "Error parsing places data: " + e.getMessage());
+                        Log.e(TAG, "Error parsing places: " + e.getMessage());
+                        Toast.makeText(requireContext(), "Error parsing store data.", Toast.LENGTH_SHORT).show();
                     }
                 },
-                error -> Log.e("VolleyError", "Failed to fetch places: " + error.getMessage())
-        );
-
+                error -> {
+                    Log.e(TAG, "Request failed: " + error.getMessage());
+                    Toast.makeText(requireContext(), "Failed to fetch stores.", Toast.LENGTH_SHORT).show();
+                });
         queue.add(request);
     }
 }
