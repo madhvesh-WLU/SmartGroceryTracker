@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+//checking it again checking it again
     private void navigateToDestination(int destinationId, boolean clearPrevious) {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 
