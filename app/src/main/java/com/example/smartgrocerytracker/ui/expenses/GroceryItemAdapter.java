@@ -230,6 +230,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.Config;
 import com.example.smartgrocerytracker.ModelClass.GroceryItemModel;
 import com.example.smartgrocerytracker.R;
+import com.example.smartgrocerytracker.services.deleteGroceryServices;
 import com.example.smartgrocerytracker.utils.SecurePreferences;
 
 import org.json.JSONArray;
@@ -372,6 +373,7 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
     }
 
     public void deleteSelectedItem(String expenseId) {
+                JSONObject payload = new JSONObject();
         try {
             if (!selectedPositions.isEmpty()) {
                 JSONArray groceryIdsArray = new JSONArray();
@@ -379,11 +381,17 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
                     String groceryId = groceryItemList.get(position).getItemId();
                     groceryIdsArray.put(groceryId);
                 }
-                JSONObject payload = new JSONObject();
-                payload.put("grocery_ids", groceryIdsArray);
-                sendDeleteRequestToAPI(payload, expenseId);
-                Log.i("Delete array list",payload.toString());
+
+                JSONArray groceryIds = new JSONArray();
+                groceryIds.put("6fe436eb-19b6-47b4-b930-694422bf8315");
+                groceryIds.put("2f76b539-973a-4bde-acfa-9ca8f06dddbb");  // Add grocery IDs to the array
+                payload.put("grocery_ids", groceryIds); // Match backend structure
+//                payload.put("grocery_ids", groceryIdsArray);
+                RequestQueue queue = Volley.newRequestQueue(context);
+                deleteGroceryServices.deleteGroceryItems(context,queue,payload,expenseId);
             }
+
+            Log.i("Asd",payload.toString());
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -424,19 +432,19 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
             }
 
             @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-
-            @Override
             public byte[] getBody() {
                 try {
-                    // Directly use the payload's string representation
-                    return payload.toString().getBytes("utf-8");
+                    // Return the payload as a byte array
+                    return payload != null ? payload.toString().getBytes("utf-8") : null;
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                     return null;
                 }
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
             }
         };
         queue.add(request);

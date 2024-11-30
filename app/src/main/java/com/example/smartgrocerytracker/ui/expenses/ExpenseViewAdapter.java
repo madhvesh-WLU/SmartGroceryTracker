@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.example.smartgrocerytracker.ModelClass.ExpenseModel;
 import com.example.smartgrocerytracker.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -26,16 +28,25 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
 
     private List<ExpenseModel> expenseList;
     private final OnExpenseClickListener clickListener;
+    private final OnExpenseLongClickListener longClickListener;
     private String searchQuery; // To store the current query
     private final Context context; // Store context for accessing resources
+    private boolean isMultiSelectionMode = false;
+    private final List<ExpenseModel> selectedItems = new ArrayList<>();
     // Interface for handling item clicks
     public interface OnExpenseClickListener {
         void onExpenseClick(ExpenseModel expense);
     }
 
-    public ExpenseViewAdapter(List<ExpenseModel> expenseList, OnExpenseClickListener clickListener, Context context) {
+    // Interface for handling long-press events
+    public interface OnExpenseLongClickListener {
+        void onExpenseLongClick();
+    }
+
+    public ExpenseViewAdapter(List<ExpenseModel> expenseList, OnExpenseClickListener clickListener, OnExpenseLongClickListener longClickListener, Context context) {
         this.expenseList = expenseList;
         this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
         this.context = context;
     }
 
@@ -50,19 +61,73 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
     @Override
     public void onBindViewHolder(@NonNull ExpenseViewHolder holder, int position) {
         ExpenseModel expense = expenseList.get(position);
+
+        // Set text for views
         holder.storeNameTextView.setText(expense.getBillName() != null ? expense.getBillName() : "N/A");
         String date = formatDate(expense);
         holder.dateOfPurchaseTextView.setText(date);
         holder.totalPriceTextView.setText(String.valueOf("$" + expense.getBillAmount()));
+
         // Highlight matching text in bill_name
         if (searchQuery != null && !searchQuery.isEmpty()) {
             holder.storeNameTextView.setText(getHighlightedText(expense.getBillName(), searchQuery));
         } else {
             holder.storeNameTextView.setText(expense.getBillName());
         }
-        // Set item click listener
+
+        // Toggle CheckBox visibility and state
+        if (isMultiSelectionMode) {
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.checkBox.setChecked(selectedItems.contains(expense));
+        } else {
+            holder.checkBox.setVisibility(View.GONE);
+            holder.checkBox.setChecked(false);
+        }
+
+        // Handle item click
         holder.itemView.setOnClickListener(v -> {
-            if(clickListener !=null) clickListener.onExpenseClick(expense);});
+            if (isMultiSelectionMode) {
+                toggleSelection(expense);
+                holder.checkBox.setChecked(selectedItems.contains(expense));
+            } else {
+                clickListener.onExpenseClick(expense);
+            }
+        });
+
+        // Handle long-click to activate multi-selection
+        holder.itemView.setOnLongClickListener(v -> {
+            if (!isMultiSelectionMode) {
+                isMultiSelectionMode = true;
+                longClickListener.onExpenseLongClick();
+                toggleSelection(expense);
+                notifyDataSetChanged();
+            }
+            return true;
+        });
+
+//        // Handle CheckBox click
+//        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            if (isChecked) {
+//                if (!selectedItems.contains(expense)) {
+//                    selectedItems.add(expense);
+//                }
+//            } else {
+//                selectedItems.remove(expense);
+//            }
+//        });
+    }
+    private void toggleSelection(ExpenseModel expense) {
+        if (selectedItems.contains(expense)) {
+            selectedItems.remove(expense);
+        } else {
+            selectedItems.add(expense);
+        }
+        notifyDataSetChanged();
+    }
+    public void clearSelection() {
+        selectedItems.clear();
+        isMultiSelectionMode = false;
+        notifyDataSetChanged();
     }
 
     public void updateData(List<ExpenseModel> newExpenses, String query) {
@@ -76,13 +141,17 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
         if (start >= 0) {
             int end = start + query.length();
             spannable.setSpan(
-                    new ForegroundColorSpan(context.getResources().getColor(R.color.colorAccent)), // Replace with your highlight color
+                    new ForegroundColorSpan(context.getResources().getColor(R.color.buttonblue)), // Replace with your highlight color
                     start,
                     end,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             );
         }
         return spannable;
+    }
+
+    public List<ExpenseModel> getSelectedItems() {
+        return selectedItems;
     }
     @Override
     public int getItemCount() {
@@ -91,12 +160,13 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
 
     public static class ExpenseViewHolder extends RecyclerView.ViewHolder {
         TextView storeNameTextView, dateOfPurchaseTextView, totalPriceTextView;
-
+        CheckBox checkBox;
         public ExpenseViewHolder(@NonNull View itemView) {
             super(itemView);
             storeNameTextView = itemView.findViewById(R.id.storeNameTextView);
             dateOfPurchaseTextView = itemView.findViewById(R.id.dateOfPurchaseTextView);
             totalPriceTextView = itemView.findViewById(R.id.priceTextView);
+            checkBox = itemView.findViewById(R.id.expenseCheckBox);
         }
     }
 

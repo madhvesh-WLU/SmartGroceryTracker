@@ -1,17 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    &lt;!&ndash; Focused state &ndash;&gt;-->
+<!--    <item android:state_focused="true">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <solid android:color="@android:color/transparent" />-->
+<!--            <stroke android:width="2dp" android:color="@color/vibrant_orange" />-->
+<!--            <corners android:radius="8dp" />-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    &lt;!&ndash; Default (unfocused) state &ndash;&gt;-->
+<!--    <item>-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <solid android:color="@android:color/transparent" />-->
+<!--            <stroke android:width="2dp" android:color="@android:color/darker_gray" />-->
+<!--            <corners android:radius="8dp" />-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--</selector>-->
+
+
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_focused="true">
-        <shape android:shape="rectangle">
-            <solid android:color="@android:color/transparent"/>
-            <stroke android:width="2dp" android:color="@color/vibrant_orange"/>
-            <corners android:radius="8dp"/>
-        </shape>
-    </item>
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@android:color/transparent"/>
-            <stroke android:width="2dp" android:color="@android:color/darker_gray"/>
-            <corners android:radius="8dp"/>
-        </shape>
-    </item>
+
+<!-- State when focused -->
+<item android:state_focused="true">
+    <shape android:shape="rectangle">
+        <solid android:color="@android:color/transparent" />
+        <stroke android:width="2dp" android:color="@color/vibrant_orange" />
+        <corners android:radius="8dp" />
+    </shape>
+</item>
+
+<!-- State when enabled -->
+<item android:state_enabled="true">
+    <shape android:shape="rectangle">
+        <solid android:color="@android:color/transparent" />
+        <stroke android:width="2dp" android:color="@android:color/darker_gray" />
+        <corners android:radius="8dp" />
+    </shape>
+</item>
+
+<!-- State when disabled -->
+<item android:state_enabled="false">
+    <shape android:shape="rectangle">
+        <solid android:color="@android:color/transparent" />
+        <stroke android:width="0dp" android:color="@android:color/transparent" />
+        <corners android:radius="8dp" />
+    </shape>
+</item>
+
 </selector>
+
+

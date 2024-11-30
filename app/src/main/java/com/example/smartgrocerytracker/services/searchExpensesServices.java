@@ -33,8 +33,10 @@ public class searchExpensesServices {
     public static void fetchExpensesActiveBudget(Context context, RequestQueue queue, String query,fetchExpenseActiveBudgetServices.ExpenseFetchListener listener) {
 
         String token = SecurePreferences.getAuthToken(context);
-        String url = Config.SEARCH_EXPENSES_URL + "?query=" + query;
-        JsonObjectRequest fetchUserRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+        SharedPreferences sharedPreferences = context.getSharedPreferences("UserPref", MODE_PRIVATE);
+        String active_budget = sharedPreferences.getString("budget_id", null);
+        String url = Config.SEARCH_EXPENSES_URL + active_budget + "?query=" + query;
+        JsonObjectRequest searchExpenseUsingActiveBudget = new JsonObjectRequest(Request.Method.GET, url,null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -64,8 +66,6 @@ public class searchExpensesServices {
 
                                 listener.onExpensesFetched(expenses);
 
-                                Toast.makeText(context, "Expenses retrieved: " + expenses.size(), Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, expenses.toString());
 
                             } else {
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
@@ -98,6 +98,6 @@ public class searchExpensesServices {
             }
         };
 
-        queue.add(fetchUserRequest);
+        queue.add(searchExpenseUsingActiveBudget);
     }
 }

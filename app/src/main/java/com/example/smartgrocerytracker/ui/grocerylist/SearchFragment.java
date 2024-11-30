@@ -140,15 +140,17 @@ import com.example.smartgrocerytracker.services.fetchExpenseActiveBudgetServices
 import com.example.smartgrocerytracker.services.searchExpensesServices;
 import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.ui.expenses.ExpenseViewAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExpenseClickListener {
+public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExpenseClickListener,ExpenseViewAdapter.OnExpenseLongClickListener {
 
     private FragmentSearchBinding binding;
     private ExpenseViewAdapter adapter;
-    private List<ExpenseModel> expenseList;
+    private List<ExpenseModel> expenseList;// New delete button
+
     RequestQueue queue;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -163,10 +165,11 @@ public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExp
 
         // Initialize the RecyclerView
         expenseList = new ArrayList<>();
-        adapter = new ExpenseViewAdapter(expenseList, this,requireContext()); // Pass this as the listener
+        adapter = new ExpenseViewAdapter(expenseList, this,this,requireContext()); // Pass this as the listener
         binding.budgetIdRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.budgetIdRecyclerView.setAdapter(adapter);
 
+        binding.deleteGList.setOnClickListener(v -> deleteSelectedItems());
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(requireContext());
@@ -200,7 +203,7 @@ public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExp
             fetchExpenseActiveBudgetServices.fetchExpensesActiveBudget(requireContext(), queue, expenses -> {
                 expenseList.clear();
                 expenseList.addAll(expenses);
-                adapter.updateData(expenseList, ""); // Clear query for highlighting
+                adapter.updateData(expenseList, "");
             });
             return;
         }
@@ -208,9 +211,11 @@ public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExp
         searchExpensesServices.fetchExpensesActiveBudget(requireContext(), queue, query, filteredExpenses -> {
             expenseList.clear();
             expenseList.addAll(filteredExpenses);
-            adapter.updateData(expenseList, query); // Pass query to adapter for highlighting
+            adapter.updateData(expenseList, query);
         });
     }
+
+
     private void applyFilters() {
 
     }
@@ -225,6 +230,7 @@ public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExp
                 bundle.putString("date_of_purchase", fetchedExpense.getDateOfPurchase());
                 bundle.putString("total_price", String.valueOf(fetchedExpense.getBillAmount()));
                 bundle.putString("total_quantity", String.valueOf(fetchedExpense.getTotalQuantity()));
+                bundle.putString("budget_id", String.valueOf(fetchedExpense.getBudgetId()));
                 bundle.putString("expense_id", fetchedExpense.getExpenseId());
                 bundle.putString("description", fetchedExpense.getDescription());
                 bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) fetchedExpense.getGroceryItems());
@@ -234,6 +240,40 @@ public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExp
             }
         });
     }
+
+    @Override
+    public void onExpenseLongClick() {
+        // Activate multi-selection mode
+        binding.deleteGList.setVisibility(View.VISIBLE); // Show delete button
+    }
+
+    private void deleteSelectedItems() {
+        List<ExpenseModel> selectedItems = adapter.getSelectedItems();
+
+        if (!selectedItems.isEmpty()) {
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Delete Selected Items")
+                    .setMessage("Are you sure you want to delete these items?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        for (ExpenseModel item : selectedItems) {
+                            deleteExpense(item);
+                        }
+                        adapter.clearSelection();
+                        binding.deleteGList.setVisibility(View.GONE); // Hide delete button
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }
+    }
+
+    private void deleteExpense(ExpenseModel expense) {
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+//        fetchExpensesServices.deleteExpense(requireContext(), queue, expense.getExpenseId(), () -> {
+//            expenseList.remove(expense);
+//            adapter.notifyDataSetChanged();
+//        });
+    }
+
 
     @Override
     public void onDestroyView() {

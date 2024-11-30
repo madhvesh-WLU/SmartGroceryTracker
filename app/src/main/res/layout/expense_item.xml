@@ -25,6 +25,12 @@
             android:paddingBottom="8dp">
 
             <!-- Store Name and Date of Purchase in Vertical Layout -->
+            <CheckBox
+                android:id="@+id/expenseCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

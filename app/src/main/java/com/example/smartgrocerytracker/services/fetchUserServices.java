@@ -45,6 +45,20 @@ public class fetchUserServices {
                                 String email = data.getString("email");
                                 String user_id = data.getString("user_id");
                                 String budget_id = data.optString("budget_id", null);
+
+                                if(budget_id == "null"){
+//                                TODO if budget_id is null means there is no active budget so it should null
+                                    // Store the budget details in SharedPreferences
+                                    SharedPreferences sharedPreferences = context.getSharedPreferences("ActiveBudget", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("id", null);
+                                    editor.putString("user_id", null);
+                                    editor.putString("amount", null);
+                                    editor.putString("spent_amount", null);
+                                    editor.putString("start_date", null);
+                                    editor.putString("end_date", null);
+                                    editor.apply();
+                                }
 //
 //                              UserProfile.getInstance().setUserData(username,email,user_id);
                                 Log.i("Res:", String.valueOf(data));

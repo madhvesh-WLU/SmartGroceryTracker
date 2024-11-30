@@ -13,6 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.smartgrocerytracker.Config;
 import com.example.smartgrocerytracker.ModelClass.GroceryItemModel;
 import com.example.smartgrocerytracker.utils.SecurePreferences;
+import com.example.smartgrocerytracker.utils.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,16 +71,12 @@ public class searchGroceryItemsServices {
                                 }
 
                                 listener.onGroceryFetched(groceryItems);
-                                Toast.makeText(context, "Expenses retrieved: " + itemsArray.length(), Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, itemsArray.toString());
                             } else {
-                                Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, "Response message: " + response.getString("message"));
-                                listener.onGroceryFetched(new ArrayList<>()); // Return empty list
+                                ToastUtils.showToast(context, "No matching grocery items found.");
+                                listener.onGroceryFetched(new ArrayList<>());
                             }
                         } catch (JSONException e) {
-                            Log.e(TAG, "JSON parsing error: " + e.getMessage());
-                            Toast.makeText(context, "Failed to parse user data", Toast.LENGTH_SHORT).show();
+                            ToastUtils.showToast(context, "Try Again!");
                             listener.onGroceryFetched(new ArrayList<>()); // Return empty list
                         }
                     }
@@ -87,11 +84,10 @@ public class searchGroceryItemsServices {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error.networkResponse != null && error.networkResponse.statusCode == 401) {
-                    Toast.makeText(context, "Unauthorized, please login", Toast.LENGTH_SHORT).show();
                 }
                 Log.e(TAG, "Volley error: " + error.getMessage());
-                Toast.makeText(context, "Failed to retrieve grocery items", Toast.LENGTH_SHORT).show();
-                listener.onGroceryFetched(new ArrayList<>()); // Return empty list
+                ToastUtils.showToast(context, "Failed to retrieve grocery items");
+                listener.onGroceryFetched(new ArrayList<>());
             }
         }) {
 

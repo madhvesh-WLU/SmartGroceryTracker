@@ -176,18 +176,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="48dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginRight="48dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
                 <!-- Need Help -->
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:fontFamily="@font/segoer"
                     android:text="Need Help?"
                     android:textColor="@color/colorTextBlack"
@@ -196,8 +194,8 @@
                 <!-- Sign In Button -->
                 <Button
                     android:id="@+id/loginButton"
-                    android:layout_width="0dp"
-                    android:layout_height="52dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/button_background"
                     android:fontFamily="@font/segoer"

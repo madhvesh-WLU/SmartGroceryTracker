@@ -104,6 +104,15 @@
         android:id="@+id/budgetId_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="55dp"
         android:layout_weight="1" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/delete_gList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/user_login"
+        android:visibility="gone" />
 
 </LinearLayout>

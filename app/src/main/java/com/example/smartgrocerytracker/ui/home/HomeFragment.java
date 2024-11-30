@@ -3,6 +3,7 @@ package com.example.smartgrocerytracker.ui.home;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +44,13 @@ public class HomeFragment extends Fragment {
 
         binding.monthlyMainButton.setOnClickListener(v ->
                 navController.navigate(R.id.nav_search_fragment));
+
+        SharedPreferences sharedPreference = getContext().getSharedPreferences("ActiveBudget", MODE_PRIVATE);
+        String budgetAmount = sharedPreference.getString("amount",null);
+        String spentAmount = sharedPreference.getString("spent_amount",null);
+
+        binding.valueTotalBudget.setText(budgetAmount == null? "No Active Budget" : budgetAmount);
+        binding.valueLeftToSpend.setText(spentAmount == null? "$0" : spentAmount);
 
 
     }

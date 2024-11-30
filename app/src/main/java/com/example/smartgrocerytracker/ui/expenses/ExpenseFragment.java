@@ -20,17 +20,19 @@ import com.example.smartgrocerytracker.ModelClass.GroceryItemModel;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.services.fetchExpensesServices;
 import com.example.smartgrocerytracker.services.fetchGroceryListServices;
+import com.example.smartgrocerytracker.services.deleteExpenseServices;
 import com.example.smartgrocerytracker.ui.grocerylist.FancyGroceryOptionsDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnExpenseClickListener {
+public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnExpenseClickListener,ExpenseViewAdapter.OnExpenseLongClickListener  {
 
     private RecyclerView recyclerView;
     private ExpenseViewAdapter adapter;
     private List<ExpenseModel> expenseList;
     private FloatingActionButton addButton;
+    private FloatingActionButton deleteButton; // New delete button
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,14 +45,20 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
 
         recyclerView = view.findViewById(R.id.recyclerView);
         addButton = view.findViewById(R.id.add_gList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        deleteButton = view.findViewById(R.id.delete_gList); // Initialize deleteButton first
 
+        // Set up RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         expenseList = new ArrayList<>();
-        adapter = new ExpenseViewAdapter(expenseList, this,requireContext());
+        adapter = new ExpenseViewAdapter(expenseList, this, this, requireContext());
         recyclerView.setAdapter(adapter);
+
+        deleteButton.setVisibility(View.GONE); // Now set visibility after initializing
+        deleteButton.setOnClickListener(v -> deleteSelectedItems());
 
         setupOptionButton();
 
+        // Fetch expenses
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         fetchExpensesServices.fetchExpenses(requireContext(), queue, expenses -> {
             expenseList.clear();
@@ -59,7 +67,81 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
         });
     }
 
-//    @Override
+    @Override
+    public void onExpenseClick(ExpenseModel expense) {
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        fetchGroceryListServices.fetchGroceryList(requireContext(), queue, expense.getExpenseId(), new fetchGroceryListServices.ExpenseListFetchListener() {
+            @Override
+            public void onExpensesFetched(ExpenseModel expense) {
+                Bundle bundle = new Bundle();
+            bundle.putString("bill_name",  expense.getBillName());
+            bundle.putString("date_of_purchase", expense.getDateOfPurchase());
+            bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
+            bundle.putString("total_quantity", String.valueOf(expense.getTotalQuantity()));
+            bundle.putString("expense_id", expense.getExpenseId());
+            bundle.putString("description", expense.getDescription());
+            bundle.putString("budget_id", expense.getBudgetId());
+            bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) expense.getGroceryItems());
+
+            NavController navController = NavHostFragment.findNavController(requireParentFragment());
+            navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
+            }
+        });
+
+    }
+
+    private void setupOptionButton() {
+        addButton.setOnClickListener(v -> {
+            FancyGroceryOptionsDialog optionsDialog = new FancyGroceryOptionsDialog();
+            optionsDialog.show(getParentFragmentManager(), "FancyGroceryOptionsDialog");
+        });
+    }
+
+    @Override
+    public void onExpenseLongClick() {
+        // Activate multi-selection mode
+        deleteButton.setVisibility(View.VISIBLE);
+    }
+
+    private void deleteSelectedItems() {
+        List<ExpenseModel> selectedItems = adapter.getSelectedItems();
+
+        if (!selectedItems.isEmpty()) {
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Delete Selected Items")
+                    .setMessage("Are you sure you want to delete these items?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        for (ExpenseModel item : selectedItems) {
+                            deleteExpense(item);
+                        }
+                        adapter.clearSelection();
+                        deleteButton.setVisibility(View.GONE); // Hide delete button
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }
+    }
+
+    private void deleteExpense(ExpenseModel expense) {
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        String expenseId = expense.getExpenseId();
+        Log.i("asds",expense.getExpenseId());
+
+        deleteExpenseServices.deleteExpenseItems(requireContext(), queue, expenseId, () -> {
+            expenseList.remove(expense);
+            adapter.notifyDataSetChanged();
+        });
+    }
+
+
+}
+
+
+
+
+
+
+//@Override
 //    public void onExpenseClick(ExpenseModel expense) {
 //        RequestQueue queue = Volley.newRequestQueue(requireContext());
 //        fetchGroceryListServices.fetchGroceryList(requireContext(), queue, expense.getExpenseId(), fullExpense -> {
@@ -73,34 +155,7 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
 //            navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
 //        });
 //    }
-//
-    @Override
-    public void onExpenseClick(ExpenseModel expense) {
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
-        fetchGroceryListServices.fetchGroceryList(requireContext(), queue, expense.getExpenseId(), new fetchGroceryListServices.ExpenseListFetchListener() {
-            @Override
-            public void onExpensesFetched(ExpenseModel expense) {
-                Bundle bundle = new Bundle();
-            bundle.putString("bill_name", "Bill");
-            bundle.putString("date_of_purchase", expense.getDateOfPurchase());
-            bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
-            bundle.putString("total_quantity", String.valueOf(expense.getTotalQuantity()));
-            bundle.putString("expense_id", expense.getExpenseId());
-            bundle.putString("description", expense.getDescription());
-            bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) expense.getGroceryItems());
 
-            NavController navController = NavHostFragment.findNavController(requireParentFragment());
-            navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
-            }
-
-//            @Override
-//            public void onExpensesListFetched(List<GroceryItemModel> groceryItems) {
-//                // Handle the GroceryItemModel list data
-//                Log.d("GroceryListener", "Grocery items fetched: " + groceryItems.size());
-//            }
-        });
-
-    }
 
 
 //    @Override
@@ -116,21 +171,6 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
 //        NavController navController = NavHostFragment.findNavController(this);
 //        navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
 //    }
-
-    private void setupOptionButton() {
-        addButton.setOnClickListener(v -> {
-            FancyGroceryOptionsDialog optionsDialog = new FancyGroceryOptionsDialog();
-            optionsDialog.show(getParentFragmentManager(), "FancyGroceryOptionsDialog");
-        });
-    }
-}
-
-
-
-
-
-
-
 
 
 

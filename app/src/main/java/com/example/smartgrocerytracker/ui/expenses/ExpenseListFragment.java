@@ -24,6 +24,7 @@ import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.services.searchGroceryItemsServices;
 import com.example.smartgrocerytracker.services.updateExpenseServices;
 import com.example.smartgrocerytracker.ui.grocerylist.ItemInputDialogFragment;
+import com.example.smartgrocerytracker.utils.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +49,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
     private String totalPrice;
     private String description;
     private String expense_id;
-
+    private String bill_budget_id;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -113,7 +114,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
             billName = getArguments().getString("bill_name");
             dateOfPurchase = getArguments().getString("date_of_purchase");
             description = getArguments().getString("description");
-
+            bill_budget_id = getArguments().getString("budget_id");
             totalQuantity = getArguments().getString("total_quantity");
             totalPrice = getArguments().getString("total_price");
             expense_id = getArguments().getString("expense_id");
@@ -133,11 +134,11 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
      * Displays the expense bill information.
      */
     private void displayBillInfo() {
-        binding.billNameTextView.setText(billName);
-        binding.dateOfPurchaseTextView.setText(dateOfPurchase);
-        binding.descriptionTextView.setText(description);
-        binding.totalQuantityTextView.setText(totalQuantity);
-        binding.totalPriceTextView.setText(totalPrice);
+        binding.editBillName.setText(billName);
+        binding.editDateOfPurchase.setText(dateOfPurchase);
+        binding.editDescription.setText(description);
+        binding.editTotalQuantity.setText(totalQuantity);
+        binding.editTotalPrice.setText(totalPrice);
     }
 
     /**
@@ -240,53 +241,23 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
      * Enables editing of billing information.
      */
     private void editSelectedItem() {
-        // Toggle enabling and disabling EditText fields
-        binding.billNameTextView.setEnabled(true);
-        binding.dateOfPurchaseTextView.setEnabled(true);
-        binding.descriptionTextView.setEnabled(true);
-        binding.totalQuantityTextView.setEnabled(true);
-        binding.totalPriceTextView.setEnabled(true);
-        // Hide TextViews and Show EditTexts with current values
-        binding.billNameTextView.setVisibility(View.GONE);
-        binding.editBillName.setVisibility(View.VISIBLE);
-        binding.editBillName.setText(binding.billNameTextView.getText().toString());
-
-        binding.dateOfPurchaseTextView.setVisibility(View.GONE);
-        binding.editDateOfPurchase.setVisibility(View.VISIBLE);
-        binding.editDateOfPurchase.setText(binding.dateOfPurchaseTextView.getText().toString());
-
-        binding.descriptionTextView.setVisibility(View.GONE);
-        binding.editDescription.setVisibility(View.VISIBLE);
-        binding.editDescription.setText(binding.descriptionTextView.getText().toString());
-
-        binding.totalQuantityTextView.setVisibility(View.GONE);
-        binding.editTotalQuantity.setVisibility(View.VISIBLE);
-        binding.editTotalQuantity.setText(binding.totalQuantityTextView.getText().toString());
-
-        binding.totalPriceTextView.setVisibility(View.GONE);
-        binding.editTotalPrice.setVisibility(View.VISIBLE);
-        binding.editTotalPrice.setText(binding.totalPriceTextView.getText().toString());
-
-        // Show Cancel and Update buttons, hide Edit Information button
+        binding.editBillName.setEnabled(true);
+        binding.editDateOfPurchase.setEnabled(true);
+        binding.editDescription.setEnabled(true);
+        binding.editTotalQuantity.setEnabled(true);
+        binding.editTotalPrice.setEnabled(true);
         binding.editBillingInfoButton.setVisibility(View.GONE);
         binding.cancelButton.setVisibility(View.VISIBLE);
         binding.updateButton.setVisibility(View.VISIBLE);
     }
 
     private void cancelEdit() {
-        // Revert changes and disable fields
-        binding.billNameTextView.setText(billName);
-        binding.dateOfPurchaseTextView.setText(dateOfPurchase);
-        binding.descriptionTextView.setText(description);
-        binding.totalQuantityTextView.setText(totalQuantity);
-        binding.totalPriceTextView.setText(totalPrice);
-
-        binding.billNameTextView.setEnabled(false);
-        binding.totalPriceTextView.setEnabled(false);
-        binding.dateOfPurchaseTextView.setEnabled(false);
-        binding.descriptionTextView.setEnabled(false);
-        binding.totalQuantityTextView.setEnabled(false);
-        binding.totalPriceTextView.setEnabled(false);
+        binding.editBillName.setEnabled(false);
+        binding.editTotalPrice.setEnabled(false);
+        binding.editDateOfPurchase.setEnabled(false);
+        binding.editDescription.setEnabled(false);
+        binding.editTotalQuantity.setEnabled(false);
+        binding.editTotalPrice.setEnabled(false);
 
         // Hide Cancel and Update buttons, show Edit Information button
         binding.editBillingInfoButton.setVisibility(View.VISIBLE);
@@ -315,36 +286,28 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         expenseDetails.put("total_quantity", quantity);
         expenseDetails.put("bill_amount", billAmount);
         expenseDetails.put("description", updatedDescription);
-        expenseDetails.put("budget_id", "4534bb7c-523a-4bac-85a0-5f1dad3e2e8c");
+        expenseDetails.put("budget_id", bill_budget_id == null ? "" : bill_budget_id);
         JSONObject jsonObject = new JSONObject(expenseDetails);
 
         // Call update API to save information
         callUpdateApi(jsonObject);
 
         // Update TextViews with new values
-        binding.billNameTextView.setText(updatedBillName);
-        binding.dateOfPurchaseTextView.setText(updatedDateOfPurchase);
-        binding.descriptionTextView.setText(updatedDescription);
-        binding.totalQuantityTextView.setText(updatedTotalQuantity);
-        binding.totalPriceTextView.setText(updatedTotalPrice);
+        binding.editBillName.setText(updatedBillName);
+        binding.editDateOfPurchase.setText(updatedDateOfPurchase);
+        binding.editDescription.setText(updatedDescription);
+        binding.editTotalQuantity.setText(updatedTotalQuantity);
+        binding.editTotalPrice.setText(updatedTotalPrice);
 
+        binding.editBillName.setEnabled(false);
+        binding.editTotalPrice.setEnabled(false);
+        binding.editDateOfPurchase.setEnabled(false);
+        binding.editDescription.setEnabled(false);
+        binding.editTotalQuantity.setEnabled(false);
         // Hide Cancel and Update buttons, show Edit button
         binding.editBillingInfoButton.setVisibility(View.VISIBLE);
         binding.cancelButton.setVisibility(View.GONE);
         binding.updateButton.setVisibility(View.GONE);
-
-        // Hide EditText fields and show TextViews
-        binding.editBillName.setVisibility(View.GONE);
-        binding.editDateOfPurchase.setVisibility(View.GONE);
-        binding.editDescription.setVisibility(View.GONE);
-        binding.editTotalQuantity.setVisibility(View.GONE);
-        binding.editTotalPrice.setVisibility(View.GONE);
-
-        binding.billNameTextView.setVisibility(View.VISIBLE);
-        binding.dateOfPurchaseTextView.setVisibility(View.VISIBLE);
-        binding.descriptionTextView.setVisibility(View.VISIBLE);
-        binding.totalQuantityTextView.setVisibility(View.VISIBLE);
-        binding.totalPriceTextView.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -368,9 +331,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
             groceryItemsList.clear();
             groceryItemsList.addAll(groceryItems);
             groceryItemAdapter.updateData(groceryItemsList, binding.grocerySearchView.getQuery().toString());
-            Toast.makeText(getContext(), "Grocery items retrieved: " + groceryItems.size(), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "No matching grocery items found.", Toast.LENGTH_SHORT).show();
             groceryItemsList.clear();
             groceryItemAdapter.updateData(groceryItemsList, binding.grocerySearchView.getQuery().toString());
         }

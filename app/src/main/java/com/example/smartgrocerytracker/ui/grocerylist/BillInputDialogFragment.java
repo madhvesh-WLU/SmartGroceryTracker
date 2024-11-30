@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -49,7 +50,7 @@ public class BillInputDialogFragment extends DialogFragment {
     private EditText descriptionEditText;
     private Button nextButton;
     private ProgressBar loadingSpinner;
-
+    private String final_expensId;
     private ImageButton closeButton;
 
     public BillInputDialogFragment() {
@@ -100,6 +101,8 @@ public class BillInputDialogFragment extends DialogFragment {
 
     private boolean isDatePickerShowing = false;
 
+
+
     private void setupDatePicker() {
         dateOfPurchaseEditText.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
@@ -107,14 +110,43 @@ public class BillInputDialogFragment extends DialogFragment {
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    requireContext(),
-                    (view, selectedYear, selectedMonth, selectedDay) -> {
-                        String formattedDate = formatSelectedDate(selectedDay, selectedMonth, selectedYear);
-                        dateOfPurchaseEditText.setText(formattedDate);
-                    },
-                    year, month, day);
-            datePickerDialog.show();
+            // Retrieve minDate and maxDate from SharedPreferences
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("ActiveBudget", Context.MODE_PRIVATE);
+            String minDateStr = sharedPreferences.getString("start_date", null); // e.g., "2024-01-10"
+            String maxDateStr = sharedPreferences.getString("end_date", null);   // e.g., "2024-01-20"
+
+            try {
+                // Parse the minDate and maxDate strings into Calendar objects
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Calendar minDate = Calendar.getInstance();
+                Calendar maxDate = Calendar.getInstance();
+
+                if (minDateStr != null) {
+                    minDate.setTime(dateFormat.parse(minDateStr));
+                }
+                if (maxDateStr != null) {
+                    maxDate.setTime(dateFormat.parse(maxDateStr));
+                }
+
+                // Create the DatePickerDialog
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        requireContext(),
+                        (view, selectedYear, selectedMonth, selectedDay) -> {
+                            String formattedDate = formatSelectedDate(selectedDay, selectedMonth, selectedYear);
+                            dateOfPurchaseEditText.setText(formattedDate);
+                        },
+                        year, month, day);
+
+                // Set the allowed date range
+                DatePicker datePicker = datePickerDialog.getDatePicker();
+                datePicker.setMinDate(minDate.getTimeInMillis());
+                datePicker.setMaxDate(maxDate.getTimeInMillis());
+
+                datePickerDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(requireContext(), "Invalid date range.", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -166,7 +198,17 @@ public class BillInputDialogFragment extends DialogFragment {
 
                 // Convert HashMap to JSON
                 JSONObject jsonObject = new JSONObject(expenseDetails);
-                addExpenseServices.postExpenseDetails(requireContext(),queue,jsonObject);
+                addExpenseServices.postExpenseDetails(requireContext(), queue, jsonObject, new addExpenseServices.ExpenseResponseListener() {
+                    @Override
+                    public void onExpenseAdded(String expenseId) {
+                        final_expensId = expenseId;
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(requireContext(), "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 new Handler().postDelayed(() -> {
                     showLoadingSpinner(false);
                     navigateToExpenseListFragment();
@@ -201,10 +243,17 @@ public class BillInputDialogFragment extends DialogFragment {
     }
 
     private void navigateToExpenseListFragment() {
+        // Ensure expenseId is available
+        if (final_expensId == null || final_expensId.isEmpty()) {
+            Toast.makeText(requireContext(), "Expense ID is missing!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Bundle bundle = new Bundle();
         bundle.putString("bill_name", billNameEditText.getText().toString().trim());
         bundle.putString("date_of_purchase", dateOfPurchaseEditText.getText().toString().trim());
         bundle.putString("description", descriptionEditText.getText().toString().trim());
+        bundle.putString("expense_id", final_expensId);
         bundle.putString("total_quantity", storeTotalQuantityEditText.getText().toString().trim());
         bundle.putString("total_price", totalPriceEditText.getText().toString().trim());
 

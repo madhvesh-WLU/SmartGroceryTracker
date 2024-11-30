@@ -24,8 +24,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class addExpenseServices {
-
-        public static void postExpenseDetails(Context context, RequestQueue queue, JSONObject requestData) {
+    public interface ExpenseResponseListener {
+        void onExpenseAdded(String expenseId); // Called when the request succeeds
+        void onError(String errorMessage);    // Called when the request fails
+    }
+        public static void postExpenseDetails(Context context, RequestQueue queue, JSONObject requestData, ExpenseResponseListener listener) {
             String token = SecurePreferences.getAuthToken(context);
             String url = Config.ADD_EXPENSES_URL;
 
@@ -39,13 +42,20 @@ public class addExpenseServices {
                                     String statusCode = response.getString("statusCode");
                                     String message = response.getString("message");
                                     Toast.makeText(context, message , Toast.LENGTH_SHORT).show();
+                                    JSONObject data = response.getJSONObject("data");
+                                    String expense_id = data.getString("expense_id");
+
+                                    // Pass the expense_id to the listener
+                                    listener.onExpenseAdded(expense_id);
 
                                 }
                                 else{
                                     String message = response.getString("message");
+                                    listener.onError(message); // Pass error message to the listener
                                     Toast.makeText(context, message , Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
+                                listener.onError("Parsing error: " + e.getMessage());
                                 throw new RuntimeException(e);
                             }
                         }

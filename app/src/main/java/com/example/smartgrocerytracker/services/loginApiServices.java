@@ -81,7 +81,7 @@ public class loginApiServices {
                 if (error.networkResponse != null && error.networkResponse.statusCode == 401) {
                     errorMessage = "Invalid username or password.";
                 }
-                Toast.makeText(context, "Login failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,  errorMessage, Toast.LENGTH_SHORT).show();
                 Log.e("LoginError", "Error: " + errorMessage);
             }
         }) {

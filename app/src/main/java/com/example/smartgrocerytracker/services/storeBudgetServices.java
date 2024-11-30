@@ -53,6 +53,7 @@ public class storeBudgetServices {
                         try {
                             if (response.getBoolean("success")) {
 
+                                fetchUserServices.fetchUserDetails(context,queue);
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
 
 

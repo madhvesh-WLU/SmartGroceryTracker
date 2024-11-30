@@ -60,25 +60,81 @@
                 android:layout_height="184dp"
                 android:layout_centerInParent="true" />
         </RelativeLayout>
+
     </androidx.cardview.widget.CardView>
 
     <!-- Left to Spend Section -->
-    <TextView
-        android:id="@+id/left_to_spend_label"
+    <LinearLayout
+        android:id="@+id/budget_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_marginTop="32dp"
-        android:background="@drawable/card_background"
+        android:orientation="horizontal"
         android:gravity="center"
+        android:background="@drawable/card_background"
         android:padding="16dp"
-        android:text="Left to Spend\n$2,323.56 out of $4,500.00"
-        android:textColor="@color/black"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_with_pie_chart" />
+        app:layout_constraintTop_toBottomOf="@id/card_with_pie_chart">
 
+        <!-- Static Label for Left to Spend -->
+        <TextView
+            android:id="@+id/label_left_to_spend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:text="Left to Spend:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Dynamic Left to Spend Amount -->
+        <TextView
+            android:id="@+id/value_left_to_spend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="$45.00"
+            android:textColor="@color/green"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/label_left_to_spend"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Static Label for Total Budget -->
+        <TextView
+            android:id="@+id/label_total_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:text="out of"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/value_left_to_spend"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Dynamic Total Budget Amount -->
+        <TextView
+            android:id="@+id/value_total_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="$500.00"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/label_total_budget"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
     <!-- GridLayout for Buttons with Icons -->
     <GridLayout
         android:id="@+id/grid_layout"
@@ -89,9 +145,9 @@
         android:columnCount="2"
         android:rowCount="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/left_to_spend_label"
-        app:layout_constraintStart_toStartOf="@+id/left_to_spend_label"
-        app:layout_constraintTop_toBottomOf="@+id/left_to_spend_label">
+        app:layout_constraintEnd_toEndOf="@+id/budget_info_container"
+        app:layout_constraintStart_toStartOf="@+id/budget_info_container"
+        app:layout_constraintTop_toBottomOf="@+id/budget_info_container">
 
         <!-- Add Expense Item -->
         <LinearLayout
