@@ -37,6 +37,7 @@ import com.example.smartgrocerytracker.databinding.ActivityMainBinding;
 import com.example.smartgrocerytracker.services.fetchUserServices;
 import com.example.smartgrocerytracker.services.uploadImage;
 import com.example.smartgrocerytracker.ui.FullScreenImageActivity;
+import com.example.smartgrocerytracker.ui.ReviewActivity;
 import com.example.smartgrocerytracker.utils.BudgetDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -425,6 +426,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 100) { // Check for ReviewActivity result
+            if (resultCode == RESULT_OK) {
+                // Submission successful
+                Toast.makeText(this, "Items successfully stored!", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                // Handle Retake: Open camera again
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+            }
+        }
+
         if (resultCode == RESULT_OK && data != null) {
             if (requestCode == CAMERA_REQUEST_CODE) {
                 Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
@@ -443,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
                 if (imageUri != null) {
                     File imageFile = getFileFromUri(imageUri);
                     if (imageFile != null && imageFile.exists()) {
-                        uploadImage.uploadImageToGeminiAI(this, imageFile,requestQueue);
+                        uploadImage.uploadImageToGeminiAI(this, imageFile, requestQueue);
                     } else {
                         Toast.makeText(this, "Failed to process selected image.", Toast.LENGTH_SHORT).show();
                     }

@@ -20,6 +20,7 @@ import com.example.smartgrocerytracker.ModelClass.GroceryItemModel;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.databinding.FragmentExpenseListBinding;
 import com.example.smartgrocerytracker.services.addGroceryServices;
+import com.example.smartgrocerytracker.services.deleteGroceryServices;
 import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.services.searchGroceryItemsServices;
 import com.example.smartgrocerytracker.services.updateExpenseServices;
@@ -35,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ExpenseListFragment extends Fragment implements searchGroceryItemsServices.GroceryItemsFetchListener {
+public class ExpenseListFragment extends Fragment implements searchGroceryItemsServices.GroceryItemsFetchListener,GroceryItemAdapter.OnGroceryLongClickListener {
 
     private FragmentExpenseListBinding binding;
     private GroceryItemAdapter groceryItemAdapter;
@@ -148,7 +149,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         List<GroceryItemModel> combinedItems = new ArrayList<>(groceryItemsList);
         combinedItems.addAll(addedItemsList);
 
-        groceryItemAdapter = new GroceryItemAdapter(requireContext(), combinedItems);
+        groceryItemAdapter = new GroceryItemAdapter(requireContext(), combinedItems,this);
         binding.expenseRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.expenseRecyclerView.setAdapter(groceryItemAdapter);
     }
@@ -160,7 +161,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         binding.addItemButton.setOnClickListener(v -> showItemInputDialog());
         binding.addItemButton1.setOnClickListener(v -> showItemInputDialog());
         binding.submitButton.setOnClickListener(v -> onSubmit());
-        binding.deleteItemButton.setOnClickListener(v -> deleteSelectedItem());
+        binding.deleteItemButton.setOnClickListener(v -> deleteSelectedItems());
         binding.editBillingInfoButton.setOnClickListener(v -> editSelectedItem());
         binding.cancelButton.setOnClickListener(v -> cancelEdit());
         binding.updateButton.setOnClickListener(v -> {
@@ -233,7 +234,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
      * Deletes selected grocery items.
      */
     private void deleteSelectedItem() {
-        groceryItemAdapter.deleteSelectedItem(expense_id);
+//        groceryItemAdapter.deleteSelectedItem(expense_id);
         updateLayoutBasedOnItems();
     }
 
@@ -354,6 +355,70 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         super.onDestroyView();
         binding = null; // Avoid memory leaks
     }
+
+    @Override
+    public void onGroceryLongClick() {
+        binding.deleteItemButton.setVisibility(View.VISIBLE);
+    }
+
+    private void deleteSelectedItems() {
+        List<GroceryItemModel> selectedItems = groceryItemAdapter.getSelectedItems();
+        if (selectedItems.isEmpty()) {
+            Toast.makeText(requireContext(), "No items selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        for (GroceryItemModel item : selectedItems) {
+            deleteGroceryItem(item);
+        }
+        groceryItemAdapter.clearSelection();
+        binding.deleteItemButton.setVisibility(View.GONE);
+    }
+
+    private void deleteGroceryItem(GroceryItemModel item) {
+        Log.i("DeleteGrocery", "Deleting item: " + item.getItemId());
+        deleteGroceryServices.deleteGroceryItems(requireContext(), queue, item.getItemId(), () -> {
+            // Remove item from list
+            groceryItemsList.remove(item);
+
+            // Update total quantity and price
+            int currentTotalQuantity;
+            try {
+                currentTotalQuantity = (int) Double.parseDouble(totalQuantity); // Safely parse as double, then cast to int
+            } catch (NumberFormatException e) {
+                Log.e("DeleteGrocery", "Failed to parse totalQuantity: " + totalQuantity, e);
+                currentTotalQuantity = 0; // Default to 0 on error
+            }
+
+            double currentTotalPrice;
+            try {
+                currentTotalPrice = Double.parseDouble(totalPrice); // Parse totalPrice as double
+            } catch (NumberFormatException e) {
+                Log.e("DeleteGrocery", "Failed to parse totalPrice: " + totalPrice, e);
+                currentTotalPrice = 0.0; // Default to 0.0 on error
+            }
+
+            // Deduct the item's quantity and price
+            currentTotalQuantity -= item.getQuantity();
+            currentTotalPrice -= (item.getPrice() * item.getQuantity());
+
+            // Ensure no negative values
+            currentTotalQuantity = Math.max(currentTotalQuantity, 0);
+            currentTotalPrice = Math.max(currentTotalPrice, 0.0);
+
+            // Format total price to 2 decimal places
+            totalQuantity = String.valueOf(currentTotalQuantity);
+            totalPrice = String.format("%.2f", currentTotalPrice);
+
+            // Update the fields with new values
+            groceryItemAdapter.updateData(new ArrayList<>(groceryItemsList), "");
+            updateLayoutBasedOnItems();
+
+            // Update displayed bill information
+            displayBillInfo();
+        });
+    }
+
 }
 
 

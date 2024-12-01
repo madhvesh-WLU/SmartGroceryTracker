@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.smartgrocerytracker"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Features and Permissions -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -31,34 +26,29 @@
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.SmartGroceryTracker"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        android:usesCleartextTraffic="true">
+
+        <!-- API Key (Ensure this is secure and not exposed in version control) -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDwXvYsGKTh2JU-C4jLRxslfdaZgwgjCHU" />
-        <activity android:name=".ui.FullScreenImageActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
+        <!-- Activities -->
+        <activity
+            android:name=".ui.FullScreenImageActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.profile.ProfileFragment"
-            android:exported="true" />
-        <activity
-            android:name=".ui.home.HomeFragment"
-            android:exported="true" />
-        <activity
             android:name=".ui.SignUp"
             android:exported="true" />
         <activity
-        android:name=".ui.ReviewActivity"/>
-
+            android:name=".ui.ReviewActivity" />
         <activity
             android:name=".ui.Login"
             android:exported="true"
-            android:theme="@style/Theme.SmartGroceryTracker.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.SmartGroceryTracker.NoActionBar" />
         <activity
             android:name=".SplashScreen"
             android:exported="true"
@@ -66,7 +56,6 @@
             android:theme="@style/Theme.SmartGroceryTracker.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

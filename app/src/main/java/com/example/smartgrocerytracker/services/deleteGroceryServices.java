@@ -23,29 +23,17 @@ import java.util.Map;
 public class deleteGroceryServices {
     private static final String TAG = "DeleteGroceryItemsServices";
 
-    public static void deleteGroceryItems(Context context, RequestQueue queue, JSONObject requestData, String expense_id) {
+    public static void deleteGroceryItems(Context context, RequestQueue queue, String item_id,Runnable onSuccessCallback) {
         String token = SecurePreferences.getAuthToken(context);
-        String url = Config.DELETE_GROCERY_ITEM_URL + expense_id;
-        // Create the hardcoded JSON object
-        JSONObject newCHECK = new JSONObject();
-        try {
-            JSONArray groceryIds = new JSONArray();
-            groceryIds.put("a02f5886-5490-4bda-8d87-f9e555e0a43d");
-            groceryIds.put("aeb34ce0-4468-4961-8608-7c3bf7ebb380");
-            newCHECK.put("grocery_ids", groceryIds);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String url = Config.DELETE_GROCERY_ITEM_URL + item_id;
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, url, newCHECK,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.i(TAG, response.toString());
-                        try {
-                            Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
+                        if (onSuccessCallback != null) {
+                            onSuccessCallback.run(); // Trigger callback to update UI or perform other actions
                         }
                     }
                 },
@@ -65,10 +53,6 @@ public class deleteGroceryServices {
                 headers.put("Authorization", "Bearer " + token);
                 Log.i(TAG, "Request Headers: " + headers.toString());
                 return headers;
-            }
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
             }
         };
         queue.add(request);

@@ -54,7 +54,7 @@
 
 
     <string-array name="categories">
-        <item>Dairy</item>
-        <item>Juice</item>
+        <item>Fresh Vegetable</item>
+        <item>Milk</item>
     </string-array>
 </resources>

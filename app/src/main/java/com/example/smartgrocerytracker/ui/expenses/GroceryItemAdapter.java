@@ -250,13 +250,21 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
 
     private List<GroceryItemModel> groceryItemList;
     private Context context;
-    private Set<Integer> selectedPositions = new HashSet<>();
-    private String searchQuery = ""; // To store the current search query for highlighting
+    private String searchQuery = ""; // For highlighting
+    private boolean isMultiSelectionMode = false;
+    private int selectedPosition = RecyclerView.NO_POSITION; // Tracks the currently selected position
+    private final List<GroceryItemModel> selectedItems = new ArrayList<>();
 
-    // Constructor with context
-    public GroceryItemAdapter(Context context, List<GroceryItemModel> groceryItemList) {
-        this.context = context;  // Initialize context
+    public interface OnGroceryLongClickListener {
+        void onGroceryLongClick();
+    }
+
+    private final OnGroceryLongClickListener longClickListener;
+
+    public GroceryItemAdapter(Context context, List<GroceryItemModel> groceryItemList, OnGroceryLongClickListener longClickListener) {
+        this.context = context;
         this.groceryItemList = groceryItemList;
+        this.longClickListener = longClickListener;
     }
 
     @NonNull
@@ -271,7 +279,7 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
     public void onBindViewHolder(@NonNull GroceryItemViewHolder holder, int position) {
         GroceryItemModel item = groceryItemList.get(position);
 
-        // Highlight matching text in item_name
+        // Highlight matching text in item name
         if (searchQuery != null && !searchQuery.isEmpty()) {
             holder.itemNameTextView.setText(getHighlightedText(item.getItemName(), searchQuery));
         } else {
@@ -280,14 +288,59 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
 
         holder.categoryTextView.setText(item.getCategory());
         holder.quantityTextView.setText("Quantity: " + item.getQuantity());
-        holder.priceTextView.setText("$" + item.getPrice());
+        holder.priceTextView.setText("$" + String.format("%.2f", item.getPrice()));
 
-        selectDeletePositions(holder, position);
+        // Manage checkbox visibility and state
+        if (position == selectedPosition) {
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.checkBox.setChecked(true);
+        } else {
+            holder.checkBox.setVisibility(View.GONE);
+            holder.checkBox.setChecked(false);
+        }
 
+        // Handle regular click to open details layout
         holder.itemView.setOnClickListener(v -> {
-            GroceryItemDetailDialogFragment dialogFragment = GroceryItemDetailDialogFragment.newInstance(item);
-            dialogFragment.show(((androidx.fragment.app.FragmentActivity) context).getSupportFragmentManager(), "grocery_item_details");
+            if (!isMultiSelectionMode) { // Ensure it doesn't interfere with multi-selection
+                openItemDetails(item); // Open the layout to display details
+            }
         });
+
+        // Handle long-click to toggle single selection
+        holder.itemView.setOnLongClickListener(v -> {
+            int previousPosition = selectedPosition;
+            selectedPosition = (selectedPosition == position) ? RecyclerView.NO_POSITION : position;
+
+            notifyItemChanged(previousPosition); // Update previous selection
+            notifyItemChanged(selectedPosition); // Update new selection
+
+            if (selectedPosition != RecyclerView.NO_POSITION) {
+                selectedItems.clear();
+                selectedItems.add(groceryItemList.get(selectedPosition));
+            } else {
+                selectedItems.clear();
+            }
+
+            longClickListener.onGroceryLongClick();
+            return true;
+        });
+
+        // Optional: Handle checkbox clicks for deselecting the current item
+        holder.checkBox.setOnClickListener(v -> {
+            if (selectedPosition == position) {
+                selectedPosition = RecyclerView.NO_POSITION;
+                selectedItems.clear();
+                notifyItemChanged(position);
+            }
+        });
+    }
+
+    /**
+     * Method to handle opening the item details layout.
+     */
+    private void openItemDetails(GroceryItemModel item) {
+        GroceryItemDetailDialogFragment dialogFragment = GroceryItemDetailDialogFragment.newInstance(item);
+        dialogFragment.show(((androidx.fragment.app.FragmentActivity) context).getSupportFragmentManager(), "grocery_item");
     }
 
     @Override
@@ -295,25 +348,12 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
         return groceryItemList.size();
     }
 
-    /**
-     * Updates the adapter's data and the search query, then refreshes the RecyclerView.
-     *
-     * @param newItems The new list of grocery items.
-     * @param query    The current search query for highlighting.
-     */
     public void updateData(List<GroceryItemModel> newItems, String query) {
         this.groceryItemList = newItems;
         this.searchQuery = query; // Update the current query
-        notifyDataSetChanged();
+        notifyDataSetChanged(); // Notify adapter to refresh the RecyclerView
     }
 
-    /**
-     * Highlights the matching query text within the full text.
-     *
-     * @param fullText The complete text (e.g., item name).
-     * @param query    The search query to highlight.
-     * @return A Spannable with the matching query highlighted.
-     */
     private Spannable getHighlightedText(String fullText, String query) {
         Spannable spannable = new SpannableString(fullText);
         String lowerFullText = fullText.toLowerCase();
@@ -321,10 +361,9 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
         int start = lowerFullText.indexOf(lowerQuery);
         if (start >= 0) {
             int end = start + query.length();
-            // You can define a highlight color in your colors.xml
             int highlightColor = context.getResources().getColor(R.color.buttonblue, null);
             spannable.setSpan(
-                    new ForegroundColorSpan(highlightColor), // Highlight color
+                    new ForegroundColorSpan(highlightColor),
                     start,
                     end,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -333,134 +372,15 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
         return spannable;
     }
 
-    // Method to handle long press and checkbox visibility
-    private void selectDeletePositions(@NonNull GroceryItemViewHolder holder, int position) {
-        // Set the checkbox visibility and item background color based on selection state
-        if (selectedPositions.contains(position)) {
-            holder.itemView.setBackgroundColor(Color.LTGRAY);
-            holder.checkBox.setVisibility(View.VISIBLE);  // Show checkbox
-            holder.checkBox.setChecked(true);  // Optionally check the checkbox
-        } else {
-            holder.itemView.setBackgroundColor(Color.WHITE);
-            holder.checkBox.setVisibility(View.GONE);  // Hide checkbox
-            holder.checkBox.setChecked(false);  // Uncheck the checkbox
-        }
-
-        // Long press listener to toggle selection and show/hide checkbox
-        holder.itemView.setOnLongClickListener(v -> {
-            if (selectedPositions.contains(position)) {
-                selectedPositions.remove(position);
-                holder.itemView.setBackgroundColor(Color.WHITE);
-                holder.checkBox.setVisibility(View.GONE);  // Hide checkbox
-            } else {
-                selectedPositions.add(position);
-                holder.itemView.setBackgroundColor(Color.LTGRAY);
-                holder.checkBox.setVisibility(View.VISIBLE);  // Show checkbox
-                holder.checkBox.setChecked(true);  // Optionally check the checkbox
-            }
-            notifyItemChanged(position);  // Notify item change for background color and checkbox visibility
-            return true;
-        });
-
-        // Handle checkbox click to mark items for deletion
-        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                // Add to deletion list (this can be a custom list for deletion)
-            } else {
-                // Remove from deletion list
-            }
-        });
+    public List<GroceryItemModel> getSelectedItems() {
+        return new ArrayList<>(selectedItems);
     }
 
-    public void deleteSelectedItem(String expenseId) {
-                JSONObject payload = new JSONObject();
-        try {
-            if (!selectedPositions.isEmpty()) {
-                JSONArray groceryIdsArray = new JSONArray();
-                for (int position : selectedPositions) {
-                    String groceryId = groceryItemList.get(position).getItemId();
-                    groceryIdsArray.put(groceryId);
-                }
-
-                JSONArray groceryIds = new JSONArray();
-                groceryIds.put("6fe436eb-19b6-47b4-b930-694422bf8315");
-                groceryIds.put("2f76b539-973a-4bde-acfa-9ca8f06dddbb");  // Add grocery IDs to the array
-                payload.put("grocery_ids", groceryIds); // Match backend structure
-//                payload.put("grocery_ids", groceryIdsArray);
-                RequestQueue queue = Volley.newRequestQueue(context);
-                deleteGroceryServices.deleteGroceryItems(context,queue,payload,expenseId);
-            }
-
-            Log.i("Asd",payload.toString());
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void sendDeleteRequestToAPI(JSONObject payload, String expenseId) {
-        RequestQueue queue = Volley.newRequestQueue(context);
-        String token = SecurePreferences.getAuthToken(context);
-
-        String url = Config.DELETE_GROCERY_ITEM_URL + expenseId;
-        final String TAG = "fetchExpensesServices";
-        Log.i("DeleteRequestPayload", payload.toString());
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, url, payload,
-                response -> {
-                    // Handle the successful response
-                    Toast.makeText(context, "Items deleted successfully!", Toast.LENGTH_SHORT).show();
-                    removeItemsFromList();
-                },
-                error -> {
-                    // Handle errors
-                    Toast.makeText(context, "Failed to delete items!", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "Volley error: " + error.toString());
-
-                    if (error.networkResponse != null && error.networkResponse.data != null) {
-                        String body = new String(error.networkResponse.data);
-                        Log.e(TAG, "Error response body: " + body);
-                    }
-                    error.printStackTrace();
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "Bearer " + token);
-                return headers;
-            }
-
-            @Override
-            public byte[] getBody() {
-                try {
-                    // Return the payload as a byte array
-                    return payload != null ? payload.toString().getBytes("utf-8") : null;
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-        };
-        queue.add(request);
-    }
-    // Method to update local list after deletion
-    private void removeItemsFromList() {
-        // Sort and remove selected items from the list
-        List<Integer> sortedPositions = new ArrayList<>(selectedPositions);
-        Collections.sort(sortedPositions, Collections.reverseOrder());
-
-        for (int position : sortedPositions) {
-            groceryItemList.remove(position);
-        }
-        selectedPositions.clear();
-
-        notifyDataSetChanged(); // Refresh the RecyclerView
+    public void clearSelection() {
+        int previousPosition = selectedPosition;
+        selectedPosition = RecyclerView.NO_POSITION;
+        selectedItems.clear();
+        notifyItemChanged(previousPosition);
     }
 
     public static class GroceryItemViewHolder extends RecyclerView.ViewHolder {
@@ -470,7 +390,7 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
 
         public GroceryItemViewHolder(View itemView) {
             super(itemView);
-            itemNameTextView = itemView.findViewById(R.id.item_name); // Update ID based on your layout
+            itemNameTextView = itemView.findViewById(R.id.item_name);
             categoryTextView = itemView.findViewById(R.id.category);
             quantityTextView = itemView.findViewById(R.id.quantity);
             priceTextView = itemView.findViewById(R.id.price);
@@ -478,3 +398,168 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//// Method to handle long press and checkbox visibility
+//private void selectDeletePositions(@NonNull GroceryItemViewHolder holder, int position) {
+//    // Set the checkbox visibility and item background color based on selection state
+//    if (selectedPositions.contains(position)) {
+//        holder.itemView.setBackgroundColor(Color.LTGRAY);
+//        holder.checkBox.setVisibility(View.VISIBLE);  // Show checkbox
+//        holder.checkBox.setChecked(true);  // Optionally check the checkbox
+//    } else {
+//        holder.itemView.setBackgroundColor(Color.WHITE);
+//        holder.checkBox.setVisibility(View.GONE);  // Hide checkbox
+//        holder.checkBox.setChecked(false);  // Uncheck the checkbox
+//    }
+//
+//    // Long press listener to toggle selection and show/hide checkbox
+//    holder.itemView.setOnLongClickListener(v -> {
+//        if (selectedPositions.contains(position)) {
+//            selectedPositions.remove(position);
+//            holder.itemView.setBackgroundColor(Color.WHITE);
+//            holder.checkBox.setVisibility(View.GONE);  // Hide checkbox
+//        } else {
+//            selectedPositions.add(position);
+//            holder.itemView.setBackgroundColor(Color.LTGRAY);
+//            holder.checkBox.setVisibility(View.VISIBLE);  // Show checkbox
+//            holder.checkBox.setChecked(true);  // Optionally check the checkbox
+//        }
+//        notifyItemChanged(position);  // Notify item change for background color and checkbox visibility
+//        return true;
+//    });
+//
+//    // Handle checkbox click to mark items for deletion
+//    holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//        if (isChecked) {
+//            // Add to deletion list (this can be a custom list for deletion)
+//        } else {
+//            // Remove from deletion list
+//        }
+//    });
+//}
+//
+//public void deleteSelectedItem(String expenseId) {
+//    JSONObject payload = new JSONObject();
+//    try {
+//        if (!selectedPositions.isEmpty()) {
+//            JSONArray groceryIdsArray = new JSONArray();
+//            for (int position : selectedPositions) {
+//                String groceryId = groceryItemList.get(position).getItemId();
+//                groceryIdsArray.put(groceryId);
+//            }
+//
+//            JSONArray groceryIds = new JSONArray();
+//            groceryIds.put("6fe436eb-19b6-47b4-b930-694422bf8315");
+//            groceryIds.put("2f76b539-973a-4bde-acfa-9ca8f06dddbb");  // Add grocery IDs to the array
+//            payload.put("grocery_ids", groceryIds); // Match backend structure
+////                payload.put("grocery_ids", groceryIdsArray);
+//            RequestQueue queue = Volley.newRequestQueue(context);
+//            deleteGroceryServices.deleteGroceryItems(context,queue,payload,expenseId);
+//        }
+//
+//        Log.i("Asd",payload.toString());
+//    } catch (JSONException e) {
+//        throw new RuntimeException(e);
+//    }
+//}
+//
+//private void sendDeleteRequestToAPI(JSONObject payload, String expenseId) {
+//    RequestQueue queue = Volley.newRequestQueue(context);
+//    String token = SecurePreferences.getAuthToken(context);
+//
+//    String url = Config.DELETE_GROCERY_ITEM_URL + expenseId;
+//    final String TAG = "fetchExpensesServices";
+//    Log.i("DeleteRequestPayload", payload.toString());
+//
+//    JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, url, payload,
+//            response -> {
+//                // Handle the successful response
+//                Toast.makeText(context, "Items deleted successfully!", Toast.LENGTH_SHORT).show();
+//                removeItemsFromList();
+//            },
+//            error -> {
+//                // Handle errors
+//                Toast.makeText(context, "Failed to delete items!", Toast.LENGTH_SHORT).show();
+//                Log.e(TAG, "Volley error: " + error.toString());
+//
+//                if (error.networkResponse != null && error.networkResponse.data != null) {
+//                    String body = new String(error.networkResponse.data);
+//                    Log.e(TAG, "Error response body: " + body);
+//                }
+//                error.printStackTrace();
+//            }
+//    ) {
+//        @Override
+//        public Map<String, String> getHeaders() throws AuthFailureError {
+//            Map<String, String> headers = new HashMap<>();
+//            headers.put("Content-Type", "application/json");
+//            headers.put("Authorization", "Bearer " + token);
+//            return headers;
+//        }
+//
+//        @Override
+//        public byte[] getBody() {
+//            try {
+//                // Return the payload as a byte array
+//                return payload != null ? payload.toString().getBytes("utf-8") : null;
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        public String getBodyContentType() {
+//            return "application/json; charset=utf-8";
+//        }
+//    };
+//    queue.add(request);
+//}
+//// Method to update local list after deletion
+//private void removeItemsFromList() {
+//    // Sort and remove selected items from the list
+//    List<Integer> sortedPositions = new ArrayList<>(selectedPositions);
+//    Collections.sort(sortedPositions, Collections.reverseOrder());
+//
+//    for (int position : sortedPositions) {
+//        groceryItemList.remove(position);
+//    }
+//    selectedPositions.clear();
+//
+//    notifyDataSetChanged(); // Refresh the RecyclerView
+//}
+//
