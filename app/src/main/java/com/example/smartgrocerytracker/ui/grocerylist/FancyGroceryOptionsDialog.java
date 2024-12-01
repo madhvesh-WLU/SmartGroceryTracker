@@ -52,7 +52,9 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
             billInputDialog.show(getParentFragmentManager(), "BillInputDialog");
             dismiss();
             }
+            else{
             Toast.makeText(requireContext(),"Please select Budget",Toast.LENGTH_LONG).show();
+            }
 
         });
 
@@ -61,8 +63,10 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
             Toast.makeText(requireContext(),"Next Feature Release",Toast.LENGTH_LONG).show();
             dismiss();
             }
-            Toast.makeText(requireContext(),"Please select Budget",Toast.LENGTH_LONG).show();
+            else{
 
+            Toast.makeText(requireContext(),"Please select Budget",Toast.LENGTH_LONG).show();
+            }
 
         });
     }

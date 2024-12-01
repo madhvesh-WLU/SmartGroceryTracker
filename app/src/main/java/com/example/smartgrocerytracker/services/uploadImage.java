@@ -1,5 +1,6 @@
 package com.example.smartgrocerytracker.services;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -72,8 +73,8 @@ public class uploadImage {
                         intent.putExtra("totalAmount", totalAmount);
                         intent.putExtra("groceryItems", (ArrayList<GroceryItemModel>) groceryItems);
 
-                        // Start ReviewActivity
-                        context.startActivity(intent);
+// Use startActivityForResult to receive result
+                        ((Activity) context).startActivityForResult(intent, 100);
 
                     } catch (JSONException e) {
                         Log.e("UploadLog", "Error parsing JSON response: " + e.getMessage());
@@ -85,8 +86,11 @@ public class uploadImage {
                     Log.e("UploadLog", "Error uploading image: " + error.toString());
                     if (error.networkResponse != null && error.networkResponse.data != null) {
                         String body = new String(error.networkResponse.data);
-                        Log.e("UploadLog", "Error response body: " + body);
+                        Log.e("UploadLog", body);
+                        Toast.makeText(context, "Gemini API exceeded", Toast.LENGTH_LONG).show();
                         Toast.makeText(context, body, Toast.LENGTH_SHORT).show();
+                    } else if (error.networkResponse != null && error.networkResponse.statusCode == 429) {
+                        Toast.makeText(context, "Gemini API exceeded", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "An unexpected error occurred.", Toast.LENGTH_SHORT).show();
                     }

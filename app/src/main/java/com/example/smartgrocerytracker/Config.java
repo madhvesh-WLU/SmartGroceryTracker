@@ -5,7 +5,7 @@ public class Config {
 
     public static final String BASE_URL = "http://10.0.2.2:8000";
 //    public static final String BASE_URL = "http://10.0.0.19:8000";
-//public static final String BASE_URL = "http://165.227.35.235:8200";
+//public static final String BASE_URL = "http://165.227.35.235";
 
 
 
@@ -19,6 +19,9 @@ public class Config {
     public static final String ADD_GROCERY_ITEM_URL = BASE_URL + "/grocery-item/create/";
     public static final String DELETE_GROCERY_ITEM_URL = BASE_URL + "/grocery-item/delete/";
     public static final String SEARCH_GROCERY_ITEM_URL = BASE_URL + "/grocery-item/search/";
+    public static final String SEARCH_GROCERY_ACTIVE_BUDGETL = BASE_URL + "/grocery-item/search-all/";
+    public static final String ACTIVE_BUDGET_GROCERY_URL = BASE_URL + "/grocery-item/active-budget/";
+
 
 
     public static final String LOGIN_URL = BASE_URL + "/login/";
