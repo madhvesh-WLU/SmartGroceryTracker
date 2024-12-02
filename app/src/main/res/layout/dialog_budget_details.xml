@@ -11,7 +11,7 @@
         android:id="@+id/textViewHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Budget Details"
+        android:text="@string/budget_details"
         android:textSize="18sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -23,7 +23,7 @@
         android:id="@+id/textViewBudgetAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Budget Amount: $0"
+        android:text="@string/budget_amount_0"
         android:textSize="16sp"
         android:paddingTop="8dp"
         android:paddingBottom="4dp"
@@ -33,7 +33,7 @@
         android:id="@+id/textViewSpentAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Spent Amount: $0"
+        android:text="@string/spent_amount_0"
         android:textSize="16sp"
         android:paddingTop="8dp"
         android:paddingBottom="4dp"
@@ -44,7 +44,7 @@
         android:id="@+id/textViewStartDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Date: YYYY-MM-DD"
+        android:text="@string/start_date_yyyy_mm_dd"
         android:textSize="16sp"
         android:paddingBottom="4dp"
         android:textColor="@color/black" />
@@ -54,7 +54,7 @@
         android:id="@+id/textViewEndDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="End Date: YYYY-MM-DD"
+        android:text="@string/end_date_yyyy_mm_dd"
         android:textSize="16sp"
         android:paddingBottom="16dp"
         android:textColor="@color/black" />
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Edit Budget"
+            android:text="@string/edit_budget"
             android:textColor="@color/white"
             android:backgroundTint="@color/colorPrimary" />
 
@@ -81,7 +81,7 @@
             android:id="@+id/buttonClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Close"
+            android:text="@string/Close"
             android:textColor="@color/white"
             android:backgroundTint="@color/black" />
     </LinearLayout>

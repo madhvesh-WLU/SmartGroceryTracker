@@ -39,7 +39,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Item Name"
+                android:text="@string/Item_name1"
                 android:textColor="@color/vibrant_orange"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@android:color/black"
-                android:text="Price"
+                android:text="@string/Price2"
                 android:maxLines="1"
                 android:ellipsize="end" />
         </LinearLayout>
@@ -73,7 +73,7 @@
                 android:textSize="16sp"
                 android:textColor="@android:color/darker_gray"
                 android:paddingEnd="8dp"
-                android:text="Category"
+                android:text="@string/Category2"
                 android:maxLines="1"
                 android:ellipsize="end" />
 
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="@android:color/darker_gray"
-                android:text="Quantity"
+                android:text="@string/Quantity3"
                 android:gravity="end"
                 android:maxLines="1"
                 android:ellipsize="end" />

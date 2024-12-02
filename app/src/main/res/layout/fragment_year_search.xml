@@ -55,21 +55,21 @@
             android:id="@+id/chip_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bill Name"
+            android:text="@string/Bill_name2"
             app:checkedIconVisible="false" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_groceries"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Grocery Name"
+            android:text="@string/grocery_name"
             app:checkedIconVisible="false" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_electronics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Category"
+            android:text="@string/Category"
             app:checkedIconVisible="false" />
     </com.google.android.material.chip.ChipGroup>
 
@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Apply Filters"
+            android:text="@string/Apply_filters"
             android:textColor="@android:color/white"
             app:cornerRadius="8dp"
             android:backgroundTint="@color/colorPrimary" />
@@ -95,7 +95,7 @@
             android:id="@+id/clear_filter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clear Filters"
+            android:text="@string/Clear_filters"
             android:textColor="@android:color/white"
             app:cornerRadius="8dp"
             />

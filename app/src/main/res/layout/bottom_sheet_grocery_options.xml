@@ -21,7 +21,7 @@
             android:id="@+id/title_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Add Receipt"
+            android:text="@string/add_receipt"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp"
@@ -50,7 +50,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="16dp"
-                android:contentDescription="manual_receipt_option_icon"
+                android:contentDescription="@string/manual_receipt_option_icon"
                 android:src="@android:drawable/ic_input_add"
                 app:tint="@color/colorPrimary" />
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/segoe"
                 android:gravity="center_vertical"
-                android:text="Manual Receipt Entry"
+                android:text="@string/manual_receipt_entry"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -93,7 +93,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="16dp"
-                android:contentDescription="smart_ocr_option_icon"
+                android:contentDescription="@string/smart_ocr_option_icon"
                 android:src="@drawable/ocr_scan"
                 app:tint="@color/colorPrimary" />
 
@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Smart OCR Scanning"
+                android:text="@string/smart_ocr_scanning"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -128,7 +128,7 @@
             android:layout_marginTop="20dp"
             android:paddingHorizontal="24dp"
             android:background="@drawable/rounded_button_background"
-            android:text="Cancel"
+            android:text="@string/Cancel"
             android:textColor="@android:color/white"
             app:backgroundTint="@color/vibrant_orange"
             app:layout_constraintTop_toBottomOf="@id/divider2"

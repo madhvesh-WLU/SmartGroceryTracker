@@ -26,7 +26,7 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:contentDescription="Profile Picture"
+                android:contentDescription="@string/profile_picture"
                 android:layout_marginEnd="16dp"
                 android:padding="4dp" />
 
@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="User Profile"
+                    android:text="@string/User_profile"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="#333" />
@@ -49,7 +49,7 @@
                     android:id="@+id/tap_to_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tap to view and edit"
+                    android:text="@string/tap_to_view_and_edit"
                     android:textSize="14sp"
                     android:textColor="#007BFF" />
             </LinearLayout>
@@ -57,7 +57,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:contentDescription="Navigate to Profile" />
+                android:contentDescription="@string/navigate_to_profile" />
         </LinearLayout>
 
 
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="Language:"
+                android:text="@string/language"
                 android:textColor="#333"
                 android:textSize="16sp" />
 
@@ -126,7 +126,7 @@
             android:id="@+id/logout_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout"
+            android:text="@string/Logout1"
             android:textAllCaps="false"
             android:backgroundTint="#007BFF"
             android:textColor="@android:color/white"

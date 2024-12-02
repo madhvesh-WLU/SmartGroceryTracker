@@ -7,7 +7,7 @@
         android:id="@+id/fullScreenImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="Captured Image"
+        android:contentDescription="@string/captured_image"
         android:scaleType="fitCenter" />
 
     <Button
@@ -17,5 +17,5 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:text="Close" />
+        android:text="@string/close" />
 </RelativeLayout>

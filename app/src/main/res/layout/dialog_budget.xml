@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="16dp"
-        android:text="Set Your Budget"
+        android:text="@string/set_your_budget"
         android:textColor="#27104e"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -21,7 +21,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your budget (CAD)">
+        android:hint="@string/enter_your_budget_cad">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextBudget"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
-        android:text="Start Date"
+        android:text="@string/start_date"
         android:textColor="#64379f" />
 
     <com.google.android.material.button.MaterialButton
@@ -42,14 +42,14 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Start Date"
+        android:text="@string/select_start_date"
         android:textColor="#27104e" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
-        android:text="End Date"
+        android:text="@string/end_date"
         android:textColor="#64379f" />
 
     <com.google.android.material.button.MaterialButton
@@ -57,7 +57,7 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select End Date"
+        android:text="@string/select_end_date"
         android:textColor="#27104e"
         android:textColorLink="#27104e" />
 
@@ -78,7 +78,7 @@
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:background="#27104e"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/white"
             app:backgroundTint="#64379f"
             app:icon="@drawable/delete"

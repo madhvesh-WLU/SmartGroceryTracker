@@ -3,9 +3,9 @@ package com.example.smartgrocerytracker;
 
 public class Config {
 
-    public static final String BASE_URL = "http://10.0.2.2:8000";
-//    public static final String BASE_URL = "http://10.0.0.19:8000";
-//public static final String BASE_URL = "http://165.227.35.235:8200";
+//    public static final String BASE_URL = "http://10.0.2.2:8000";
+//   public static final String BASE_URL = "http://10.0.0.19:8000";
+ public static final String BASE_URL = "http://165.227.35.235";
 
 
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_end_date">Select End Date</string>
+    <string name="select_start_date">Select Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="start_date">Start Date</string>
+    <string name="enter_your_budget_cad">Enter your budget (CAD)</string>
+    <string name="set_your_budget">Set Your Budget</string>
+    <string name="cancel">Cancel</string>
+</resources>

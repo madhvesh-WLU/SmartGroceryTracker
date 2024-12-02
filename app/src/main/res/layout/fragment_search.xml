@@ -21,7 +21,7 @@
         android:id="@+id/category_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Filter by Category:"
+        android:text="@string/filter_by_category"
         android:textSize="16sp"
         android:textColor="@android:color/black"
         android:layout_marginBottom="8dp" />
@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Apply Filters"
+            android:text="@string/apply_filters"
 
             android:textColor="@android:color/white" />
 
@@ -94,7 +94,7 @@
             android:id="@+id/clear_filter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clear Filters"
+            android:text="@string/clear_filters"
 
             android:textColor="@android:color/white" />
     </LinearLayout>

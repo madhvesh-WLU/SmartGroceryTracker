@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/segoe"
-                android:text="Welcome Back"
+                android:text="@string/welcome_back"
                 android:textColor="@color/colorTextWhite"
                 android:textSize="36sp" />
 
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/segoer"
-                android:text="We missed you! Login to get started"
+                android:text="@string/we_missed_you_login_to_get_started"
                 android:textColor="@color/colorTextWhite"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -62,7 +62,7 @@
             android:layout_marginLeft="48dp"
             android:layout_marginTop="36dp"
             android:fontFamily="@font/segoer"
-            android:text="LOGIN"
+            android:text="@string/login"
             android:textColor="@color/colorTextBlack"
             android:textSize="26sp" />
 
@@ -97,7 +97,7 @@
                 android:drawablePadding="12dp"
                 android:drawableTint="@color/colorTextBlack"
                 android:fontFamily="@font/segoer"
-                android:hint="Username"
+                android:hint="@string/Username"
                 android:inputType="textEmailAddress"
                 android:paddingHorizontal="12dp"
                 android:textColor="@color/colorTextBlack"
@@ -126,7 +126,7 @@
             android:drawablePadding="12dp"
             android:drawableTint="@color/colorTextBlack"
             android:fontFamily="@font/segoer"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:paddingHorizontal="12dp"
             android:textColor="@color/colorTextBlack"
@@ -152,7 +152,7 @@
                 android:focusable="true"
                 android:fontFamily="@font/segoer"
                 android:paddingStart="8dp"
-                android:text="Forgot Password?"
+                android:text="@string/forgot_password"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:maxLines="1"
@@ -166,7 +166,7 @@
                 android:layout_marginStart="16dp"
                 android:buttonTint="@color/black"
                 android:fontFamily="@font/segoer"
-                android:text="Remember me"
+                android:text="@string/remember_me"
                 android:textColor="@color/colorTextBlack"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -187,7 +187,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="0.5"
                     android:fontFamily="@font/segoer"
-                    android:text="Need Help?"
+                    android:text="@string/need_help"
                     android:textColor="@color/colorTextBlack"
                     android:textSize="18sp" />
 
@@ -199,7 +199,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_background"
                     android:fontFamily="@font/segoer"
-                    android:text="Sign In"
+                    android:text="@string/sign_in"
                     android:textAllCaps="false"
                     android:textColor="@color/colorButtonText"
                     android:textSize="16sp" />
@@ -220,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:fontFamily="@font/segoer"
-                android:text="Don't have an account?"
+                android:text="@string/don_t_have_an_account"
                 android:textColor="@color/colorTextBlack"
                 android:textSize="18sp" />
 
@@ -230,7 +230,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:fontFamily="@font/segoer"
-                android:text="Register instead"
+                android:text="@string/register_instead"
                 android:textColor="@color/colorTextPrimary"
                 android:textSize="18sp" />
         </LinearLayout>

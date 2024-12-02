@@ -12,21 +12,21 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:text="Store Name" />
+        android:text="@string/Store_name1" />
 
     <TextView
         android:id="@+id/store_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
-        android:text="Store Address" />
+        android:text="@string/store_address" />
 
     <TextView
         android:id="@+id/total_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="Total Amount: $" />
+        android:text="@string/total_amount" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/item_list"
@@ -46,14 +46,14 @@
             android:id="@+id/btn_retake"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Retake" />
+            android:text="@string/retake" />
 
         <Button
             android:id="@+id/btn_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Submit" />
+            android:text="@string/Submit" />
     </LinearLayout>
 
 </LinearLayout>

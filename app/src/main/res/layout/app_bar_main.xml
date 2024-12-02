@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/bottom_nav_background"
-            android:title="Smart Grocery Tracker"
+            android:title="@string/smart_grocery_tracker"
             android:titleTextColor="@android:color/white"
             app:popupTheme="@style/Theme.SmartGroceryTracker.PopupOverlay" />
 

@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Welcome, User"
+        android:text="@string/welcome_user"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="4dp"
-            android:text="Left to Spend:"
+            android:text="@string/left_to_spend"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            android:text="$45.00"
+            android:text="@string/_45_00"
             android:textColor="@color/green"
             android:textStyle="bold"
             android:textSize="16sp"
@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="4dp"
-            android:text="out of"
+            android:text="@string/out_of"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/value_left_to_spend"
@@ -126,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="$500.00"
+            android:text="@string/_500_00"
             android:textColor="@color/red"
             android:textStyle="bold"
             android:textSize="16sp"
@@ -167,7 +167,7 @@
                 android:id="@+id/add_expense_icon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:contentDescription="Add Expense Icon"
+                android:contentDescription="@string/add_expense_icon"
                 android:src="@drawable/budget3" />
 
             <TextView
@@ -175,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Add Grocery List"
+                android:text="@string/add_grocery_list"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -199,7 +199,7 @@
                 android:id="@+id/view_details_icon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:contentDescription="View Details Icon"
+                android:contentDescription="@string/view_details_icon"
                 android:src="@drawable/search1" />
 
             <TextView
@@ -207,7 +207,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Monthly Spend"
+                android:text="@string/monthly_spend"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
