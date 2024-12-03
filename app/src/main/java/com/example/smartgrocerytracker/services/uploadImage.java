@@ -73,8 +73,8 @@ public class uploadImage {
                         intent.putExtra("totalAmount", totalAmount);
                         intent.putExtra("groceryItems", (ArrayList<GroceryItemModel>) groceryItems);
 
-// Use startActivityForResult to receive result
-                        ((Activity) context).startActivityForResult(intent, 100);
+                        // Use startActivityForResult to receive result
+                        ((Activity) context).startActivityForResult(intent, 101);
 
                     } catch (JSONException e) {
                         Log.e("UploadLog", "Error parsing JSON response: " + e.getMessage());

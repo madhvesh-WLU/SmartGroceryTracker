@@ -54,7 +54,10 @@
 
 
     <string-array name="categories">
-        <item>Fresh Vegetable</item>
+        <item>Select Category</item>
+        <item>Fresh Vegetables</item>
+        <item>Frozen Potatoes</item>
+        <item>Slice Bread</item>
         <item>Milk</item>
     </string-array>
 </resources>

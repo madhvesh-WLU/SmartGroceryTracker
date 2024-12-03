@@ -35,6 +35,10 @@ public class Config {
 
     public static final String SCAN_IMAGE_DATA = BASE_URL + "/image/scan";
 
+    public static final String GLOBAL_SEARCH_BILL_NAME = BASE_URL + "/global-search/searchByBillName";
+    public static final String GLOBAL_SEARCH_GROCERY_NAME = BASE_URL + "/global-search/searchByGroceryName";
+    public static final String GLOBAL_SEARCH_CATEGORY = BASE_URL + "/global-search/searchByCategory";
+
 
 
 }

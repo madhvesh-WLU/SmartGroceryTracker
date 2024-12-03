@@ -44,11 +44,6 @@ public class SignUp extends AppCompatActivity {
                 // Call sign-up API service
                 signUpApiServices.sendPostRequest(SignUp.this, queue, email, password, username);
 
-                // Pass username to Login activity
-                Intent intent = new Intent(SignUp.this, Login.class);
-                intent.putExtra("username", username); // Pass the new username
-                startActivity(intent);
-                finish();
             }
         });
     }

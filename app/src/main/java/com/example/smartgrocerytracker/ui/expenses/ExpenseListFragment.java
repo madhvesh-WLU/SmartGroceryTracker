@@ -1,6 +1,8 @@
 package com.example.smartgrocerytracker.ui.expenses;
 
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +45,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
     private final List<GroceryItemModel> groceryItemsList = new ArrayList<>();
     private final List<GroceryItemModel> addedItemsList = new ArrayList<>();
     private RequestQueue queue;
-
+    private boolean isExpanded = false;
     private String billName;
     private String dateOfPurchase;
     private String totalQuantity;
@@ -85,6 +87,43 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
                 return true;
             }
         });
+        // Set up expand/collapse functionality
+        setupExpandCollapseFeature();
+    }
+
+    /**
+     * Sets up the expand/collapse functionality for the CardView.
+     */
+    private void setupExpandCollapseFeature() {
+        // Initially, set the collapsible content to be gone
+        binding.collapsibleContent.setVisibility(View.GONE);
+        isExpanded = false;
+
+        // Set click listener on header layout and expand button
+        View.OnClickListener toggleListener = v -> toggleCollapsibleContent();
+
+        binding.headerLayout.setOnClickListener(toggleListener);
+        binding.expandButton.setOnClickListener(toggleListener);
+    }
+
+    /**
+     * Toggles the visibility of the collapsible content.
+     */
+    private void toggleCollapsibleContent() {
+        if (isExpanded) {
+            // Collapse the content with animation
+            TransitionManager.beginDelayedTransition(binding.billInfoCard, new AutoTransition());
+            binding.billNameTextView.setText(billName);
+            binding.collapsibleContent.setVisibility(View.GONE);
+            binding.expandButton.setImageResource(R.drawable.g_list); // Update to down arrow icon
+        } else {
+            // Expand the content with animation
+            binding.billNameTextView.setText("Bill Information");
+            TransitionManager.beginDelayedTransition(binding.billInfoCard, new AutoTransition());
+            binding.collapsibleContent.setVisibility(View.VISIBLE);
+            binding.expandButton.setImageResource(R.drawable.additem); // Update to up arrow icon
+        }
+        isExpanded = !isExpanded;
     }
 
     /**
@@ -135,6 +174,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
      * Displays the expense bill information.
      */
     private void displayBillInfo() {
+        binding.billNameTextView.setText(billName);
         binding.editBillName.setText(billName);
         binding.editDateOfPurchase.setText(dateOfPurchase);
         binding.editDescription.setText(description);

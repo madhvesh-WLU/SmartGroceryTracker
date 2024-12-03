@@ -141,9 +141,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="72dp"
         android:columnCount="2"
-        android:rowCount="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/budget_info_container"
         app:layout_constraintStart_toStartOf="@+id/budget_info_container"
@@ -152,8 +152,8 @@
         <!-- Add Expense Item -->
         <LinearLayout
             android:id="@+id/grocerylist_main_button"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_row="0"
             android:layout_column="0"
             android:layout_columnWeight="1"
@@ -184,8 +184,8 @@
         <!-- Monthly Spend Item -->
         <LinearLayout
             android:id="@+id/monthly_main_button"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_row="0"
             android:layout_column="1"
             android:layout_columnWeight="1"

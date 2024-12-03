@@ -259,7 +259,7 @@ android:textColorHint="@color/colorPlaceholder" />
             android:contentDescription="Clickable link to navigate to the login page"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="onLoginClicked" />
+            android:onClick="onLoginClicked"/>
     </LinearLayout>
 
 

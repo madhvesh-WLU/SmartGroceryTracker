@@ -39,6 +39,7 @@ import com.example.smartgrocerytracker.services.uploadImage;
 import com.example.smartgrocerytracker.ui.FullScreenImageActivity;
 import com.example.smartgrocerytracker.ui.ReviewActivity;
 import com.example.smartgrocerytracker.utils.BudgetDialog;
+import com.example.smartgrocerytracker.utils.MediaUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -93,22 +94,24 @@ public class MainActivity extends AppCompatActivity {
 
 
         binding.appBarMain.fab.setOnClickListener(view -> {
-            // Show dialog to choose action
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Choose an option")
                     .setItems(new CharSequence[]{"Take Photo", "Select from Gallery"}, (dialog, which) -> {
                         if (which == 0) {
-                            if (checkCameraPermission()) {
-                                openCameraForScanning();
-                            } else {
-                                requestCameraPermission();
+                            if (MediaUtils.checkCameraPermission(this)) {
+                                MediaUtils.openCamera(this);
                             }
                         } else if (which == 1) {
-                            openGalleryForImageSelection();
+                            if (MediaUtils.checkStoragePermission(this)) {
+                                MediaUtils.openGallery(this);
+                            } else {
+                                MediaUtils.requestStoragePermission(this);
+                            }
                         }
                     })
                     .show();
-        });    }
+        });
+    }
 
 
 
@@ -142,19 +145,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_expense_fragment)
+                R.id.nav_home, R.id.nav_global_search, R.id.nav_map, R.id.nav_expense_fragment)
                 .build();
 
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(binding.appBarMain.bottomNavigationView, navController);
-
-//        // Handle re-selection of navigation items
-//        binding.appBarMain.bottomNavigationView.setOnItemReselectedListener(item -> {
-//            if (item.getItemId() == R.id.nav_grocerylist) {
-//                // Use popUpTo to clear any existing instance of GroceryListFragment before navigating
-//                navigateToDestination(R.id.nav_grocerylist, true);  // Refresh GroceryListFragment
-//            }
-//        });
 
         binding.appBarMain.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -162,11 +157,11 @@ public class MainActivity extends AppCompatActivity {
             if (itemId == R.id.nav_home) {
                 navController.navigate(R.id.nav_home);
                 return true;
-            } else if (itemId == R.id.nav_gallery) {
-                navController.navigate(R.id.yearSearchFragment);
+            } else if (itemId == R.id.nav_global_search) {
+                navController.navigate(R.id.nav_global_search);
                 return true;
-            } else if (itemId == R.id.nav_slideshow) {
-                navController.navigate(R.id.nav_slideshow);
+            } else if (itemId == R.id.nav_map) {
+                navController.navigate(R.id.nav_map);
                 return true;
             }else if (itemId == R.id.nav_expense_fragment) {
                 navigateToDestination(R.id.nav_expense_fragment, false);
@@ -426,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 100) { // Check for ReviewActivity result
+        if (requestCode == 101) { // Check for ReviewActivity result
             if (resultCode == RESULT_OK) {
                 // Submission successful
                 Toast.makeText(this, "Items successfully stored!", Toast.LENGTH_SHORT).show();
@@ -436,36 +431,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
             }
         }
-
-        if (resultCode == RESULT_OK && data != null) {
-            if (requestCode == CAMERA_REQUEST_CODE) {
-                Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
-                if (capturedImage != null) {
-                    File imageFile = convertBitmapToFile(capturedImage, "captured_image.jpg");
-                    if (imageFile != null) {
-                        uploadImage.uploadImageToGeminiAI(this, imageFile, requestQueue);
-                    } else {
-                        Toast.makeText(this, "Failed to process captured image.", Toast.LENGTH_SHORT).show();
+            if (resultCode == RESULT_OK && data != null) {
+                if (requestCode == MediaUtils.CAMERA_REQUEST_CODE) {
+                    Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
+                    if (capturedImage != null) {
+                        File imageFile = MediaUtils.convertBitmapToFile(this, capturedImage, "captured_image.jpg");
+                        if (imageFile != null) {
+                            uploadImage.uploadImageToGeminiAI(this, imageFile, requestQueue);
+                        } else {
+                            Toast.makeText(this, "Failed to process captured image.", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                } else {
-                    Toast.makeText(this, "Failed to capture image", Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == GALLERY_REQUEST_CODE) {
-                Uri imageUri = data.getData();
-                if (imageUri != null) {
-                    File imageFile = getFileFromUri(imageUri);
-                    if (imageFile != null && imageFile.exists()) {
-                        uploadImage.uploadImageToGeminiAI(this, imageFile, requestQueue);
-                    } else {
-                        Toast.makeText(this, "Failed to process selected image.", Toast.LENGTH_SHORT).show();
+                } else if (requestCode == MediaUtils.GALLERY_REQUEST_CODE) {
+                    Uri imageUri = data.getData();
+                    if (imageUri != null) {
+                        File imageFile = MediaUtils.getFileFromUri(imageUri,this);
+                        if (imageFile != null && imageFile.exists()) {
+                            uploadImage.uploadImageToGeminiAI(this, imageFile, requestQueue);
+                        }
                     }
-                } else {
-                    Toast.makeText(this, "Failed to select image from gallery", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
 
-
-
-}

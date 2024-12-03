@@ -123,6 +123,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -149,20 +151,25 @@ import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.services.searchGroceryItemsActiveBudgetServices;
 import com.example.smartgrocerytracker.ui.expenses.ExpenseViewAdapter;
 import com.example.smartgrocerytracker.ui.expenses.GroceryItemAdapter;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGroceryLongClickListener{
+//filteration
+public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGroceryLongClickListener {
 
     private FragmentSearchBinding binding;
     private GroceryItemAdapter adapter;
     private List<GroceryItemModel> groceryItemList;
     private RequestQueue queue;
-    String budgetId;
-    //    RequestQueue queue;
+    private String budgetId;
+    private String searchQuery = "";
+    private String selectedCategory = null;
+    private boolean isCategoryFilterApplied = false; // Flag to track if category filter is applied
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -174,75 +181,111 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize RecyclerView
         groceryItemList = new ArrayList<>();
-        adapter = new GroceryItemAdapter(requireContext(), groceryItemList,this);
+        adapter = new GroceryItemAdapter(requireContext(), groceryItemList, this);
         binding.budgetIdRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.budgetIdRecyclerView.setAdapter(adapter);
-        // Retrieve the budget_id from shared preferences
+        SearchView searchView = binding.searchView;
+        searchView.setIconifiedByDefault(false);
+
+        searchView.setQueryHint("Search Grocery Name");
+
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPref", Context.MODE_PRIVATE);
         budgetId = sharedPreferences.getString("budget_id", null);
 
         binding.deleteGList.setOnClickListener(v -> deleteSelectedItems());
 
-        // Initialize the RequestQueue
         queue = Volley.newRequestQueue(requireContext());
 
+        // Initialize Spinner
+        Spinner categorySpinner = binding.categorySpinner;
+        categorySpinner.setSelection(0);
+
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View spinnerView, int position, long id) {
+                String category = parent.getItemAtPosition(position).toString();
+                if (position == 0) {
+                    selectedCategory = null;
+                } else {
+                    selectedCategory = category;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedCategory = null;
+            }
+        });
+
+        // Set up Apply Filters button
+        MaterialButton applyFilterButton = binding.applyFilterButton;
+        applyFilterButton.setOnClickListener(v -> {
+            isCategoryFilterApplied = true; // Set the flag to true when Apply Filters is clicked
+            applyFilters();
+        });
+
+        // Set up Clear Filters button
+        MaterialButton clearFilterButton = binding.clearFilterButton;
+        clearFilterButton.setOnClickListener(v -> {
+            isCategoryFilterApplied = false; // Reset the flag
+            selectedCategory = null;
+            binding.categorySpinner.setSelection(0);
+            binding.searchView.setQuery("", false);
+            binding.searchView.clearFocus();
+            fetchGroceriesActiveBudget();
+        });
+
         // Set up search functionality
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                filterResults(query);
+                searchQuery = query;
+                filterResults(); // Call filterResults when query is submitted
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filterResults(newText);
+                searchQuery = newText;
+                filterResults(); // Call filterResults as the user types
                 return true;
             }
         });
 
-//      / Fetch grocery items for the active budget
         fetchGroceriesActiveBudget();
     }
 
-
     private void fetchGroceriesActiveBudget() {
-
         if (Objects.equals(budgetId, "null")) {
             Toast.makeText(requireContext(), "No Active Budget Found", Toast.LENGTH_SHORT).show();
             Log.e("fetchGroceries", "No Active Budget Found");
             return;
         }
-        fetchGroceriesActiveBudgetServices.fetchGroceriesActiveBudget(requireContext(), queue, budgetId,groceryItems -> {
+        fetchGroceriesActiveBudgetServices.fetchGroceriesActiveBudget(requireContext(), queue, budgetId, groceryItems -> {
             groceryItemList.clear();
             groceryItemList.addAll(groceryItems);
             adapter.updateData(groceryItemList, "");
         });
     }
-    private void filterResults(String query) {
-        if (query.isEmpty()) {
-            // Reset the list to all items if the search query is empty
-            fetchGroceriesActiveBudgetServices.fetchGroceriesActiveBudget(requireContext(), queue, budgetId,groceryItems -> {
-                groceryItemList.clear();
-                groceryItemList.addAll(groceryItems);
-                adapter.updateData(groceryItemList, "");
-            });
-            return;
-        }
-
-        // Call the searchGroceryItems API
-        searchGroceryItemsActiveBudgetServices.searchGroceryItemsAll(requireContext(), queue, query, groceryItems -> {
-            groceryItemList.clear();
-            groceryItemList.addAll(groceryItems);
-            adapter.updateData(groceryItemList, query);
-        });
-    }
-
 
     private void applyFilters() {
+        filterResults();
+    }
 
+    private void filterResults() {
+        String query = searchQuery;
+        String category = isCategoryFilterApplied ? selectedCategory : null;
+
+        if ((query == null || query.isEmpty()) && (category == null)) {
+            fetchGroceriesActiveBudget();
+        } else {
+            searchGroceryItemsActiveBudgetServices.searchGroceryItemsAll(requireContext(), queue, budgetId, query, category, groceryItems -> {
+                groceryItemList.clear();
+                groceryItemList.addAll(groceryItems);
+                adapter.updateData(groceryItemList, query);
+            });
+        }
     }
 
     @Override
@@ -265,6 +308,7 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
     }
 
     private void deleteGroceryItem(GroceryItemModel item) {
+        Log.i("itemid",item.getItemId() +"no item id");
         deleteGroceryServices.deleteGroceryItems(requireContext(), queue, item.getItemId(), () -> {
             groceryItemList.remove(item);
             adapter.updateData(new ArrayList<>(groceryItemList), "");

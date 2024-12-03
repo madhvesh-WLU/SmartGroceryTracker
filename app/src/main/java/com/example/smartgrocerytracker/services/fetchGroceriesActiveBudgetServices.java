@@ -51,6 +51,7 @@ public class fetchGroceriesActiveBudgetServices {
                                 JSONObject groceryObject = data.getJSONObject(i);
 
                                 // Extract only the required fields
+                                String itemId = groceryObject.getString("item_id");
                                 String itemName = groceryObject.getString("item_name");
                                 double price = groceryObject.getDouble("price");
                                 int quantity = groceryObject.getInt("quantity");
@@ -58,7 +59,7 @@ public class fetchGroceriesActiveBudgetServices {
 
                                 // Create a GroceryItemModel object
                                 GroceryItemModel groceryItem = new GroceryItemModel(
-                                        null, // itemId is not required
+                                        itemId, // itemId is not required
                                         itemName,
                                         null, // userId is not required
                                         quantity,

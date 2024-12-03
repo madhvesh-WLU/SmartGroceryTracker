@@ -45,6 +45,7 @@ public class signUpApiServices {
                                 JSONObject dataArray = response.isNull("data") ? null : response.getJSONObject("data");
                                 Toast.makeText(context, "Sign Up Successful!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(context, Login.class);
+                                intent.putExtra("username", username); // Pass the new username
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                                 if (context instanceof Activity) {

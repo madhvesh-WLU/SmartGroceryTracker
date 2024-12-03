@@ -12,16 +12,20 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.smartgrocerytracker.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_global_search"
+        android:name="com.example.smartgrocerytracker.ui.globalSearch.GlobalSearchFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_global_search">
+    <action
+        android:id="@+id/action_expenseFragment_to_expenseListFragment"
+        app:destination="@id/expenseListFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.smartgrocerytracker.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_map"
+        android:name="com.example.smartgrocerytracker.ui.maps.mapFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/nav_expense_fragment"
@@ -61,15 +65,15 @@
         app:destination="@id/expenseListFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/yearSearchFragment"
-        android:name="com.example.smartgrocerytracker.ui.grocerylist.YearSearchFragment"
-        android:label="Year Search"
-        tools:layout="@layout/fragment_year_search" />
+<!--    <fragment-->
+<!--        android:id="@+id/yearSearchFragment"-->
+<!--        android:name="com.example.smartgrocerytracker.ui.grocerylist.YearSearchFragment"-->
+<!--        android:label="Year Search"-->
+<!--        tools:layout="@layout/fragment_year_search" />-->
 
-    <action
-        android:id="@+id/action_empty_to_yearSearch"
-        app:destination="@id/yearSearchFragment" />
+<!--    <action-->
+<!--        android:id="@+id/action_empty_to_yearSearch"-->
+<!--        app:destination="@id/yearSearchFragment" />-->
 
     <fragment
         android:id="@+id/settingsFragment"

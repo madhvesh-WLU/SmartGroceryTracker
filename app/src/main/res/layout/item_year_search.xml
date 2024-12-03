@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:layout_margin="8dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Item Name and Value -->
+        <TextView
+            android:id="@+id/item_name_global"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Item Name: "
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/vibrant_orange"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Price of Item -->
+        <TextView
+            android:id="@+id/item_category_global"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Price of Item -->
+        <TextView
+            android:id="@+id/item_price_global"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price of Item: "
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Price of Item -->
+        <TextView
+            android:id="@+id/item_quantity_global"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Divider Line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="8dp"
+            android:background="@android:color/darker_gray"/>
+
+        <!-- Bill Name -->
+        <TextView
+            android:id="@+id/bill_name_global"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bill Name: "
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@color/vibrant_orange"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:baselineAligned="true">
+
+            <!-- Date of Bill -->
+            <TextView
+                android:id="@+id/date_of_bill_global"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Bill Date: "
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Total Quantity -->
+            <TextView
+                android:id="@+id/total_quantity_global"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Quantity: "
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Bill Price -->
+            <TextView
+                android:id="@+id/bill_price_global"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Bill Price: "
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_marginEnd="8dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

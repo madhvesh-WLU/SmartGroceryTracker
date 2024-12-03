@@ -2,6 +2,7 @@ package com.example.smartgrocerytracker.ui.profile;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -29,7 +30,7 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     SharedPreferences sharedPreferences;
     static final String SharedPrefName = "UserPref";
-
+    private static final int EDIT_PROFILE_REQUEST_CODE = 1;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,12 +48,25 @@ public class ProfileFragment extends Fragment {
         displayUserData();
 
         binding.logout.setOnClickListener(v -> handleLogout());
+            binding.editProfile.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                startActivityForResult(intent, EDIT_PROFILE_REQUEST_CODE);
+            });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == EDIT_PROFILE_REQUEST_CODE && resultCode == getActivity().RESULT_OK){
+            // Refresh user data display
+            displayUserData();
+        }
     }
 
 
