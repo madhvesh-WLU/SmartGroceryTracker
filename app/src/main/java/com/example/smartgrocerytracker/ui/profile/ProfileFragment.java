@@ -7,7 +7,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,18 +45,32 @@ public class ProfileFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
+            Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
 
+            if (toolbar != null) {
+                // Set the title for User Profile
+                toolbar.setTitle("User Profile");
+
+                // Set the back arrow
+                toolbar.setNavigationIcon(R.drawable.back_arrow); // Replace with your back arrow drawable
+
+                // Handle back arrow click
+                toolbar.setNavigationOnClickListener(v -> {
+                    NavController navController = NavHostFragment.findNavController(this);
+
+                    // Check if the desired fragment is already in the back stack
+                    if (!navController.popBackStack(R.id.nav_home, false)) {
+                        // If it's not in the back stack, navigate to it
+                        navController.navigate(R.id.nav_home);
+                    }
+                });
+            }
 
         displayUserData();
 
         binding.logout.setOnClickListener(v -> handleLogout());
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 
 
     private void displayUserData() {
@@ -73,7 +90,19 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
 
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            // Reset the toolbar title and remove the back arrow
+            toolbar.setTitle("Smart Grocery Tracker"); // Default title
+            toolbar.setNavigationIcon(null); // Remove the back arrow
+            toolbar.setNavigationOnClickListener(null); // Remove the click listener
+        }
+    }
 
 
     private void handleLogout() {

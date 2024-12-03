@@ -7,7 +7,7 @@
 
     <!-- Envelope Background -->
     <path
-        android:fillColor="@color/inactive_color"
+        android:fillColor="@color/colorPrimaryDark"
         android:pathData="M2,4c-1.1,0 -2,0.9 -2,2v12c0,1.1 0.9,2 2,2h20c1.1,0 2,-0.9 2,-2V6c0,-1.1 -0.9,-2 -2,-2H2zM22,8l-10,6L2,8V6l10,6l10,-6v2z" />
 
 </vector>

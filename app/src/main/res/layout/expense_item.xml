@@ -31,6 +31,13 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/randomIcon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Random Icon" />
+
                 <!-- Store Name TextView -->
                 <TextView
                     android:id="@+id/storeNameTextView"
@@ -39,7 +46,7 @@
                     android:paddingBottom="4dp"
                     android:text="Store Name"
                     android:textColor="@color/vibrant_orange"
-                    android:textSize="18sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <!-- Date of Purchase TextView -->

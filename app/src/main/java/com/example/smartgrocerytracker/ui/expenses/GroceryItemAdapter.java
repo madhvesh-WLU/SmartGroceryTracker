@@ -279,7 +279,7 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
 
         holder.categoryTextView.setText(item.getCategory());
         holder.quantityTextView.setText("Quantity: " + item.getQuantity());
-        holder.priceTextView.setText("$" + item.getPrice());
+        holder.priceTextView.setText("-$" + item.getPrice());
 
         selectDeletePositions(holder, position);
 

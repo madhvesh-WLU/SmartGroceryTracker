@@ -7,17 +7,20 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.ModelClass.ExpenseModel;
 import com.example.smartgrocerytracker.ModelClass.GroceryItemModel;
 import com.example.smartgrocerytracker.R;
+import com.example.smartgrocerytracker.databinding.FragmentExpenseBinding;
+
 import com.example.smartgrocerytracker.services.fetchExpensesServices;
 import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.ui.grocerylist.FancyGroceryOptionsDialog;
@@ -25,55 +28,47 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnExpenseClickListener {
 
-    private RecyclerView recyclerView;
+    private FragmentExpenseBinding binding;
     private ExpenseViewAdapter adapter;
     private List<ExpenseModel> expenseList;
-    private FloatingActionButton addButton;
 
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_expense, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        // Use the binding to inflate the layout
+        binding = FragmentExpenseBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        addButton = view.findViewById(R.id.add_gList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         expenseList = new ArrayList<>();
-        adapter = new ExpenseViewAdapter(expenseList, this,requireContext());
-        recyclerView.setAdapter(adapter);
+        adapter = new ExpenseViewAdapter(expenseList, this, requireContext());
+
+        // Set up the RecyclerView
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setAdapter(adapter);
 
         setupOptionButton();
 
+        // Initialize the RequestQueue and fetch expenses
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         fetchExpensesServices.fetchExpenses(requireContext(), queue, expenses -> {
             expenseList.clear();
             expenseList.addAll(expenses);
             adapter.notifyDataSetChanged();
+
+            // Update the layout visibility based on the fetched data
+            updateLayoutBasedOnItems();
         });
     }
 
-//    @Override
-//    public void onExpenseClick(ExpenseModel expense) {
-//        RequestQueue queue = Volley.newRequestQueue(requireContext());
-//        fetchGroceryListServices.fetchGroceryList(requireContext(), queue, expense.getExpenseId(), fullExpense -> {
-//            Bundle bundle = new Bundle();
-//            bundle.putString("bill_name", fullExpense.getBillName());
-//            bundle.putString("date_of_purchase", fullExpense.getDateOfPurchase());
-//            bundle.putString("total_price", String.valueOf(fullExpense.getBillAmount()));
-//            bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) fullExpense.getGroceryItems());
-//
-//            NavController navController = NavHostFragment.findNavController(this);
-//            navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
-//        });
-//    }
-//
     @Override
     public void onExpenseClick(ExpenseModel expense) {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
@@ -81,93 +76,46 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
             @Override
             public void onExpensesFetched(ExpenseModel expense) {
                 Bundle bundle = new Bundle();
-            bundle.putString("bill_name", "Bill");
-            bundle.putString("date_of_purchase", expense.getDateOfPurchase());
-            bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
-            bundle.putString("total_quantity", String.valueOf(expense.getTotalQuantity()));
-            bundle.putString("expense_id", expense.getExpenseId());
-            bundle.putString("description", expense.getDescription());
-            bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) expense.getGroceryItems());
+                bundle.putString("bill_name", "Bill");
+                bundle.putString("date_of_purchase", expense.getDateOfPurchase());
+                bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
+                bundle.putString("total_quantity", String.valueOf(expense.getTotalQuantity()));
+                bundle.putString("expense_id", expense.getExpenseId());
+                bundle.putString("description", expense.getDescription());
+                bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) expense.getGroceryItems());
 
-            NavController navController = NavHostFragment.findNavController(requireParentFragment());
-            navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
+                NavController navController = NavHostFragment.findNavController(requireParentFragment());
+                navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
             }
-
-//            @Override
-//            public void onExpensesListFetched(List<GroceryItemModel> groceryItems) {
-//                // Handle the GroceryItemModel list data
-//                Log.d("GroceryListener", "Grocery items fetched: " + groceryItems.size());
-//            }
         });
-
     }
 
-
-//    @Override
-//    public void onExpenseClick(ExpenseModel expense) {
-//        Bundle bundle = new Bundle();
-//        bundle.putString("bill_name", expense.getBillName());
-//        bundle.putString("date_of_purchase", expense.getDateOfPurchase());
-//        bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
-//        bundle.putString("expense_id", expense.getExpenseId());
-//
-////        TODO over here basedupon expenseID i want to make api call to fetch all informatin of expense and also send that data to expenseListFragment to display overall data
-//
-//        NavController navController = NavHostFragment.findNavController(this);
-//        navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
-//    }
-
     private void setupOptionButton() {
-        addButton.setOnClickListener(v -> {
+        binding.addGList.setOnClickListener(v -> {
             FancyGroceryOptionsDialog optionsDialog = new FancyGroceryOptionsDialog();
             optionsDialog.show(getParentFragmentManager(), "FancyGroceryOptionsDialog");
         });
     }
+
+    /**
+     * Updates the layout based on the current number of items.
+     */
+    private void updateLayoutBasedOnItems() {
+        if (expenseList.isEmpty()) {
+            Log.e("Expense","Hello");
+            binding.addBillIconImageView.setVisibility(View.VISIBLE);
+            binding.addBillMessageTextView.setVisibility(View.VISIBLE);
+        } else {
+            binding.addBillIconImageView.setVisibility(View.GONE);
+            binding.addBillMessageTextView.setVisibility(View.GONE);
+        }
+    }
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null; // Avoid memory leaks
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-//    @Override
-//    public void onExpenseClick(ExpenseModel expense) {
-//
-//        //api call
-//        String expenseId = expense.getExpenseId();
-//        RequestQueue queue = Volley.newRequestQueue(requireContext());
-//        fetchGroceryListServices.fetchGroceryList(requireContext(),queue,expenseId);
-//
-//        Bundle bundle = new Bundle();
-//        bundle.putString("bill_name", expense.getBillName());
-//        bundle.putString("date_of_purchase", expense.getDateOfPurchase());
-//        bundle.putString("store_quantity", String.valueOf(expense.getQuantity()));
-//        bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
-//        bundle.putString("store_name", expense.getBillName());
-//
-//
-//
-//        NavController navController = NavHostFragment.findNavController(this);
-//        navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
-//    }
-
-
-
-
-//    private void showEditDialog(ExpenseModel expense) {
-//        // Example of showing a dialog to edit the expense
-//        ExpenseEditDialog dialog = new ExpenseEditDialog(requireContext(), expense, updatedExpense -> {
-//            // Update the list and notify adapter
-//            int index = expenseList.indexOf(expense);
-//            if (index != -1) {
-//                expenseList.set(index, updatedExpense);
-//                adapter.notifyItemChanged(index);
-//            }
-//        });
-//        dialog.show();
-//    }

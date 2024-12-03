@@ -42,7 +42,7 @@
             android:spinnerMode="dropdown" />
     </LinearLayout>
 
-
+    <!-- Chips for Bill Name, Grocery Name, and Category -->
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/category_chip_group"
         android:layout_width="match_parent"
@@ -50,28 +50,47 @@
         android:layout_marginBottom="16dp"
         app:singleSelection="true">
 
-        <!-- Example Category Chips -->
+        <!-- Bill Name Chip -->
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip_all"
+            android:id="@+id/chip_bill_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bill Name"
             app:checkedIconVisible="false" />
 
+        <!-- Grocery Name Chip -->
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip_groceries"
+            android:id="@+id/chip_grocery_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Grocery Name"
             app:checkedIconVisible="false" />
 
+        <!-- Category Chip -->
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip_electronics"
+            android:id="@+id/chip_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Category"
             app:checkedIconVisible="false" />
     </com.google.android.material.chip.ChipGroup>
+
+    <!-- Edit Text for Bill or Grocery Name (Initially Hidden) -->
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edit_text_bill_or_grocery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Bill or Grocery Name"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Spinner for Category (Initially Hidden) -->
+    <Spinner
+        android:id="@+id/category_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp"/>
 
     <!-- Apply and Clear Filter Buttons -->
     <LinearLayout
@@ -89,17 +108,24 @@
             android:text="Apply Filters"
             android:textColor="@android:color/white"
             app:cornerRadius="8dp"
-            android:backgroundTint="@color/colorPrimary" />
+            android:backgroundTint="@color/vibrant_orange" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/clear_filter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clear Filters"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimaryDark"
             app:cornerRadius="8dp"
-            />
+            android:backgroundTint="@color/white"/>
+
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="8dp"
+        android:background="@android:color/darker_gray"/>
 
     <!-- RecyclerView for Search Results -->
     <androidx.recyclerview.widget.RecyclerView

@@ -1,4 +1,3 @@
-// YearSearchFragment.java
 package com.example.smartgrocerytracker.ui.grocerylist;
 
 import android.os.Bundle;
@@ -12,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.databinding.FragmentYearSearchBinding;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 public class YearSearchFragment extends Fragment {
 
@@ -40,14 +41,49 @@ public class YearSearchFragment extends Fragment {
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.monthSpinner.setAdapter(monthAdapter);
 
-       /* // Setup category spinner
+        // Setup category spinner
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_item, getCategories());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.categorySpinner.setAdapter(categoryAdapter);
 
+        // Setup Chip click listeners
+        setupChipClickListeners();
+
         // Search button click listener
-        binding.searchButton.setOnClickListener(v -> performSearch());*/
+        binding.applyFilterButton.setOnClickListener(v -> performSearch());
+    }
+
+    private void setupChipClickListeners() {
+        // Handling chip clicks to toggle the visibility of the relevant UI elements
+        binding.chipBillName.setOnClickListener(v -> toggleVisibility("Bill Name"));
+        binding.chipGroceryName.setOnClickListener(v -> toggleVisibility("Grocery Name"));
+        binding.chipCategory.setOnClickListener(v -> toggleVisibility("Category"));
+    }
+
+    private void toggleVisibility(String chipType) {
+        // Toggle visibility of input elements based on selected chip
+        switch (chipType) {
+            case "Bill Name":
+                binding.editTextBillOrGrocery.setVisibility(View.VISIBLE); // Show EditText for Bill/Grocery Name
+                binding.categorySpinner.setVisibility(View.GONE); // Hide Category Spinner
+                break;
+
+            case "Grocery Name":
+                binding.editTextBillOrGrocery.setVisibility(View.VISIBLE); // Show EditText for Bill/Grocery Name
+                binding.categorySpinner.setVisibility(View.GONE); // Hide Category Spinner
+                break;
+
+            case "Category":
+                binding.categorySpinner.setVisibility(View.VISIBLE); // Show Category Spinner
+                binding.editTextBillOrGrocery.setVisibility(View.GONE); // Hide EditText for Bill/Grocery Name
+                break;
+
+            default:
+                binding.editTextBillOrGrocery.setVisibility(View.GONE); // Hide EditText
+                binding.categorySpinner.setVisibility(View.GONE); // Hide Category Spinner
+                break;
+        }
     }
 
     private String[] getYears() {
@@ -66,12 +102,14 @@ public class YearSearchFragment extends Fragment {
     }
 
     private void performSearch() {
-        // Implement search logic based on selected year, month, and category
+        // Get selected values from spinners and text fields
         String selectedYear = binding.yearSpinner.getSelectedItem().toString();
         String selectedMonth = binding.monthSpinner.getSelectedItem().toString();
-       //String selectedCategory = binding.categorySpinner.getSelectedItem().toString();
+        String selectedCategory = binding.categorySpinner.getSelectedItem().toString();
+        String billOrGrocery = binding.editTextBillOrGrocery.getText().toString();
 
-        // Use these selections to filter your data
+        // Use selected data to filter or perform any search action
+        // Example: filterByYearMonthCategory(selectedYear, selectedMonth, selectedCategory);
     }
 
     @Override

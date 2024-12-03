@@ -85,9 +85,9 @@
             android:id="@+id/apply_filter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/vibrant_orange"
             android:layout_marginEnd="8dp"
             android:text="Apply Filters"
-
             android:textColor="@android:color/white" />
 
         <com.google.android.material.button.MaterialButton
@@ -95,8 +95,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clear Filters"
-
-            android:textColor="@android:color/white" />
+            android:backgroundTint="@color/white"
+            android:textColor="@color/colorPrimaryDark" />
     </LinearLayout>
 
     <!-- RecyclerView for Search Results -->

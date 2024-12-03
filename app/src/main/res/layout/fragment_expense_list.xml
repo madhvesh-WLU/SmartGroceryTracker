@@ -26,13 +26,25 @@
             android:padding="16dp"
             android:background="@drawable/custom_billing_background">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/grocery_search_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:queryHint="Search items..." />
-            <!-- Editable Bill Name -->
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
 
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/grocery_search_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:queryHint="Search items..."
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Cross Button at the Right of SearchView -->
+            </LinearLayout>
+
+            <!-- Editable Bill Name -->
             <!-- Bill Name and Edit Icon in the Same Line -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,6 +63,7 @@
                     android:text="Bill Name"
                     android:textColor="#000000"
                     android:textSize="18sp" />
+
                 <EditText
                     android:id="@+id/editBillName"
                     android:layout_width="0dp"
@@ -158,38 +171,18 @@
                 android:drawableLeft="@drawable/ic_price"
                 android:visibility="gone" />
 
-            <!-- Update and Cancel Buttons (Initially Hidden) -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
+            <!-- Update Button (ImageButton) -->
+            <ImageButton
+                android:id="@+id/updateButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:layout_gravity="center">
-
-                <Button
-                    android:id="@+id/cancelButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cancel"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#f44336"
-                    android:layout_marginEnd="8dp"
-                    android:padding="12dp"
-                    android:textSize="16sp"
-                    android:visibility="gone" />
-
-                <Button
-                    android:id="@+id/updateButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Update"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#4CAF50"
-                    android:padding="12dp"
-                    android:textSize="16sp"
-                    android:visibility="gone" />
-            </LinearLayout>
+                android:src="@drawable/update"
+                android:contentDescription="Update"
+                android:background="@android:color/transparent"
+                android:visibility="gone"
+                app:tint="@color/green" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -208,19 +201,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/addIconImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Add Item Icon"
+        android:src="@drawable/additem"
+        app:layout_constraintBottom_toTopOf="@id/addItemMessageTextView"
+        app:layout_constraintEnd_toEndOf="@id/expenseRecyclerView"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@id/expenseRecyclerView"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="1.0" />
+
     <TextView
         android:id="@+id/addItemMessageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Please add items"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="gone"
         android:textColor="@android:color/black"
         app:layout_constraintTop_toTopOf="@id/expenseRecyclerView"
         app:layout_constraintBottom_toBottomOf="@id/expenseRecyclerView"
         app:layout_constraintStart_toStartOf="@id/expenseRecyclerView"
         app:layout_constraintEnd_toEndOf="@id/expenseRecyclerView"
-        android:visibility="gone" />
+         />
 
+    <!-- Button Layout for Add, Delete, Submit -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/expenseRecyclerView"
@@ -228,18 +239,18 @@
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/bill_info_card"
         app:layout_constraintBottom_toTopOf="@id/control_button_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/bill_info_card"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <!-- Button Layout for Add, Delete, Submit -->
     <LinearLayout
         android:id="@+id/control_button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-
         android:orientation="horizontal"
         android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -256,7 +267,7 @@
             android:padding="8dp"
             android:src="@drawable/additem"
             android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Add Item"
+            android:contentDescription="Add Item"
             app:tint="@color/vibrant_orange" />
 
         <!-- Delete Item ImageButton -->
@@ -271,8 +282,7 @@
             android:layout_marginBottom="15dp"
             app:tint="@color/red"
             android:contentDescription="Delete Item"
-        android:background="?attr/selectableItemBackgroundBorderless"
-             />
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
         <!-- Submit Item ImageButton -->
         <ImageButton
@@ -282,11 +292,20 @@
             android:layout_weight="1"
             android:padding="8dp"
             android:src="@drawable/submititems"
-        android:contentDescription="Submit"
-        android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Submit"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:tint="@color/green" />
     </LinearLayout>
 
-
+    <ImageButton
+        android:id="@+id/cancelButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Close"
+        android:src="@drawable/cross"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="209dp"
+        tools:layout_editor_absoluteY="358dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

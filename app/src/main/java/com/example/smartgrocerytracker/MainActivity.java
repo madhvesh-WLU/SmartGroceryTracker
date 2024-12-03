@@ -1,5 +1,7 @@
 package com.example.smartgrocerytracker;
 
+import static androidx.core.app.PendingIntentCompat.getActivity;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
@@ -28,6 +32,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.databinding.ActivityMainBinding;
 import com.example.smartgrocerytracker.services.fetchUserServices;
+import com.example.smartgrocerytracker.ui.grocerylist.BudgetFragment;
 import com.example.smartgrocerytracker.utils.BudgetDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -49,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         // Set up toolbar
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -117,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void navigateToDestination(int destinationId, boolean clearPrevious) {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 
@@ -146,8 +151,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
 
+
         if (itemId == R.id.action_settings2) {
-            showBudgetInputDialog();
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+            navController.navigate(R.id.nav_budget_fragment);
             return true;
         } else if (itemId == R.id.action_settings3) {
             NavController navControllers = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

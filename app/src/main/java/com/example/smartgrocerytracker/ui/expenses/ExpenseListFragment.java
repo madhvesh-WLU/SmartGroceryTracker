@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -54,13 +57,29 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentExpenseListBinding.inflate(inflater, container, false);
-        updateLayoutBasedOnItems();
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Access the Toolbar from the parent activity
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            // Set the title for the fragment
+            toolbar.setTitle("Expense List");
+
+            // Enable the back arrow
+            toolbar.setNavigationIcon(R.drawable.back_arrow);
+            toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.vibrant_orange));
+            toolbar.setNavigationOnClickListener(v -> {
+                // Navigate back when the back arrow is clicked
+                NavController navController = NavHostFragment.findNavController(this);
+                navController.popBackStack();
+            });
+        }
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(requireContext());
@@ -380,18 +399,29 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         if (groceryItemsList.isEmpty() && addedItemsList.isEmpty()) {
             binding.addItemButton1.setVisibility(View.VISIBLE);
             binding.addItemMessageTextView.setVisibility(View.VISIBLE);
+            binding.addIconImageView.setVisibility(View.VISIBLE);
             binding.controlButtonLayout.setVisibility(View.GONE);
         } else {
             binding.addItemButton1.setVisibility(View.GONE);
             binding.addItemMessageTextView.setVisibility(View.GONE);
+            binding.addIconImageView.setVisibility(View.GONE);
             binding.controlButtonLayout.setVisibility(View.VISIBLE);
         }
     }
 
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null; // Avoid memory leaks
+
+        // Reset the Toolbar when leaving ExpenseListFragment
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(null); // Remove the back arrow
+            toolbar.setTitle("Smart Grocery Tracker"); // Reset to default title
+        }
     }
 }
 
