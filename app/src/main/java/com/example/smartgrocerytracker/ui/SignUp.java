@@ -25,6 +25,7 @@ import com.example.smartgrocerytracker.MainActivity;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.services.signUpApiServices;
 import com.example.smartgrocerytracker.utils.LanguageUtil;
+import com.example.smartgrocerytracker.utils.SnackbarHelper;
 
 public class SignUp extends AppCompatActivity {
     private EditText usernameEditText, emailEditText, passwordEditText, rePasswordEditText;
@@ -94,7 +95,8 @@ public class SignUp extends AppCompatActivity {
                 new Handler().postDelayed(() -> {
                     // Example of successful signup
                     signUpApiServices.sendPostRequest(SignUp.this, queue, email, password, username);
-                    Toast.makeText(SignUp.this, "Sign Up Successful!", Toast.LENGTH_SHORT).show();
+                    SnackbarHelper.showSnackbar(findViewById(android.R.id.content), "SignUp successful");
+                    //Toast.makeText(SignUp.this, "Sign Up Successful!", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);  // Hide ProgressBar
                     signupButton.setEnabled(true);  // Enable button again
                     // Optionally navigate to the next activity, e.g.:

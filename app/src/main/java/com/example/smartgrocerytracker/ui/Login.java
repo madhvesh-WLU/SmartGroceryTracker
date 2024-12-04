@@ -28,6 +28,7 @@ import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.services.loginApiServices;
 import com.example.smartgrocerytracker.utils.LanguageUtil;
 import com.example.smartgrocerytracker.utils.LoginUtils;
+import com.example.smartgrocerytracker.utils.SnackbarHelper;
 import com.example.smartgrocerytracker.utils.TokenValidator;
 
 public class Login extends AppCompatActivity {
@@ -153,11 +154,14 @@ public class Login extends AppCompatActivity {
                                                 public void run() {
                                                     progressSpinner.setVisibility(View.GONE);
                                                     loginButton.setEnabled(true);
-                                                    // Navigate to MainActivity
-                                                    Intent mainIntent = new Intent(Login.this, MainActivity.class);
-                                                    startActivity(mainIntent);
-                                                    finish(); // Prevent returning to the login screen
-                                                    Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
+
+                                                    new Handler().postDelayed(()->{
+                                                        Intent mainIntent = new Intent(Login.this, MainActivity.class);
+                                                        startActivity(mainIntent);
+                                                        finish(); // Prevent returning to the login screen
+                                                    },500);
+                                                    SnackbarHelper.showSnackbar(findViewById(android.R.id.content), "Login successful");
+                                                    //Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         }
@@ -171,6 +175,7 @@ public class Login extends AppCompatActivity {
                                                     progressSpinner.setVisibility(View.GONE);
                                                     loginButton.setEnabled(true);
                                                     // Show error message to the user
+
                                                     Toast.makeText(Login.this, errorMessage, Toast.LENGTH_SHORT).show();
                                                 }
                                             });
@@ -180,7 +185,8 @@ public class Login extends AppCompatActivity {
                         }
                     }, 2000);
                 } else {
-                    Toast.makeText(Login.this, "Enter username and password.", Toast.LENGTH_SHORT).show();
+                    SnackbarHelper.showSnackbar(findViewById(android.R.id.content), "Enter username and password");
+                    //Toast.makeText(Login.this, "Enter username and password.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

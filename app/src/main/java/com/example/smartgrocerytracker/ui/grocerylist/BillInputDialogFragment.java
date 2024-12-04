@@ -32,6 +32,7 @@ import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.services.addExpenseServices;
 import com.example.smartgrocerytracker.utils.CapitalizeLetter;
 import com.example.smartgrocerytracker.utils.LanguageUtil;
+import com.example.smartgrocerytracker.utils.SnackbarHelper;
 
 import org.json.JSONObject;
 
@@ -227,8 +228,8 @@ public class BillInputDialogFragment extends DialogFragment {
                     showLoadingSpinner(false);
                 }, 100);
 
-
-                Toast.makeText(getContext(), "All fields are required. Please fill them in.", Toast.LENGTH_SHORT).show();
+                SnackbarHelper.showSnackbar(getView(), "All fields are required. Please fill them in.");
+                //Toast.makeText(getContext(), "All fields are required. Please fill them in.", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -19,6 +19,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.utils.LanguageUtil;
+import com.example.smartgrocerytracker.utils.SnackbarHelper;
 
 public class ItemInputDialogFragment extends DialogFragment {
 
@@ -109,7 +110,8 @@ public class ItemInputDialogFragment extends DialogFragment {
 
             // Check if fields are empty
             if (itemName.isEmpty() || itemCategory.isEmpty() || itemPriceText.isEmpty() || itemQuantityText.isEmpty()) {
-                Toast.makeText(getContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                SnackbarHelper.showSnackbar(getView(), "Please fill in all fields");
+                //Toast.makeText(getContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     // Show progress bar and disable button
@@ -132,15 +134,15 @@ public class ItemInputDialogFragment extends DialogFragment {
 
                         clearFields();  // Reset fields for another input if needed
 
-                        // Optional: show a success message
-                        Toast.makeText(getContext(), "Item added successfully", Toast.LENGTH_SHORT).show();
+                        SnackbarHelper.showSnackbar(getView(), "Item added successfully");
+                        //Toast.makeText(getContext(), "Item added successfully", Toast.LENGTH_SHORT).show();
                     }, 2000); // Simulate delay (e.g., network request)
 
                 } catch (NumberFormatException e) {
                     // Hide progress bar and re-enable button on error
                     progressBar.setVisibility(View.GONE);
                     doneButton.setEnabled(true);
-                    Toast.makeText(getContext(), "Please enter valid numbers for price and quantity", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Please enter valid numbers for price and quantity", Toast.LENGTH_LONG).show();
                 }
             }
         });

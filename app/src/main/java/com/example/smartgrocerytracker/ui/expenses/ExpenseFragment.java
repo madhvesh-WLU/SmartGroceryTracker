@@ -27,6 +27,7 @@ import com.example.smartgrocerytracker.services.fetchExpensesServices;
 import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.ui.grocerylist.FancyGroceryOptionsDialog;
 import com.example.smartgrocerytracker.utils.LanguageUtil;
+import com.example.smartgrocerytracker.utils.SnackbarHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +117,7 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
      */
     private void updateLayoutBasedOnItems() {
         if (expenseList.isEmpty()) {
-            Log.e("Expense","Hello");
+            SnackbarHelper.showSnackbar(getView(), "No Expense found, Please add bill");
             binding.addBillIconImageView.setVisibility(View.VISIBLE);
             binding.addBillMessageTextView.setVisibility(View.VISIBLE);
         } else {

@@ -18,6 +18,7 @@ import com.example.smartgrocerytracker.services.storeBudgetServices;
 import com.example.smartgrocerytracker.services.updateBudgetDetails;
 import com.example.smartgrocerytracker.utils.BudgetHelper;
 import com.example.smartgrocerytracker.utils.LanguageUtil;
+import com.example.smartgrocerytracker.utils.SnackbarHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -112,7 +113,8 @@ public class BudgetActivity extends AppCompatActivity {
             String budgetInput = editTextBudget.getText().toString().trim();
 
             if (TextUtils.isEmpty(budgetInput) || startDateHolder[0] == null || endDateHolder[0] == null) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                SnackbarHelper.showSnackbar(findViewById(android.R.id.content), "Please fill all fields");
+                //Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -136,8 +138,8 @@ public class BudgetActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("budget_id", budgetId);
                     editor.apply();
-
-                    Toast.makeText(this, "Budget Saved!", Toast.LENGTH_SHORT).show();
+                    SnackbarHelper.showSnackbar(findViewById(android.R.id.content), "Budget Saved!");
+                    //Toast.makeText(this, "Budget Saved!", Toast.LENGTH_SHORT).show();
                 }
 
                 finish();

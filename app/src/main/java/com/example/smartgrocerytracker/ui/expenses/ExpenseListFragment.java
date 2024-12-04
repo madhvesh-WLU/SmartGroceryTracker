@@ -30,6 +30,7 @@ import com.example.smartgrocerytracker.services.searchGroceryItemsServices;
 import com.example.smartgrocerytracker.services.updateExpenseServices;
 import com.example.smartgrocerytracker.ui.grocerylist.ItemInputDialogFragment;
 import com.example.smartgrocerytracker.utils.LanguageUtil;
+import com.example.smartgrocerytracker.utils.SnackbarHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -222,7 +223,8 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
       binding.submitButton.setVisibility(View.GONE);
 
         if (addedItemsList.isEmpty()) {
-            Toast.makeText(getContext(), "No new items added. Nothing to submit.", Toast.LENGTH_SHORT).show();
+            SnackbarHelper.showSnackbar(getView(), "No new items added. Nothing to submit.");
+            //Toast.makeText(getContext(), "No new items added. Nothing to submit.", Toast.LENGTH_SHORT).show();
             // Hide the ProgressBar and show the Submit button again
             binding.loadingSpinner.setVisibility(View.GONE);
             binding.submitButton.setVisibility(View.VISIBLE);
@@ -249,7 +251,8 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         }
 
         if (expense_id == null) {
-            Toast.makeText(getContext(), "Expense ID is null", Toast.LENGTH_SHORT).show();
+            SnackbarHelper.showSnackbar(getView(), "Expense ID is null.");
+            //Toast.makeText(getContext(), "Expense ID is null", Toast.LENGTH_SHORT).show();
             // Hide the ProgressBar and show the Submit button again
             binding.loadingSpinner.setVisibility(View.GONE);
             binding.submitButton.setVisibility(View.VISIBLE);
@@ -411,7 +414,8 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
             groceryItemsList.clear();
             groceryItemsList.addAll(groceryItems);
             groceryItemAdapter.updateData(groceryItemsList, binding.grocerySearchView.getQuery().toString());
-            Toast.makeText(getContext(), "Grocery items retrieved: " + groceryItems.size(), Toast.LENGTH_SHORT).show();
+            SnackbarHelper.showSnackbar(getView(), "Grocery items retrieved: " + groceryItems.size());
+            //Toast.makeText(getContext(), "Grocery items retrieved: " + groceryItems.size(), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getContext(), "No matching grocery items found.", Toast.LENGTH_SHORT).show();
             groceryItemsList.clear();
