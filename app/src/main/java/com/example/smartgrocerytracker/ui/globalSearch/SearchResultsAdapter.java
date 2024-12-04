@@ -4,6 +4,7 @@ package com.example.smartgrocerytracker.ui.globalSearch;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public interface OnItemLongClickListener {
-        void onItemLongClick(GroceryItem groceryItem, int position);
+        void onItemLongClick(Object item, int position);
     }
 
     public static final int VIEW_TYPE_BILL_NAME = 0;
@@ -77,7 +78,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         Object item = data.get(position);
 
         if (holder instanceof BillNameViewHolder && item instanceof BillInfo) {
-            ((BillNameViewHolder) holder).bind((BillInfo) item, clickListener);
+            ((BillNameViewHolder) holder).bind((BillInfo) item, clickListener,longClickListener, position);
         } else if (holder instanceof GroceryNameViewHolder && item instanceof GroceryItem) {
             ((GroceryNameViewHolder) holder).bind((GroceryItem) item, clickListener, longClickListener, position);
         } else if (holder instanceof CategoryViewHolder && item instanceof GroceryItem) {
@@ -93,16 +94,18 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     // ViewHolder for BillInfo
     static class BillNameViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView, priceView, categoryView, quantityView;
-
+        CheckBox checkBox;
         public BillNameViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.item_name);
             priceView = itemView.findViewById(R.id.price);
             categoryView = itemView.findViewById(R.id.category);
             quantityView = itemView.findViewById(R.id.quantity);
+            checkBox = itemView.findViewById(R.id.item_checkbox);
+            checkBox.setVisibility(View.GONE);
         }
 
-        void bind(BillInfo billInfo, OnItemClickListener listener) {
+        void bind(BillInfo billInfo, OnItemClickListener listener,OnItemLongClickListener longClickListener,int position) {
             textView.setText(billInfo.getBillName());
             priceView.setText("- $" + billInfo.getBillAmount());
             quantityView.setText("Qty: " + billInfo.getTotalQuantity());
@@ -112,6 +115,13 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (listener != null) {
                     listener.onItemClick(billInfo);
                 }
+            });
+
+            itemView.setOnLongClickListener(v -> {
+                if (longClickListener != null) {
+                    longClickListener.onItemLongClick(billInfo, position);
+                }
+                return true; // Indicate the long click was handled
             });
         }
     }

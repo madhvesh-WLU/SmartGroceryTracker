@@ -67,7 +67,7 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
 
         // Manual receipt option
         view.findViewById(R.id.manual_receipt_option).setOnClickListener(v -> {
-            if (!Objects.equals(budgetId, "null")) {
+            if (!Objects.equals(budgetId, null)) {
                 BillInputDialogFragment billInputDialog = new BillInputDialogFragment();
                 billInputDialog.show(getParentFragmentManager(), "BillInputDialog");
                 dismiss();

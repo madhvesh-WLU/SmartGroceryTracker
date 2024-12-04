@@ -33,6 +33,13 @@
         <activity
             android:name=".ui.profile.EditProfileActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.settings.TextsizeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.settings.LanguageActivity"
+            android:exported="false" />
         <!-- API Key (Ensure this is secure and not exposed in version control) -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -46,8 +53,11 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
-            android:name=".utils.BudgetEditActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:name=".ui.grocerylist.BudgetActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SmartGroceryTracker.NoActionBar" />
+
+
         <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false"

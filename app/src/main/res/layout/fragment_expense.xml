@@ -30,6 +30,15 @@
         android:orientation="vertical"
         android:padding="10dp">
 
+        <!-- Icon displayed when there are no bills -->
+        <ImageView
+            android:id="@+id/addBillIconImageView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Add Bill Icon"
+            android:src="@drawable/add_bill" />
 
 
         <androidx.recyclerview.widget.RecyclerView

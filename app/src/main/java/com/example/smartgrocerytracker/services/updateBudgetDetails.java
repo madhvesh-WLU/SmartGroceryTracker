@@ -28,14 +28,14 @@ public class updateBudgetDetails {
         void onBudgetUpdated(BudgetModel updatedBudgetModel);
     }
 
-    public static void putBudgetRequest(Context context, RequestQueue queue, String budgetId, Integer budgetAmount, String startDate, String endDate, UpdateBudgetListener listener) {
+    public static void putBudgetRequest(Context context, RequestQueue queue, String budgetId, String spent_amount,float budgetAmount, String startDate, String endDate, UpdateBudgetListener listener) {
         final String BASE_URL = Config.UPDATE_BUDGET_URL + budgetId;
         String token = SecurePreferences.getAuthToken(context);
 
         JSONObject postData = new JSONObject();
         try {
             postData.put("budget_amount", budgetAmount);
-            postData.put("spent_amount", 183); // Update this with actual logic if required
+            postData.put("spent_amount", spent_amount); // Update this with actual logic if required
             postData.put("start_date", startDate);
             postData.put("end_date", endDate);
         } catch (JSONException e) {

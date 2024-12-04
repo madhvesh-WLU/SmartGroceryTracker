@@ -25,6 +25,7 @@ import com.example.smartgrocerytracker.ForgotPasswordActivity;
 import com.example.smartgrocerytracker.MainActivity;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.services.loginApiServices;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 import com.example.smartgrocerytracker.utils.LoginUtils;
 import com.example.smartgrocerytracker.utils.TokenValidator;
 
@@ -169,7 +170,7 @@ public class Login extends AppCompatActivity {
                                     }
                             );
                         }
-                    }, 2000);
+                    }, 1500);
                 } else {
                     Toast.makeText(Login.this, "Enter username and password.", Toast.LENGTH_SHORT).show();
                 }

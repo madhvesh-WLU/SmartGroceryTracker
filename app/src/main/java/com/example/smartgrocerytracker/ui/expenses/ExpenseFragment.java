@@ -1,8 +1,10 @@
 package com.example.smartgrocerytracker.ui.expenses;
 
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -22,6 +24,7 @@ import com.example.smartgrocerytracker.services.fetchExpensesServices;
 import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.services.deleteExpenseServices;
 import com.example.smartgrocerytracker.ui.grocerylist.FancyGroceryOptionsDialog;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,8 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
         return inflater.inflate(R.layout.fragment_expense, container, false);
     }
 
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -49,6 +54,11 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
 
         // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            // Set the title for Store Locator
+            toolbar.setTitle("Expense List");
+        }
         expenseList = new ArrayList<>();
         adapter = new ExpenseViewAdapter(expenseList, this, this, requireContext());
         recyclerView.setAdapter(adapter);

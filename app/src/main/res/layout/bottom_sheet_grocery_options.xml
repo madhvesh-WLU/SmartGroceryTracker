@@ -8,7 +8,7 @@
     android:layout_gravity="center"
     app:cardCornerRadius="16dp"
     app:cardElevation="16dp"
-    app:cardBackgroundColor="@android:color/white"
+    android:background="@drawable/card_background"
     android:padding="24dp"
     android:elevation="8dp">
 
@@ -22,9 +22,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Add Receipt"
-            android:textColor="@color/black"
+            android:textColor="@color/dark_grey"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:gravity="center"
             android:layout_marginTop="20dp"
             android:paddingBottom="25dp"
@@ -36,8 +36,8 @@
         <!-- Manual Receipt Adding Section -->
         <LinearLayout
             android:id="@+id/manual_receipt_option"
-            android:layout_width="330dp"
-            android:layout_height="55dp"
+            android:layout_width="350dp"
+            android:layout_height="68dp"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -47,12 +47,12 @@
             app:layout_constraintTop_toBottomOf="@id/title_text">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="manual_receipt_option_icon"
-                android:src="@android:drawable/ic_input_add"
-                app:tint="@color/colorPrimary" />
+                android:src="@drawable/add_receipt"
+                app:tint="@color/vibrant_orange" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,8 +79,8 @@
         <!-- Smart OCR Scanning Section -->
         <LinearLayout
             android:id="@+id/smart_ocr_option"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="350dp"
+            android:layout_height="75dp"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -90,12 +90,12 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="50dp"
+                android:layout_height="52dp"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="smart_ocr_option_icon"
-                android:src="@drawable/ocr_scan"
-                app:tint="@color/colorPrimary" />
+                android:src="@drawable/ocr_receipt"
+                app:tint="@color/vibrant_orange" />
 
             <TextView
                 android:layout_width="wrap_content"

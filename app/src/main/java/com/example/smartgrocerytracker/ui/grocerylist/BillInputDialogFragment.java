@@ -30,13 +30,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.services.addExpenseServices;
+import com.example.smartgrocerytracker.utils.BudgetHelper;
 import com.example.smartgrocerytracker.utils.CapitalizeLetter;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +57,7 @@ public class BillInputDialogFragment extends DialogFragment {
     private ProgressBar loadingSpinner;
     private String final_expenseId;
     private ImageButton closeButton;
-
+    SharedPreferences sharedPreferences;
     public BillInputDialogFragment() {
         // Required empty public constructor
     }
@@ -144,6 +147,27 @@ public class BillInputDialogFragment extends DialogFragment {
     private boolean isDatePickerShowing = false;
 
     private void setupDatePicker() {
+        // Retrieve start_date and end_date from SharedPreferences
+        sharedPreferences = getActivity().getSharedPreferences("ActiveBudget", MODE_PRIVATE);
+        String startDate = sharedPreferences.getString("start_date", null);
+        String endDate = sharedPreferences.getString("end_date", null);
+
+        // Parse the dates from SharedPreferences if available
+        Date minDate;
+        Date maxDate;
+
+        if (startDate != null) {
+            minDate = BudgetHelper.parseDate(startDate);
+        } else {
+            minDate = null;
+        }
+        if (endDate != null) {
+            maxDate = BudgetHelper.parseDate(endDate);
+        } else {
+            maxDate = null;
+        }
+
+        // Set up the DatePickerDialog
         dateOfPurchaseEditText.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -157,9 +181,19 @@ public class BillInputDialogFragment extends DialogFragment {
                         dateOfPurchaseEditText.setText(formattedDate);
                     },
                     year, month, day);
+
+            // Apply minDate and maxDate if they are not null
+            if (minDate != null) {
+                datePickerDialog.getDatePicker().setMinDate(minDate.getTime());
+            }
+            if (maxDate != null) {
+                datePickerDialog.getDatePicker().setMaxDate(maxDate.getTime());
+            }
+
             datePickerDialog.show();
         });
     }
+
 
 
     private String formatSelectedDate(int day, int month, int year) {

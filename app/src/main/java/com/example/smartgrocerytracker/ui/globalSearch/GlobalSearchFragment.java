@@ -28,6 +28,7 @@ import com.example.smartgrocerytracker.databinding.FragmentGlobalSearchBinding;
 import com.example.smartgrocerytracker.ModelClass.BillInfo;
 import com.example.smartgrocerytracker.ModelClass.GroceryItem;
 import com.example.smartgrocerytracker.services.GlobalSearchServices;
+import com.example.smartgrocerytracker.services.deleteExpenseServices;
 import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.services.deleteGroceryServices;
 
@@ -65,7 +66,8 @@ public class GlobalSearchFragment extends Fragment implements
 
         // Initialize Services
         services = new GlobalSearchServices(requireContext());
-
+        binding.searchResultsRecyclerView.setVisibility(View.GONE);
+        binding.addResults.setVisibility(View.VISIBLE);
         // Setup spinners for year and month
         setupSpinners();
 
@@ -140,6 +142,8 @@ public class GlobalSearchFragment extends Fragment implements
     private void performSearch() {
         Log.d("GlobalSearch", "Perform search triggered");
 
+
+
         int checkedChipId = binding.categoryChipGroup.getCheckedChipId();
         if (checkedChipId == -1) {
             Log.e("GlobalSearch", "No chip selected. Please select a filter.");
@@ -154,7 +158,9 @@ public class GlobalSearchFragment extends Fragment implements
         // Skip "Select Year" and "Select Month"
         selectedYear = selectedYear.equals("Select Year") ? "" : selectedYear;
         String selectedMonth = selectedMonthName.equals("Select Month") ? "" : getMonthNumber(selectedMonthName);
-
+        // Perform your filtering logic here and update RecyclerView
+        binding.searchResultsRecyclerView.setVisibility(View.VISIBLE);
+        binding.addResults.setVisibility(View.GONE);
         if (checkedChipId == R.id.chip_bill_name) {
             if (!query.isEmpty()) {
                 Log.d("GlobalSearch", "Bill Name search triggered with query: " + query);
@@ -336,16 +342,46 @@ public class GlobalSearchFragment extends Fragment implements
     }
 
     // Implementing OnItemLongClickListener
+//    @Override
+//    public void onItemLongClick(GroceryItem groceryItem, int position) {
+//        // Show a confirmation dialog before deletion
+//
+//        showDeleteConfirmationDialog(groceryItem, position);
+//    }
+
     @Override
-    public void onItemLongClick(GroceryItem groceryItem, int position) {
-        // Show a confirmation dialog before deletion
-        showDeleteConfirmationDialog(groceryItem, position);
+    public void onItemLongClick(Object item, int position) {
+        if (item instanceof GroceryItem) {
+            GroceryItem groceryItem = (GroceryItem) item;
+            showDeleteConfirmationDialog(groceryItem, position);
+        } else if (item instanceof BillInfo) {
+            BillInfo billInfo = (BillInfo) item;
+            showDeleteConfirmationDialog2(billInfo, position);
+
+
+            Toast.makeText(requireContext(), "Long-pressed on Bill: " + ((BillInfo) item).getBillName(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showDeleteConfirmationDialog2(BillInfo billInfo, int position) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Delete Item")
+                .setMessage("Are you sure you want to delete Grocery Item \"" + billInfo.getBillName() + "\"?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    // Perform deletion
+                    deleteExpenseItem(billInfo, position);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .create()
+                .show();
     }
 
     private void showDeleteConfirmationDialog(GroceryItem groceryItem, int position) {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Delete Item")
-                .setMessage("Are you sure you want to delete \"" + groceryItem.getItemName() + "\"?")
+                .setMessage("Are you sure you want to delete Grocery Item \"" + groceryItem.getItemName() + "\"?")
                 .setPositiveButton("Delete", (dialog, which) -> {
                     // Perform deletion
                     deleteGroceryItem(groceryItem, position);
@@ -358,21 +394,23 @@ public class GlobalSearchFragment extends Fragment implements
     }
 
     private void deleteGroceryItem(GroceryItem groceryItem, int position) {
-//        // Implement your deletion logic here, e.g., API call
-////        deleteGroceryServices.deleteGroceryItem(requireContext(), groceryItem.getItemId(), new deleteGroceryServices.DeleteCallback() {
-//            @Override
-//            public void onDeleteSuccess() {
-//                // Remove the item from the adapter's data and notify
-//                adapter.data.remove(position);
-//                adapter.notifyItemRemoved(position);
-//                Toast.makeText(requireContext(), "Item deleted successfully.", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onDeleteFailure(String errorMessage) {
-//                Toast.makeText(requireContext(), "Failed to delete item: " + errorMessage, Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+
+        deleteGroceryServices.deleteGroceryItems(requireContext(), queue, groceryItem.getItemId(), () -> {
+            adapter.data.remove(position);
+            adapter.notifyItemRemoved(position);
+            Toast.makeText(requireContext(), "Item deleted successfully.", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void deleteExpenseItem(BillInfo billInfo, int position) {
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+
+        deleteExpenseServices.deleteExpenseItems(requireActivity(),queue, billInfo.getExpenseId(),() -> {
+            adapter.data.remove(position);
+            adapter.notifyItemRemoved(position);
+            Toast.makeText(requireContext(), "Bill deleted successfully.", Toast.LENGTH_SHORT).show();
+        });
     }
 
     // Helper method to get the fragment instance

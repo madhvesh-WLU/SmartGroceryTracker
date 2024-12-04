@@ -1,5 +1,6 @@
 package com.example.smartgrocerytracker.ui.expenses;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -8,9 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -28,6 +32,7 @@ import com.example.smartgrocerytracker.services.searchGroceryItemsServices;
 import com.example.smartgrocerytracker.services.updateExpenseServices;
 import com.example.smartgrocerytracker.ui.grocerylist.ItemInputDialogFragment;
 import com.example.smartgrocerytracker.utils.ToastUtils;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,9 +67,27 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         return binding.getRoot();
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Access the Toolbar from the parent activity
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            // Set the title for the fragment
+            toolbar.setTitle("Expense List");
+
+            // Enable the back arrow
+            toolbar.setNavigationIcon(R.drawable.back_arrow);
+            toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+            toolbar.setNavigationOnClickListener(v -> {
+                // Navigate back when the back arrow is clicked
+                NavController navController = NavHostFragment.findNavController(this);
+                navController.popBackStack();
+            });
+        }
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(requireContext());
@@ -390,11 +413,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null; // Avoid memory leaks
-    }
+
 
     @Override
     public void onGroceryLongClick() {
@@ -457,6 +476,19 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
             // Update displayed bill information
             displayBillInfo();
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // Reset the Toolbar when leaving ExpenseListFragment
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(null); // Remove the back arrow
+            toolbar.setTitle("Expense List"); // Reset to default title
+        }
     }
 
 }

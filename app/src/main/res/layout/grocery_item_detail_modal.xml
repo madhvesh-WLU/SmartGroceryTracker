@@ -2,32 +2,61 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:background="@android:color/transparent"
+    android:layout_width="370dp"
+    android:layout_height="300dp"
+    android:layout_margin="8dp"
+    android:background="@drawable/card_background"
     app:cardCornerRadius="16dp"
-    app:cardElevation="4dp">
-
+    app:cardElevation="6dp">
 
     <!-- Container for Item Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="365dp"
         android:orientation="vertical"
         android:padding="16dp">
+
+        <!-- Title Row with Close Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Detailed Description"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/close_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end|center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Close"
+                android:padding="4dp"
+                android:src="@drawable/cross" />
+        </LinearLayout>
 
         <!-- Item Name Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:paddingBottom="25dp">
 
             <TextView
                 android:id="@+id/item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="8dp"
                 android:text="Item Name:  "
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -36,7 +65,8 @@
                 android:id="@+id/item_name_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sample Item"
+                android:paddingStart="8dp"
+                android:textColor="@color/vibrant_orange"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -45,12 +75,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:paddingBottom="25dp">
 
             <TextView
                 android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="8dp"
                 android:text="Category:  "
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -59,7 +90,8 @@
                 android:id="@+id/category_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sample Category"
+                android:paddingStart="8dp"
+                android:textColor="@color/vibrant_orange"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -68,12 +100,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:paddingBottom="25dp">
 
             <TextView
                 android:id="@+id/quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="8dp"
                 android:text="Quantity: "
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -82,7 +115,8 @@
                 android:id="@+id/quantity_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2"
+                android:paddingStart="8dp"
+                android:textColor="@color/vibrant_orange"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -91,12 +125,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:paddingBottom="25dp">
 
             <TextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="8dp"
                 android:text="Price:  "
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -105,7 +140,8 @@
                 android:id="@+id/price_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$10.00"
+                android:paddingStart="8dp"
+                android:textColor="@color/vibrant_orange"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -114,21 +150,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:paddingBottom="25dp">
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="8dp"
                 android:text="Description:  "
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/description_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sample description of the item."
+                android:paddingStart="8dp"
+                android:textColor="@color/vibrant_orange"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>

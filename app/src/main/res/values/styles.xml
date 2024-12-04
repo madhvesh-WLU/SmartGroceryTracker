@@ -1,5 +1,16 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Custom Action Bar style for title text -->
+    <style name="CustomActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:titleTextStyle">@style/CustomActionBarTitleText</item>
+    </style>
+
+    <style name="CustomActionBarTitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/vibrant_orange</item> <!-- Custom color for ActionBar title -->
+        <item name="android:textSize">20sp</item> <!-- Optional: adjust text size -->
+    </style>
+
+    <!-- Circular Image View Style for profile pictures -->
     <style name="CircularImageViewStyle">
         <item name="shapeAppearanceOverlay">@style/CircularImageViewShape</item>
     </style>
@@ -8,11 +19,13 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">60dp</item> <!-- Adjust size to half of your image view size -->
     </style>
+
     <style name="CircularImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
 
+    <!-- Button Styles -->
     <style name="OrangeButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:background">@drawable/rounded_button_background</item>
         <item name="android:textColor">@color/button_text_color</item>
@@ -31,6 +44,7 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <!-- Custom Dialog Theme -->
     <style name="CustomDialogTheme" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>
@@ -42,13 +56,4 @@
         <item name="android:windowExitAnimation">@anim/scale_out</item>
     </style>
 
-
-    <style name="CustomActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:titleTextStyle">@style/CustomActionBarTitleText</item>
-    </style>
-
-    <style name="CustomActionBarTitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/white</item> <!-- Set title color to orange -->
-        <item name="android:textSize">20sp</item> <!-- Optional: Adjust text size -->
-    </style>
 </resources>

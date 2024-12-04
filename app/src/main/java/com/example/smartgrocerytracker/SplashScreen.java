@@ -3,6 +3,8 @@ package com.example.smartgrocerytracker;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
@@ -14,8 +16,9 @@ public class SplashScreen extends AppCompatActivity {
     private ProgressBar progressBar;
     private MotionLayout motionLayout;
 
-    // Total duration for the splash screen (in milliseconds)
-    private static final int TOTAL_DURATION = 3000; // 3 seconds
+    // Total duration for the progress bar (in milliseconds)
+    private static final int PROGRESS_DURATION = 2000; // 2 seconds
+    private static final int DELAY_BEFORE_PROGRESS = 1800; // 1 second delay
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +28,19 @@ public class SplashScreen extends AppCompatActivity {
         motionLayout = findViewById(R.id.motionLayout);
         progressBar = findViewById(R.id.progressBar);
 
+        // Initially hide the ProgressBar
+        progressBar.setVisibility(View.INVISIBLE);
+
         // Start the "pop out" animation
         motionLayout.transitionToState(R.id.middle);
 
-        // Start the AsyncTask to update the ProgressBar
-        new ProgressBarAsyncTask().execute();
+        // Delay showing the ProgressBar and start updating it
+        new Handler().postDelayed(() -> {
+            // Make ProgressBar visible
+            progressBar.setVisibility(View.VISIBLE);
+            // Start the AsyncTask to update the ProgressBar
+            new ProgressBarAsyncTask().execute();
+        }, DELAY_BEFORE_PROGRESS);
 
         // Handle MotionLayout transitions
         motionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
@@ -74,7 +85,7 @@ public class SplashScreen extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             int progress = 0;
-            int sleepTime = TOTAL_DURATION / 100; // Duration per progress increment
+            int sleepTime = PROGRESS_DURATION / 100; // Duration per progress increment
 
             while (progress < 100) {
                 try {

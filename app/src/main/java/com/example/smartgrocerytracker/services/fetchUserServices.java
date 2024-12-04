@@ -1,7 +1,6 @@
 package com.example.smartgrocerytracker.services;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,10 +12,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.smartgrocerytracker.Config;
-import com.example.smartgrocerytracker.MainActivity;
-import com.example.smartgrocerytracker.ui.profile.UserProfile;
+import com.example.smartgrocerytracker.ModelClass.BudgetModel;
+import com.example.smartgrocerytracker.ModelClass.SharedBudgetViewModel;
 import com.example.smartgrocerytracker.utils.SecurePreferences;
-import com.example.smartgrocerytracker.utils.TokenValidator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,84 +24,71 @@ import java.util.Map;
 
 public class fetchUserServices {
     private static final String TAG = "fetchUserServices";
-    private static final String USER_PREFS = "UserPref";
-    private static final String EMAIL_KEY = "email";
-    private static final String USERNAME_KEY = "username";
 
-    public static void fetchUserDetails(Context context, RequestQueue queue) {
+    public static void fetchUserDetails(Context context, RequestQueue queue, SharedBudgetViewModel sharedBudgetViewModel) {
         String token = SecurePreferences.getAuthToken(context);
         String url = Config.USER_FETCH_URL;
-        JSONObject jsonObject = new JSONObject();
-        JsonObjectRequest fetchUserRequest = new JsonObjectRequest(Request.Method.GET, url,null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if (response.getBoolean("success")) {
-                                JSONObject data = response.getJSONObject("data");
-                                String username =  data.getString("username");
-                                String email = data.getString("email");
-                                String user_id = data.getString("user_id");
-                                String budget_id = data.optString("budget_id", null);
 
-                                if(budget_id == "null"){
-//                                TODO if budget_id is null means there is no active budget so it should null
-                                    // Store the budget details in SharedPreferences
-                                    SharedPreferences sharedPreferences = context.getSharedPreferences("ActiveBudget", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("budget_id", null);
-                                    editor.putString("user_id", null);
-                                    editor.putString("amount", null);
-                                    editor.putString("spent_amount", null);
-                                    editor.putString("start_date", null);
-                                    editor.putString("end_date", null);
-                                    editor.apply();
-                                }
-//
-//                              UserProfile.getInstance().setUserData(username,email,user_id);
-                                Log.i("Res:", String.valueOf(data));
+        JsonObjectRequest fetchUserRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        if (response.getBoolean("success")) {
+                            JSONObject data = response.getJSONObject("data");
+                            String username = data.optString("username",null);
+                            String user_id = data.optString("user_id",null);
+                            String email = data.optString("email",null);
+                            String budgetId = data.optString("budget_id", null);
 
-                                SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PREFS, Context.MODE_PRIVATE);
+                            if (budgetId == null || "null".equals(budgetId)) {
+                                SharedPreferences sharedPreferences = context.getSharedPreferences("UserPref", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString(USERNAME_KEY,username);
-                                editor.putString(EMAIL_KEY, email);
+                                editor.putString("username",username);
+                                editor.putString("email", email);
                                 editor.putString("user_id", user_id);
-                                editor.putString("budget_id", budget_id);
-//                                fetchBudgetDetails.getBudgetService(context, queue, budget_id, new fetchBudgetDetails.BudgetDetailsUpdateListener() {
-//                                    @Override
-//                                    public void onBudgetDetailsUpdated(String amount, String startDate, String endDate, String spentAmount) {
-//                                        Log.d(TAG, "Budget details fetched: Amount=" + amount + ", Start=" + startDate + ", End=" + endDate);
-//
-//                                        SharedPreferences sharedPreferences = context.getSharedPreferences("ActiveBudget", Context.MODE_PRIVATE);
-//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                        editor.putString("amount", amount);
-//                                        editor.putString("spent_amount", spentAmount);
-//                                        editor.putString("start_date", startDate);
-//                                        editor.putString("end_date", endDate);
-//                                        editor.apply();
-//
-//                                        // Optional: Notify the user
-//                                        Toast.makeText(context, "Budget details fetched and stored successfully", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                });
+                                editor.putString("budget_id", null);
                                 editor.apply();
 
-                            } else {
-                                Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, response.getString("message"));
+                                SharedPreferences sharedPreferences_active_budget = context.getSharedPreferences("ActiveBudget", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor2 = sharedPreferences_active_budget.edit();
+                                editor2.putString("budget_id",null);
+                                editor2.apply();
+
+
+                                sharedBudgetViewModel.setBudgetModel(null); // No active budget
+                                return;
                             }
-                        } catch (JSONException e) {
-                            Log.e(TAG, "JSON parsing error: " + e.getMessage());
-                            Toast.makeText(context, "Failed to parse user data", Toast.LENGTH_SHORT).show();
+
+                            Log.e(TAG, String.valueOf(response.getJSONObject("data")));
+
+                            SharedPreferences sharedPreferences = context.getSharedPreferences("UserPref", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("username",username);
+                            editor.putString("email", email);
+                            editor.putString("user_id", user_id);
+                            editor.putString("budget_id", budgetId);
+                            editor.apply();
+
+                            SharedPreferences sharedPreferences_active_budget = context.getSharedPreferences("ActiveBudget", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = sharedPreferences_active_budget.edit();
+                            editor2.putString("budget_id",budgetId);
+                            editor2.apply();
+                            // Fetch the budget details using the budget ID
+                            fetchBudgetDetails.getBudgetService(context, budgetId,budgetModel -> {
+                                sharedBudgetViewModel.setBudgetModel(budgetModel); // Update ViewModel with budget
+                            });
+                        } else {
+                            Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, response.getString("message"));
                         }
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSON parsing error: " + e.getMessage());
+                        Toast.makeText(context, "Failed to parse user data", Toast.LENGTH_SHORT).show();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Volley error: " + error.getMessage());
-                Toast.makeText(context, "Failed to retrieve user details", Toast.LENGTH_SHORT).show();
-            }
-        }) {
+                },
+                error -> {
+                    Log.e(TAG, "Volley error: " + error.getMessage());
+                    Toast.makeText(context, "Failed to retrieve user details", Toast.LENGTH_SHORT).show();
+                }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -116,5 +101,4 @@ public class fetchUserServices {
 
         queue.add(fetchUserRequest);
     }
-
 }

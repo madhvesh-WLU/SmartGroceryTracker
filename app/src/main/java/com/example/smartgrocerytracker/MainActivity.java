@@ -2,6 +2,7 @@ package com.example.smartgrocerytracker;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -37,10 +38,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.ModelClass.BudgetModel;
 import com.example.smartgrocerytracker.databinding.ActivityMainBinding;
+import com.example.smartgrocerytracker.services.fetchBudgetDetails;
 import com.example.smartgrocerytracker.services.fetchUserServices;
 import com.example.smartgrocerytracker.services.uploadImage;
 import com.example.smartgrocerytracker.ui.FullScreenImageActivity;
 import com.example.smartgrocerytracker.ui.ReviewActivity;
+import com.example.smartgrocerytracker.ui.grocerylist.BudgetActivity;
 import com.example.smartgrocerytracker.ui.home.HomeFragment;
 import com.example.smartgrocerytracker.utils.BudgetDialog;
 import com.example.smartgrocerytracker.utils.MediaUtils;
@@ -181,8 +184,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleFetchUserDetails() {
-        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-        fetchUserServices.fetchUserDetails(MainActivity.this, queue);
+        // Call fetchUserDetails and update SharedBudgetViewModel
+        fetchUserServices.fetchUserDetails(this, requestQueue, sharedBudgetViewModel);
     }
 
     @Override
@@ -211,12 +214,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showBudgetInputDialog() {
-        BudgetDialog budgetDialog = new BudgetDialog(this, updatedBudgetModel -> {
-            // Update the SharedViewModel with the new budget
-            SharedBudgetViewModel.setBudgetModel(updatedBudgetModel);
-        });
+        // Access SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE);
+        String budgetId = sharedPreferences.getString("budget_id", null);
 
-        budgetDialog.showBudgetDialog();
+        // Check if budgetId exists
+        if (budgetId == null || budgetId.equals("null")) {
+            // No active budget, navigate to BudgetActivity for new budget creation
+            Intent intent = new Intent(this, BudgetActivity.class);
+            intent.putExtra("isEditMode", false); // Pass 'false' to indicate a new budget setup
+            startActivity(intent);
+        } else {
+            BudgetDialog budgetDialog = new BudgetDialog(this, updatedBudgetModel -> {
+               SharedBudgetViewModel.setBudgetModel(updatedBudgetModel);
+           });
+           budgetDialog.showBudgetDialog();
+        }
+
     }
 
 

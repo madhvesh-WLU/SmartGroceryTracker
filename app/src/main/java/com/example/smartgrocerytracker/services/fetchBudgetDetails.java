@@ -28,12 +28,11 @@ public class fetchBudgetDetails {
     public interface BudgetDetailsUpdateListener {
         void onBudgetDetailsUpdated(BudgetModel budgetModel);
     }
-    public static void getBudgetService(Context context, BudgetDetailsUpdateListener listener) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("UserPref",Context.MODE_PRIVATE);
-        String budgetId = sharedPreferences.getString("budget_id",null);
+    public static void getBudgetService(Context context, String Budget_id,BudgetDetailsUpdateListener listener) {
+
         String token = SecurePreferences.getAuthToken(context);
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Config.GET_BUDGET_URL + budgetId;
+        String url = Config.GET_BUDGET_URL + Budget_id;
 
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

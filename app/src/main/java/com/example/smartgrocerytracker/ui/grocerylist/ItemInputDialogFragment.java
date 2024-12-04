@@ -1,5 +1,6 @@
 package com.example.smartgrocerytracker.ui.grocerylist;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.smartgrocerytracker.R;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 
 public class ItemInputDialogFragment extends DialogFragment {
 
@@ -32,6 +34,7 @@ public class ItemInputDialogFragment extends DialogFragment {
     public interface OnItemAddedListener {
         void onItemAdded(String name, String category, double price, int quantity);
     }
+
 
     @Override
     public void onStart() {

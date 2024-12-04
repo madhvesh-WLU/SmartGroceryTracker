@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -34,6 +36,7 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
     private boolean isMultiSelectionMode = false;
     private final List<ExpenseModel> selectedItems = new ArrayList<>();
     // Interface for handling item clicks
+    private long lastPosition = -1;
     public interface OnExpenseClickListener {
         void onExpenseClick(ExpenseModel expense);
     }
@@ -105,6 +108,8 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
             return true;
         });
 
+        setAnimation(holder.itemView,position);
+
 //        // Handle CheckBox click
 //        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
 //            if (isChecked) {
@@ -115,6 +120,16 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
 //                selectedItems.remove(expense);
 //            }
 //        });
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+        // Apply the animation only if the view is being bound for the first time
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+            animation.setStartOffset(position * 30); // Delay each item by 100ms * position
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
     private void toggleSelection(ExpenseModel expense) {
         if (selectedItems.contains(expense)) {

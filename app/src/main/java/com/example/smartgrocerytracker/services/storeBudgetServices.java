@@ -33,7 +33,7 @@ public class storeBudgetServices {
     private static final String BASE_URL = Config.BUDGET_STORE_URL;
     private static final String TAG = "store";
 
-    public static void sendBudgetRequest(Context context, RequestQueue queue, Integer budgetAmount, String startDate, String endDate, BudgetCallback callback) {
+    public static void sendBudgetRequest(Context context, RequestQueue queue, float budgetAmount, String startDate, String endDate, BudgetCallback callback) {
         String token = SecurePreferences.getAuthToken(context);
 
         JSONObject postData = new JSONObject();
