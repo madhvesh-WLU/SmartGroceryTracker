@@ -2,8 +2,11 @@ package com.example.smartgrocerytracker;
 
 import static androidx.core.app.PendingIntentCompat.getActivity;
 
+
+
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -31,29 +34,38 @@ import androidx.navigation.ui.NavigationUI;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.databinding.ActivityMainBinding;
+import com.example.smartgrocerytracker.services.fetchBudgetDetails;
 import com.example.smartgrocerytracker.services.fetchUserServices;
-import com.example.smartgrocerytracker.ui.grocerylist.BudgetFragment;
+import com.example.smartgrocerytracker.ui.Login;
+import com.example.smartgrocerytracker.ui.grocerylist.BudgetActivity;
+import com.example.smartgrocerytracker.ui.settings.SettingsActivity;
 import com.example.smartgrocerytracker.utils.BudgetDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int CAMERA_REQUEST_CODE = 101;
+    private SharedPreferences sharedPreferences;
 
+    private static final String PREFS_NAME = "AppSettingsPrefs";
+    private static final String TEXT_SIZE_KEY = "TextSize";
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+applyTextSize();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
 
         // Set up toolbar
@@ -106,15 +118,19 @@ public class MainActivity extends AppCompatActivity {
             int itemId = item.getItemId();
 
             if (itemId == R.id.nav_home) {
+                binding.appBarMain.toolbar.setTitle("Smart Grocery Tracker");
                 navController.navigate(R.id.nav_home);
                 return true;
             } else if (itemId == R.id.nav_gallery) {
+                binding.appBarMain.toolbar.setTitle("Global Grocery Search");
                 navController.navigate(R.id.yearSearchFragment);
                 return true;
             } else if (itemId == R.id.nav_slideshow) {
+                binding.appBarMain.toolbar.setTitle("Store Locator");
                 navController.navigate(R.id.nav_slideshow);
                 return true;
             }else if (itemId == R.id.nav_expense_fragment) {
+                binding.appBarMain.toolbar.setTitle("Expense List");
                 navigateToDestination(R.id.nav_expense_fragment, false);
                 return true;
             } else {
@@ -153,8 +169,27 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (itemId == R.id.action_settings2) {
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-            navController.navigate(R.id.nav_budget_fragment);
+            // Access SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE);
+            String budgetId = sharedPreferences.getString("budget_id", null);
+
+            // Check if budgetId exists
+            if (budgetId == null || budgetId.equals("null")) {
+                // No active budget, navigate to BudgetActivity for new budget creation
+                Intent intent = new Intent(this, BudgetActivity.class);
+                intent.putExtra("isEditMode", false); // Pass 'false' to indicate a new budget setup
+                startActivity(intent);
+            } else {
+                // Active budget, retrieve details and show BudgetDialog
+                fetchBudgetDetails.getBudgetService(this, Volley.newRequestQueue(this), budgetId, new fetchBudgetDetails.BudgetDetailsUpdateListener() {
+                    @Override
+                    public void onBudgetDetailsUpdated(String amount, String startDate, String endDate, String spentAmount) {
+                        // Show BudgetDialog with retrieved details
+                        BudgetDialog budgetDialog = new BudgetDialog(MainActivity.this);
+                        budgetDialog.showBudgetDialog(amount, startDate, endDate, false); // Pass details and isEditMode = false
+                    }
+                });
+            }
             return true;
         } else if (itemId == R.id.action_settings3) {
             NavController navControllers = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -168,11 +203,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void applyTextSize() {
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String textSize = sharedPreferences.getString(TEXT_SIZE_KEY, "Medium");
 
-    private void showBudgetInputDialog() {
+        switch (textSize) {
+            case "Small":
+                setTheme(R.style.TextSize_Small);
+                break;
+            case "Medium":
+                setTheme(R.style.TextSize_Medium);
+                break;
+            case "Large":
+                setTheme(R.style.TextSize_Large);
+                break;
+            case "Extra Large":
+                setTheme(R.style.TextSize_ExtraLarge);
+                break;
+        }
+    }
+
+
+   /* private void showBudgetInputDialog() {
         BudgetDialog budgetDialog = new BudgetDialog(this);
         budgetDialog.showBudgetDialog();
-    }
+    }*/
 
     private boolean checkCameraPermission() {
         boolean isGranted = checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;

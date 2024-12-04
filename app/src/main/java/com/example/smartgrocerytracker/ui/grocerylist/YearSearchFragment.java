@@ -1,16 +1,22 @@
 package com.example.smartgrocerytracker.ui.grocerylist;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.databinding.FragmentYearSearchBinding;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -18,17 +24,31 @@ public class YearSearchFragment extends Fragment {
 
     private FragmentYearSearchBinding binding;
 
+    private RecyclerView searchResultsRecyclerView;
+    private View addsearch;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentYearSearchBinding.inflate(inflater, container, false);
+
         return binding.getRoot();
+
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        searchResultsRecyclerView = binding.searchResultsRecyclerView;
+        addsearch = binding.addResults;
+
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            // Set the title for Store Locator
+            toolbar.setTitle("Global Grocery Search");
+        }
         // Setup year spinner
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_item, getYears());
@@ -52,6 +72,8 @@ public class YearSearchFragment extends Fragment {
 
         // Search button click listener
         binding.applyFilterButton.setOnClickListener(v -> performSearch());
+
+
     }
 
     private void setupChipClickListeners() {
@@ -108,10 +130,15 @@ public class YearSearchFragment extends Fragment {
         String selectedCategory = binding.categorySpinner.getSelectedItem().toString();
         String billOrGrocery = binding.editTextBillOrGrocery.getText().toString();
 
-        // Use selected data to filter or perform any search action
-        // Example: filterByYearMonthCategory(selectedYear, selectedMonth, selectedCategory);
+        if (selectedYear.isEmpty() && selectedMonth.isEmpty() && selectedCategory.isEmpty() && billOrGrocery.isEmpty()) {
+            searchResultsRecyclerView.setVisibility(View.GONE);
+            addsearch.setVisibility(View.VISIBLE);
+        } else {
+            // Perform your filtering logic here and update RecyclerView
+            searchResultsRecyclerView.setVisibility(View.VISIBLE);
+            addsearch.setVisibility(View.GONE);
+        }
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
