@@ -2,6 +2,7 @@ package com.example.smartgrocerytracker.ui.grocerylist;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.smartgrocerytracker.R;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 
 public class FancyGroceryOptionsDialog extends DialogFragment {
 
@@ -20,6 +22,8 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.bottom_sheet_grocery_options, container, false);
     }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

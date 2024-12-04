@@ -215,6 +215,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -252,6 +254,7 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
     private Set<Integer> selectedPositions = new HashSet<>();
     private String searchQuery = ""; // To store the current search query for highlighting
 
+    private long lastPosition = -1;
     // Constructor with context
     public GroceryItemAdapter(Context context, List<GroceryItemModel> groceryItemList) {
         this.context = context;  // Initialize context
@@ -287,8 +290,19 @@ public class GroceryItemAdapter extends RecyclerView.Adapter<GroceryItemAdapter.
             GroceryItemDetailDialogFragment dialogFragment = GroceryItemDetailDialogFragment.newInstance(item);
             dialogFragment.show(((androidx.fragment.app.FragmentActivity) context).getSupportFragmentManager(), "grocery_item_details");
         });
+
+        setAnimation(holder.itemView, position);
     }
 
+    private void setAnimation(View viewToAnimate, int position) {
+        // Apply the animation only if the view is being bound for the first time
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+            animation.setStartOffset(position * 100); // Delay each item by 100ms * position
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
     @Override
     public int getItemCount() {
         return groceryItemList.size();

@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,8 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
     private final OnExpenseClickListener clickListener;
     private String searchQuery; // To store the current query
     private final Context context; // Store context for accessing resources
+
+    private long lastPosition = -1;
     // Interface for handling item clicks
     public interface OnExpenseClickListener {
         void onExpenseClick(ExpenseModel expense);
@@ -63,8 +67,19 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
         // Set item click listener
         holder.itemView.setOnClickListener(v -> {
             if(clickListener !=null) clickListener.onExpenseClick(expense);});
+
+        setAnimation(holder.itemView, position);
     }
 
+    private void setAnimation(View viewToAnimate, int position) {
+        // Apply the animation only if the view is being bound for the first time
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+            animation.setStartOffset(position * 100); // Delay each item by 100ms * position
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
     public void updateData(List<ExpenseModel> newExpenses, String query) {
         this.expenseList = newExpenses;
         this.searchQuery = query; // Update the current query

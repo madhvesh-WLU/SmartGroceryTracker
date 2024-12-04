@@ -38,7 +38,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_with_pie_chart"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"
         app:cardCornerRadius="16dp"
@@ -56,19 +56,78 @@
             <!-- Pie Chart Visualization -->
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pie_chart"
-                android:layout_width="363dp"
-                android:layout_height="184dp"
+                android:layout_width="400dp"
+                android:layout_height="250dp"
                 android:layout_centerInParent="true" />
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/labels_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="right"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp">
+
+            <!-- Spent Label with Color Indicator -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
+
+                <View
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:background="@color/green"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/spent_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Spent"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray" />
+            </LinearLayout>
+
+            <!-- Remaining Label with Color Indicator -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <View
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:background="@color/vibrant_orange"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/remaining_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remaining"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray" />
+            </LinearLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <!-- Left to Spend Section -->
+
+    <!-- GridLayout for Buttons with Icons -->
     <TextView
         android:id="@+id/left_to_spend_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/card_background"
         android:gravity="center"
         android:padding="16dp"
@@ -79,7 +138,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_with_pie_chart" />
 
-    <!-- GridLayout for Buttons with Icons -->
     <GridLayout
         android:id="@+id/grid_layout"
         android:layout_width="match_parent"
@@ -91,7 +149,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/left_to_spend_label"
         app:layout_constraintStart_toStartOf="@+id/left_to_spend_label"
-        app:layout_constraintTop_toBottomOf="@+id/left_to_spend_label">
+        app:layout_constraintTop_toBottomOf="@+id/left_to_spend_label"
+        app:layout_constraintVertical_bias="0.0">
 
         <!-- Add Expense Item -->
         <LinearLayout
@@ -112,7 +171,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:contentDescription="Add Expense Icon"
-                android:src="@drawable/budget3" />
+                android:src="@drawable/budget4" />
 
             <TextView
                 android:id="@+id/grocerylist"
@@ -121,6 +180,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Add Grocery List"
                 android:textAlignment="center"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -144,7 +204,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:contentDescription="View Details Icon"
-                android:src="@drawable/search1" />
+                android:src="@drawable/search2" />
 
             <TextView
                 android:id="@+id/monthspend"
@@ -153,9 +213,10 @@
                 android:layout_marginTop="8dp"
                 android:text="Monthly Spend"
                 android:textAlignment="center"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>
     </GridLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,26 +1,43 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+    <!-- Base application theme with DayNight support -->
     <style name="Theme.SmartGroceryTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
+        <!-- Primary brand color -->
         <item name="colorPrimary">#27104e</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
-        <!-- Secondary brand color. -->
+        <!-- Secondary brand color -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:textColorPrimary">@color/vibrant_orange</item>
 
+        <!-- Custom Action Bar styling if needed -->
         <item name="actionBarStyle">@style/CustomActionBarStyle</item>
     </style>
 
-    <style name="Theme.SmartGroceryTracker.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <!-- Theme without ActionBar -->
+    <style name="Theme.SmartGroceryTracker.NoActionBar" parent="Theme.SmartGroceryTracker">
     </style>
 
-
-
+    <!-- Overlay themes for different app components -->
     <style name="Theme.SmartGroceryTracker.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="Theme.SmartGroceryTracker.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Text Size Themes -->
+    <style name="TextSize_Small" parent="Theme.SmartGroceryTracker">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextSize_Medium" parent="Theme.SmartGroceryTracker">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextSize_Large" parent="Theme.SmartGroceryTracker">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextSize_ExtraLarge" parent="Theme.SmartGroceryTracker">
+        <item name="android:textSize">24sp</item>
+    </style>
+
 </resources>

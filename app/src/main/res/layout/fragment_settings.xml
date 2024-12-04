@@ -1,135 +1,294 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#f5f5f5">
+    android:background="#0d023c"
+    android:id="@+id/fragment_container"
+    android:padding="16dp">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Profile Section -->
-        <LinearLayout
-            android:id="@+id/settings_section"
+
+
+        <!-- User Profile Section -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@android:color/white"
-            android:layout_marginBottom="8dp"
-            android:gravity="center_vertical"
-            android:clickable="true"
-            android:focusable="true">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#27104e">
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:contentDescription="Profile Picture"
-                android:layout_marginEnd="16dp"
-                android:padding="4dp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:padding="16dp">
 
+                <!-- User Image -->
+                <ImageView
+                    android:id="@+id/user_image"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/user_icon"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!-- User Info -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/user_name"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="User Profile"
-                    android:textStyle="bold"
                     android:textSize="18sp"
-                    android:textColor="#333" />
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/user_image"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tap_to_edit"
+                    android:layout_marginBottom="4dp" />
 
-                <!-- Add this tap_to_edit TextView -->
                 <TextView
                     android:id="@+id/tap_to_edit"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Tap to view and edit"
                     android:textSize="14sp"
-                    android:textColor="#007BFF" />
-            </LinearLayout>
+                    android:textColor="#FFB300"
+                    app:layout_constraintStart_toStartOf="@id/user_name"
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:contentDescription="Navigate to Profile" />
-        </LinearLayout>
+        <!-- Settings Cards -->
 
-
-        <!-- Language Section -->
-        <LinearLayout
-            android:id="@+id/language_section"
+        <!-- Night Mode, Notifications, Private Account -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:background="@android:color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#27104e">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="Language:"
-                android:textColor="#333"
-                android:textSize="16sp" />
-
-            <!-- Language Spinner -->
-            <Spinner
-                android:id="@+id/language_spinner"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:entries="@array/language_options"
-                tools:ignore="TouchTargetSizeCheck" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <!-- Static Information -->
-        <TextView
+                <!-- Night Mode -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/night_mode"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Night Mode"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_weight="1" />
+
+                    <Switch
+                        android:id="@+id/night_mode_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                </LinearLayout>
+
+                <!-- Private Account -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/privacy"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Private Account"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_weight="1" />
+
+                    <Switch
+                        android:id="@+id/private_account_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Security & Privacy, Text Size, Languages -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/security_privacy_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/authors"
-            android:textStyle="italic"
-            android:textSize="16sp"
-            android:padding="10dp"
-            android:background="@android:color/white"
-            android:layout_marginBottom="8dp"
-            android:textColor="#555" />
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#27104e">
 
-        <TextView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+
+
+                <!-- Text Size -->
+                <LinearLayout
+                    android:id="@+id/text_size_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/font"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Text Size"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/right_arrow" />
+                </LinearLayout>
+
+                <!-- Languages -->
+                <LinearLayout
+                    android:id="@+id/languages_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/language"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Languages"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/right_arrow" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Static Information Section -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_version"
-            android:textSize="16sp"
-            android:padding="10dp"
-            android:background="@android:color/white"
-            android:layout_marginBottom="8dp"
-            android:textColor="#555" />
+            android:layout_margin="5dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            android:backgroundTint="#27104e">
 
-        <TextView
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/authors"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:textColor="#FFFFFF" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_description"
-            android:padding="10dp"
-            android:background="@android:color/white"
-            android:layout_marginBottom="8dp"
-            android:textColor="#555" />
+            android:layout_margin="5dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            android:backgroundTint="#27104e">
 
-        <!-- Logout Button -->
-        <Button
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_version"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:textColor="#FFFFFF" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/app_description_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            android:backgroundTint="#27104e">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="App Description"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textColor="#FFFFFF" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Log Out Button -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/logout_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout"
-            android:textAllCaps="false"
-            android:backgroundTint="#007BFF"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FF3D00"
+            android:text="Log Out"
             android:textColor="@android:color/white"
+            app:cornerRadius="8dp"
             android:padding="12dp" />
+
     </LinearLayout>
-</ScrollView>
+</FrameLayout>

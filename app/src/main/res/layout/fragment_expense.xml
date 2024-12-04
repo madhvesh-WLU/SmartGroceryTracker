@@ -35,7 +35,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
             android:contentDescription="Add Bill Icon"
-            android:src="@drawable/additem" />
+            android:src="@drawable/add_bill" />
 
         <!-- Message displayed when there are no bills -->
         <TextView

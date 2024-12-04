@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/top_semi_circle"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="200dp"
             android:scaleType="fitXY"
             android:src="@drawable/curved_shape"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +34,7 @@
             android:background="@android:color/white"
             android:padding="4dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/username"
+            android:src="@drawable/user_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,6 +77,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="24dp"
+                android:background="@drawable/card_background"
                 app:cardElevation="8dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,11 +93,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:hint="Username"
-                        app:endIconDrawable="@drawable/username"
+                        app:endIconDrawable="@drawable/user"
+                        android:backgroundTint="@color/vibrant_orange"
+                        app:endIconTint="@color/vibrant_orange"
                         app:endIconMode="custom"
+                        app:hintTextColor="@color/vibrant_orange"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:boxStrokeColor="@color/vibrant_orange"> <!-- Set border color here -->
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/username"
@@ -117,11 +122,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:hint="Your Email"
-                        app:endIconDrawable="@drawable/email"
+                        app:endIconDrawable="@drawable/mail_user"
+                        android:backgroundTint="@color/vibrant_orange"
+                        app:endIconTint="@color/vibrant_orange"
                         app:endIconMode="custom"
+                        app:hintTextColor="@color/vibrant_orange"
                         app:layout_constraintTop_toBottomOf="@id/username_input_layout"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:boxStrokeColor="@color/vibrant_orange"> <!-- Set border color here -->
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/email"
@@ -134,15 +143,16 @@
                             android:textColorHint="#7C7C7C" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Edit Profile and Logout Buttons -->
+
+            <!-- Edit Profile and Logout Buttons -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/edit_profile"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:text="Edit Profile"
-                        android:textColor="@color/colorPrimary"
-                        app:backgroundTint="@color/white"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/vibrant_orange"
                         app:iconGravity="textStart"
                         app:layout_constraintTop_toBottomOf="@id/email_input_layout"
                         app:layout_constraintStart_toStartOf="parent"
@@ -154,9 +164,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:backgroundTint="#27104e"
+                        android:backgroundTint="@color/white"
                         android:text="Logout"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimaryDark"
                         app:icon="@drawable/baseline_logout_24"
                         app:iconGravity="textStart"
                         app:layout_constraintTop_toBottomOf="@id/email_input_layout"

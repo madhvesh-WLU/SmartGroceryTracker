@@ -1,5 +1,6 @@
 package com.example.smartgrocerytracker.ui.expenses;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.services.searchGroceryItemsServices;
 import com.example.smartgrocerytracker.services.updateExpenseServices;
 import com.example.smartgrocerytracker.ui.grocerylist.ItemInputDialogFragment;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,6 +62,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         return binding.getRoot();
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -73,7 +76,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
 
             // Enable the back arrow
             toolbar.setNavigationIcon(R.drawable.back_arrow);
-            toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.vibrant_orange));
+            toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white));
             toolbar.setNavigationOnClickListener(v -> {
                 // Navigate back when the back arrow is clicked
                 NavController navController = NavHostFragment.findNavController(this);
