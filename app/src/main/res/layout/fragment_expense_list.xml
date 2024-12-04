@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:contentDescription="Expand or Collapse"
-                    android:src="@drawable/additem" />
+                    android:src="@drawable/down_arrow" />
             </LinearLayout>
 
             <!-- Collapsible Content Layout: Hidden by default -->
@@ -276,7 +276,7 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"
                         android:contentDescription="Edit Billing Information"
-                        android:src="@drawable/edit" />
+                        android:src="@drawable/up_arrow" />
                 </LinearLayout>
 
             </LinearLayout>
