@@ -36,16 +36,9 @@
     <string name="change_language">Change Language</string>
     <string name="save_changes">Save Changes</string>
 
-    <!-- Other strings -->
 
-    <string-array name="language_options">
-        <item>English</item>
-        <item>Spanish</item>
-        <item>French</item>
-        <item>German</item>
-    </string-array>
-
-
+    <string name="create_account_text">Create Account</string>
+    <string name="second_text_signup">Join us to start managing your expenses better</string>
     <string name="hello_folks">Hello, Folks!</string>
     <string name="user">User</string>
     <string name="username">Username</string>

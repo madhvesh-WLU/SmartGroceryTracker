@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
             android:fontFamily="@font/segoe"
-            android:text="Create Account"
+            android:text="@string/create_account_text"
             android:textColor="@color/colorTextWhite"
             android:textSize="36sp" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/segoer"
-                android:text="Join us to start managing your expenses better"
+                android:text="@string/second_text_signup"
                 android:textColor="@color/colorTextWhite"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -96,7 +96,8 @@
             android:drawablePadding="12dp"
             android:drawableTint="@color/vibrant_orange"
             android:fontFamily="@font/segoer"
-            android:hint="Username"
+            android:hint="@string/username"
+            android:textSize="12sp"
             android:inputType="textEmailAddress"
             android:paddingHorizontal="12dp"
             android:textColor="@color/colorTextBlack"
@@ -122,9 +123,10 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/email"
             android:drawablePadding="12dp"
+            android:textSize="12sp"
             android:drawableTint="@color/vibrant_orange"
             android:fontFamily="@font/segoer"
-            android:hint="Email Address"
+            android:hint="@string/email_address"
             android:inputType="textEmailAddress"
             android:paddingHorizontal="12dp"
             android:textColor="@color/colorTextBlack"
@@ -151,9 +153,10 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/password"
             android:drawablePadding="12dp"
+            android:textSize="12sp"
             android:drawableTint="@color/vibrant_orange"
             android:fontFamily="@font/segoer"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:paddingHorizontal="12dp"
             android:textColor="@color/colorTextBlack"
@@ -182,7 +185,8 @@
             android:drawablePadding="12dp"
             android:drawableTint="@color/vibrant_orange"
             android:fontFamily="@font/segoer"
-            android:hint="Confirm Password"
+            android:textSize="12sp"
+            android:hint="@string/confirm_password"
             android:inputType="textPassword"
             android:paddingHorizontal="12dp"
             android:textColor="@color/colorTextBlack"
@@ -203,7 +207,7 @@
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/vibrant_orange"
                 android:fontFamily="@font/segoer"
-                android:text="Sign Up"
+                android:text="@string/sign_up"
                 android:textAllCaps="false"
                 android:textColor="@color/colorButtonText"
                 android:textSize="16sp" />
@@ -234,9 +238,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:fontFamily="@font/segoer"
-                android:text="Already have an account?"
+                android:text="@string/already_have_an_account"
                 android:textColor="@color/colorTextBlack"
-                android:textSize="18sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/login_link"
@@ -244,9 +248,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:fontFamily="@font/segoer"
-                android:text="Log In"
+                android:text="@string/log_in"
                 android:textColor="@color/vibrant_orange"
-                android:textSize="18sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

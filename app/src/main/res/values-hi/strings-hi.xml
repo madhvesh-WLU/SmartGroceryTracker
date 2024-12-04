@@ -47,6 +47,8 @@
     </string-array>
 
 
+    <string name="create_account_text">खाता बनाएं</string>
+    <string name="second_text_signup">अपने खर्चों को बेहतर ढंग से प्रबंधित करने के लिए हमसे जुड़ें</string>
     <string name="hello_folks">नमस्ते दोस्तों!</string>
     <string name="user">उपयोगकर्ता</string>
     <string name="username">उपयोगकर्ता नाम</string>
