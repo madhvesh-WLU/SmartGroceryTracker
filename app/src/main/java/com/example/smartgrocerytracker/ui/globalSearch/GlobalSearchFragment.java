@@ -3,6 +3,7 @@ package com.example.smartgrocerytracker.ui.globalSearch;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.example.smartgrocerytracker.services.GlobalSearchServices;
 import com.example.smartgrocerytracker.services.deleteExpenseServices;
 import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.services.deleteGroceryServices;
+import com.example.smartgrocerytracker.utils.HideKeyboard;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -167,7 +169,11 @@ public class GlobalSearchFragment extends Fragment implements
     private void performSearch() {
         Log.d("GlobalSearch", "Perform search triggered");
 
-
+        // Reset visibility to default state
+        binding.errorResults.setVisibility(View.GONE);
+        binding.addResults.setVisibility(View.VISIBLE); // Show "Add Results" by default
+        binding.searchResultsRecyclerView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
 
         int checkedChipId = binding.categoryChipGroup.getCheckedChipId();
         if (checkedChipId == -1) {
@@ -176,6 +182,11 @@ public class GlobalSearchFragment extends Fragment implements
             return; // Exit early if no chip is selected
         }
 
+        // Show progress bar and hide other views during search
+        binding.progressBar.setVisibility(View.VISIBLE);
+        HideKeyboard.hideKeyboard(requireContext(), getView());
+        binding.addResults.setVisibility(View.GONE);
+
         String query = binding.editTextBillOrGrocery.getText().toString().trim();
         String selectedYear = binding.yearSpinner.getSelectedItem() != null ? binding.yearSpinner.getSelectedItem().toString() : "";
         String selectedMonthName = binding.monthSpinner.getSelectedItem() != null ? binding.monthSpinner.getSelectedItem().toString() : "";
@@ -183,54 +194,69 @@ public class GlobalSearchFragment extends Fragment implements
         // Skip "Select Year" and "Select Month"
         selectedYear = selectedYear.equals("Select Year") ? "" : selectedYear;
         String selectedMonth = selectedMonthName.equals("Select Month") ? "" : getMonthNumber(selectedMonthName);
-        // Perform your filtering logic here and update RecyclerView
-        binding.searchResultsRecyclerView.setVisibility(View.VISIBLE);
-        binding.addResults.setVisibility(View.GONE);
-        if (checkedChipId == R.id.chip_bill_name) {
-            if (!query.isEmpty()) {
-                Log.d("GlobalSearch", "Bill Name search triggered with query: " + query);
-                services.fetchBillNameData(query, selectedYear, selectedMonth,
-                        this::handleBillNameResponse,
-                        this::handleError);
-            } else {
-                Toast.makeText(requireContext(), "Please enter a bill name to search.", Toast.LENGTH_SHORT).show();
+
+        String finalSelectedYear = selectedYear;
+
+        // Delay for search operation simulation (optional, for a better user experience)
+        new Handler().postDelayed(() -> {
+            // Perform the search logic based on selected chip
+            if (checkedChipId == R.id.chip_bill_name) {
+                if (!query.isEmpty()) {
+                    Log.d("GlobalSearch", "Bill Name search triggered with query: " + query);
+                    services.fetchBillNameData(query, finalSelectedYear, selectedMonth,
+                            this::handleBillNameResponse,
+                            this::handleError);
+                } else {
+                    Toast.makeText(requireContext(), "Please enter a bill name to search.", Toast.LENGTH_SHORT).show();
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.addResults.setVisibility(View.VISIBLE);
+                }
+            } else if (checkedChipId == R.id.chip_grocery_name) {
+                if (!query.isEmpty()) {
+                    Log.d("GlobalSearch", "Grocery Name search triggered with query: " + query);
+                    services.fetchGroceryNameData(query, finalSelectedYear, selectedMonth,
+                            this::handleGroceryNameResponse,
+                            this::handleError);
+                }
+                else {
+                        Toast.makeText(requireContext(), "Please enter a Grocery name to search.", Toast.LENGTH_SHORT).show();
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.addResults.setVisibility(View.VISIBLE);
+                    }
+                }
+            else if(checkedChipId == R.id.chip_category) {
+                if (!query.isEmpty()){
+                    services.fetchCategoryData(query, finalSelectedYear, selectedMonth, this::handleCategoryResponse, this::handleError);
+
+            }else{
+                    Toast.makeText(requireContext(), "Please select category", Toast.LENGTH_SHORT).show();
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.addResults.setVisibility(View.VISIBLE);
+                }
             }
-        } else if (checkedChipId == R.id.chip_grocery_name) {
-            if (!query.isEmpty()) {
-                Log.d("GlobalSearch", "Grocery Name search triggered with query: " + query);
-                services.fetchGroceryNameData(query, selectedYear, selectedMonth,
-                        this::handleGroceryNameResponse,
-                        this::handleError);
-            } else {
-                Toast.makeText(requireContext(), "Please enter a grocery name to search.", Toast.LENGTH_SHORT).show();
-            }
-        } else if (checkedChipId == R.id.chip_category) {
-            String selectedCategory = binding.categorySpinner.getSelectedItem() != null ? binding.categorySpinner.getSelectedItem().toString() : "";
-            if (!selectedCategory.isEmpty()) {
-                Log.d("GlobalSearch", "Category search triggered with category: " + selectedCategory);
-                services.fetchCategoryData(selectedCategory, selectedYear, selectedMonth,
-                        this::handleCategoryResponse,
-                        this::handleError);
-            } else {
-                Toast.makeText(requireContext(), "Please select a category to search.", Toast.LENGTH_SHORT).show();
-            }
-        }
+
+        }, 500); // Short delay (optional)
     }
+
 
     private void handleBillNameResponse(JSONObject response) {
         try {
+            binding.progressBar.setVisibility(View.GONE); // Hide progress bar
             JSONArray dataArray = response.getJSONArray("data");
-            List<BillInfo> billList = new ArrayList<>();
+
             if (dataArray.length() == 0) {
-                // No results found, show error layout
+                // No results found
                 binding.errorResults.setVisibility(View.VISIBLE);
                 binding.searchResultsRecyclerView.setVisibility(View.GONE);
-            }
-            else{
+                binding.addResults.setVisibility(View.GONE);
+            } else {
+                // Results found, show RecyclerView
                 binding.errorResults.setVisibility(View.GONE);
                 binding.searchResultsRecyclerView.setVisibility(View.VISIBLE);
+                binding.addResults.setVisibility(View.GONE);
+
+                List<BillInfo> billList = new ArrayList<>();
                 for (int i = 0; i < dataArray.length(); i++) {
-                    Log.i("Big data", dataArray.getJSONObject(i).toString());
                     JSONObject jsonObject = dataArray.getJSONObject(i);
                     BillInfo billInfo = new BillInfo();
                     billInfo.setBillName(jsonObject.getString("bill_name"));
@@ -248,47 +274,112 @@ public class GlobalSearchFragment extends Fragment implements
                 adapter.setViewType(SearchResultsAdapter.VIEW_TYPE_BILL_NAME);
                 adapter.setData(billList);
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
+            binding.errorResults.setVisibility(View.VISIBLE);
+            binding.searchResultsRecyclerView.setVisibility(View.GONE);
+            binding.addResults.setVisibility(View.GONE);
             Toast.makeText(requireContext(), "Failed to parse bill data.", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void handleGroceryNameResponse(JSONObject response) {
         try {
+            binding.progressBar.setVisibility(View.GONE); // Hide progress bar
             JSONArray dataArray = response.getJSONArray("data");
-            List<GroceryItem> groceryList = new ArrayList<>();
-            for (int i = 0; i < dataArray.length(); i++) {
-                JSONObject jsonObject = dataArray.getJSONObject(i);
-                GroceryItem groceryItem = new GroceryItem();
-                groceryItem.setItemName(jsonObject.getString("item_name"));
-                groceryItem.setQuantity(jsonObject.getInt("quantity"));
-                groceryItem.setCategory(jsonObject.getString("category"));
-                groceryItem.setPrice(jsonObject.getDouble("price"));
-                groceryItem.setPurchased(jsonObject.getBoolean("purchased"));
-                groceryItem.setItemId(jsonObject.getString("item_id"));
-                groceryItem.setUserId(jsonObject.getString("user_id"));
-                groceryItem.setExpenseId(jsonObject.getString("expense_id"));
-                groceryItem.setBillName(jsonObject.optString("bill_name"));
-                groceryItem.setBillAmount(jsonObject.optDouble("bill_amount", 0.0));
-                groceryItem.setTotalQuantity(jsonObject.optDouble("total_quantity", 0.0));
-                groceryItem.setDateOfPurchase(jsonObject.optString("date_of_purchase"));
-                groceryItem.setDescription(jsonObject.optString("description"));
-                groceryItem.setBudgetId(jsonObject.optString("budget_id"));
-                groceryItem.setStoreId(jsonObject.optString("store_id"));
-                groceryList.add(groceryItem);
+
+            if (dataArray.length() == 0) {
+                // No results found
+                binding.errorResults.setVisibility(View.VISIBLE);
+                binding.searchResultsRecyclerView.setVisibility(View.GONE);
+                binding.addResults.setVisibility(View.GONE);
+            } else {
+                // Results found, show RecyclerView
+                binding.errorResults.setVisibility(View.GONE);
+                binding.searchResultsRecyclerView.setVisibility(View.VISIBLE);
+                binding.addResults.setVisibility(View.GONE);
+
+                List<GroceryItem> groceryList = new ArrayList<>();
+                for (int i = 0; i < dataArray.length(); i++) {
+                    JSONObject jsonObject = dataArray.getJSONObject(i);
+                    GroceryItem groceryItem = new GroceryItem();
+                    groceryItem.setItemName(jsonObject.getString("item_name"));
+                    groceryItem.setQuantity(jsonObject.getInt("quantity"));
+                    groceryItem.setCategory(jsonObject.getString("category"));
+                    groceryItem.setPrice(jsonObject.getDouble("price"));
+                    groceryItem.setPurchased(jsonObject.getBoolean("purchased"));
+                    groceryItem.setItemId(jsonObject.getString("item_id"));
+                    groceryItem.setUserId(jsonObject.getString("user_id"));
+                    groceryItem.setExpenseId(jsonObject.getString("expense_id"));
+                    groceryItem.setBillName(jsonObject.optString("bill_name"));
+                    groceryItem.setBillAmount(jsonObject.optDouble("bill_amount", 0.0));
+                    groceryItem.setTotalQuantity(jsonObject.optDouble("total_quantity", 0.0));
+                    groceryItem.setDateOfPurchase(jsonObject.optString("date_of_purchase"));
+                    groceryItem.setDescription(jsonObject.optString("description"));
+                    groceryItem.setBudgetId(jsonObject.optString("budget_id"));
+                    groceryItem.setStoreId(jsonObject.optString("store_id"));
+                    groceryList.add(groceryItem);
+                }
+                adapter.setViewType(SearchResultsAdapter.VIEW_TYPE_GROCERY_NAME);
+                adapter.setData(groceryList);
             }
-            adapter.setViewType(SearchResultsAdapter.VIEW_TYPE_GROCERY_NAME);
-            adapter.setData(groceryList);
         } catch (JSONException e) {
             e.printStackTrace();
+            binding.errorResults.setVisibility(View.VISIBLE);
+            binding.searchResultsRecyclerView.setVisibility(View.GONE);
+            binding.addResults.setVisibility(View.GONE);
             Toast.makeText(requireContext(), "Failed to parse grocery data.", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void handleCategoryResponse(JSONObject response) {
-        handleGroceryNameResponse(response); // Category response structure is the same as GroceryName
+        try {
+            binding.progressBar.setVisibility(View.GONE); // Hide progress bar
+
+            JSONArray dataArray = response.getJSONArray("data");
+
+            if (dataArray.length() == 0) {
+                // No results found, show error layout
+                binding.errorResults.setVisibility(View.VISIBLE);
+                binding.searchResultsRecyclerView.setVisibility(View.GONE);
+                binding.addResults.setVisibility(View.GONE);
+            } else {
+                // Results found, show RecyclerView
+                binding.errorResults.setVisibility(View.GONE);
+                binding.searchResultsRecyclerView.setVisibility(View.VISIBLE);
+                binding.addResults.setVisibility(View.GONE);
+
+                List<GroceryItem> groceryList = new ArrayList<>();
+                for (int i = 0; i < dataArray.length(); i++) {
+                    JSONObject jsonObject = dataArray.getJSONObject(i);
+                    GroceryItem groceryItem = new GroceryItem();
+                    groceryItem.setItemName(jsonObject.getString("item_name"));
+                    groceryItem.setQuantity(jsonObject.getInt("quantity"));
+                    groceryItem.setCategory(jsonObject.getString("category"));
+                    groceryItem.setPrice(jsonObject.getDouble("price"));
+                    groceryItem.setPurchased(jsonObject.getBoolean("purchased"));
+                    groceryItem.setItemId(jsonObject.getString("item_id"));
+                    groceryItem.setUserId(jsonObject.getString("user_id"));
+                    groceryItem.setExpenseId(jsonObject.getString("expense_id"));
+                    groceryItem.setBillName(jsonObject.optString("bill_name"));
+                    groceryItem.setBillAmount(jsonObject.optDouble("bill_amount", 0.0));
+                    groceryItem.setTotalQuantity(jsonObject.optDouble("total_quantity", 0.0));
+                    groceryItem.setDateOfPurchase(jsonObject.optString("date_of_purchase"));
+                    groceryItem.setDescription(jsonObject.optString("description"));
+                    groceryItem.setBudgetId(jsonObject.optString("budget_id"));
+                    groceryItem.setStoreId(jsonObject.optString("store_id"));
+                    groceryList.add(groceryItem);
+                }
+                adapter.setViewType(SearchResultsAdapter.VIEW_TYPE_GROCERY_NAME);
+                adapter.setData(groceryList);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            binding.errorResults.setVisibility(View.VISIBLE);
+            binding.searchResultsRecyclerView.setVisibility(View.GONE);
+            binding.addResults.setVisibility(View.GONE);
+            Toast.makeText(requireContext(), "Failed to parse category data.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void handleError(VolleyError error) {

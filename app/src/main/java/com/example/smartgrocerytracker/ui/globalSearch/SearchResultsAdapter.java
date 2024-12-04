@@ -14,8 +14,12 @@ import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.ModelClass.BillInfo;
 import com.example.smartgrocerytracker.ModelClass.GroceryItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -26,7 +30,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public interface OnItemLongClickListener {
         void onItemLongClick(Object item, int position);
     }
-
+    private static final SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     public static final int VIEW_TYPE_BILL_NAME = 0;
     public static final int VIEW_TYPE_GROCERY_NAME = 1;
     private static final int VIEW_TYPE_CATEGORY = 2;
@@ -80,7 +84,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (holder instanceof BillNameViewHolder && item instanceof BillInfo) {
             ((BillNameViewHolder) holder).bind((BillInfo) item, clickListener,longClickListener, position);
         } else if (holder instanceof GroceryNameViewHolder && item instanceof GroceryItem) {
-            ((GroceryNameViewHolder) holder).bind((GroceryItem) item, clickListener, longClickListener, position);
+            try {
+                ((GroceryNameViewHolder) holder).bind((GroceryItem) item, clickListener, longClickListener, position);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         } else if (holder instanceof CategoryViewHolder && item instanceof GroceryItem) {
             ((CategoryViewHolder) holder).bind((GroceryItem) item, clickListener);
         }
@@ -142,7 +150,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             DateView = itemView.findViewById(R.id.date_of_bill_global);
         }
 
-        void bind(GroceryItem groceryItem, OnItemClickListener listener, OnItemLongClickListener longClickListener, int position) {
+        void bind(GroceryItem groceryItem, OnItemClickListener listener, OnItemLongClickListener longClickListener, int position) throws ParseException {
             textView.setText(groceryItem.getItemName());
             categoryView.setText(groceryItem.getCategory().toUpperCase());
             priceView.setText("$" + groceryItem.getPrice());
@@ -150,7 +158,9 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             billNameView.setText(groceryItem.getBillName());
             BillQuantityView.setText("Bill Qty: " + groceryItem.getTotalQuantity());
             totalPriceView.setText("$" + groceryItem.getBillAmount());
-            DateView.setText(groceryItem.getDateOfPurchase());
+            Date parsedDate = isoFormat.parse(groceryItem.getDateOfPurchase()); // Parse the input date
+            String formattedDate = isoFormat.format(parsedDate);
+            DateView.setText(formattedDate);
 
             // Handle regular click
             itemView.setOnClickListener(v -> {
