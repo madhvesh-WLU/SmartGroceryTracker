@@ -70,6 +70,7 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
         String date = formatDate(expense);
         holder.dateOfPurchaseTextView.setText(date);
         holder.totalPriceTextView.setText(String.valueOf("$" + expense.getBillAmount()));
+        holder.quantityTotal.setText(String.valueOf("Quantity: " + expense.getTotalQuantity()));
 
         // Highlight matching text in bill_name
         if (searchQuery != null && !searchQuery.isEmpty()) {
@@ -174,7 +175,7 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
     }
 
     public static class ExpenseViewHolder extends RecyclerView.ViewHolder {
-        TextView storeNameTextView, dateOfPurchaseTextView, totalPriceTextView;
+        TextView storeNameTextView, dateOfPurchaseTextView, totalPriceTextView,quantityTotal;
         CheckBox checkBox;
         public ExpenseViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -182,6 +183,7 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
             dateOfPurchaseTextView = itemView.findViewById(R.id.dateOfPurchaseTextView);
             totalPriceTextView = itemView.findViewById(R.id.priceTextView);
             checkBox = itemView.findViewById(R.id.expenseCheckBox);
+            quantityTotal = itemView.findViewById(R.id.quantityTextView);
         }
     }
 

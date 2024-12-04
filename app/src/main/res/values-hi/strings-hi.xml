@@ -37,14 +37,6 @@
     <string name="change_language">भाषा बदलें</string>
     <string name="save_changes">परिवर्तनों को सुरक्षित करें</string>
 
-    <!-- Other strings -->
-
-    <string-array name="language_options">
-        <item>अंग्रेज़ी</item>
-        <item>स्पैनिश</item>
-        <item>फ़्रेंच</item>
-        <item>जर्मन</item>
-    </string-array>
 
 
     <string name="create_account_text">खाता बनाएं</string>
