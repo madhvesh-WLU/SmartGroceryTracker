@@ -99,12 +99,49 @@
             android:textColor="@color/colorPrimaryDark" />
     </LinearLayout>
 
-    <!-- RecyclerView for Search Results -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/budgetId_recyclerView"
+    <FrameLayout
+        android:id="@+id/results_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent">
+
+        <!-- RecyclerView for displaying search results -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/budgetId_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="visible"
+        android:layout_marginTop="16dp" />
+
+        <!-- Layout to show when no results are found -->
+        <LinearLayout
+            android:id="@+id/no_results_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="150dp">
+
+            <TextView
+                android:id="@+id/no_results_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No items found"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:layout_marginEnd="8dp" />
+
+            <ImageButton
+                android:id="@+id/no_results_image_button"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/empty_search"
+                android:contentDescription="No results icon"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+        </LinearLayout>
+
+    </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/delete_gList"

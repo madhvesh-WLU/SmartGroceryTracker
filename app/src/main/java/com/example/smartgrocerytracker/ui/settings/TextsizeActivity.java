@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -12,11 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartgrocerytracker.MainActivity;
 import com.example.smartgrocerytracker.R;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 
 public class TextsizeActivity extends AppCompatActivity {
 
     private RadioGroup textSizeRadioGroup;
     private RadioButton smallTextSize, mediumTextSize, largeTextSize, extraLargeTextSize;
+
+    private ImageButton cancelButton;
     private Button applyButton;
 
     private SharedPreferences sharedPreferences;
@@ -25,6 +29,7 @@ public class TextsizeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        LanguageUtil.setLocale(this);
         super.onCreate(savedInstanceState);
 
         // Initialize SharedPreferences before setting the content view or applying text size
@@ -42,6 +47,7 @@ public class TextsizeActivity extends AppCompatActivity {
         largeTextSize = findViewById(R.id.large_text_size);
         extraLargeTextSize = findViewById(R.id.extra_large_text_size);
         applyButton = findViewById(R.id.apply_text_size_button);
+        cancelButton = findViewById(R.id.close_button);
 
         // Set previously saved text size option
         loadPreferences();
@@ -64,11 +70,16 @@ public class TextsizeActivity extends AppCompatActivity {
 
             editor.apply();
 
+
+
             // Restart activity to apply the new text size
             applyTextSizeGlobally();
         });
+        setupCancelButton();
     }
-
+    private void setupCancelButton() {
+        cancelButton.setOnClickListener(v -> finish());
+    }
     private void loadPreferences() {
         String textSize = sharedPreferences.getString(TEXT_SIZE_KEY, "Medium");
 
@@ -98,16 +109,16 @@ public class TextsizeActivity extends AppCompatActivity {
 
         switch (textSize) {
             case "Small":
-                setTheme(R.style.TextSize_Small);
+                setTheme(R.style.TextSizeSmall);
                 break;
             case "Medium":
-                setTheme(R.style.TextSize_Medium);
+                setTheme(R.style.TextSizeMedium);
                 break;
             case "Large":
-                setTheme(R.style.TextSize_Large);
+                setTheme(R.style.TextSizeLarge);
                 break;
             case "Extra Large":
-                setTheme(R.style.TextSize_ExtraLarge);
+                setTheme(R.style.TextSizeExtraLarge);
                 break;
         }
     }

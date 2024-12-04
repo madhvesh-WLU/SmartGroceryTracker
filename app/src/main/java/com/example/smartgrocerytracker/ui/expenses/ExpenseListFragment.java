@@ -2,6 +2,7 @@ package com.example.smartgrocerytracker.ui.expenses;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -257,6 +258,10 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
      * Submits the added grocery items to the backend.
      */
     private void onSubmit() {
+        // Show the ProgressBar and hide the Submit button
+      binding.loadingSpinner.setVisibility(View.VISIBLE);
+      binding.submitButton.setVisibility(View.GONE);
+
         if (addedItemsList.isEmpty()) {
             Toast.makeText(getContext(), "No new items added. Nothing to submit.", Toast.LENGTH_SHORT).show();
             return;
@@ -280,14 +285,18 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
             Toast.makeText(getContext(), "Expense ID is null", Toast.LENGTH_SHORT).show();
             return;
         } else {
-            addGroceryServices.postGroceryDetailsByExpenseID(requireContext(), queue, jsonArray, expense_id, new Runnable() {
-                @Override
-                public void run() {
-                    // Navigate back to the previous fragment
-                    NavController navController = NavHostFragment.findNavController(ExpenseListFragment.this);
-                    navController.popBackStack();
-                }
-            });
+            new Handler().postDelayed(() -> {
+                addGroceryServices.postGroceryDetailsByExpenseID(requireContext(), queue, jsonArray, expense_id, new Runnable() {
+                    @Override
+                    public void run() {
+                        // Navigate back to the previous fragment
+                        NavController navController = NavHostFragment.findNavController(ExpenseListFragment.this);
+                        navController.popBackStack();
+                        binding.loadingSpinner.setVisibility(View.GONE);
+                        binding.submitButton.setVisibility(View.VISIBLE);
+                    }
+                });
+                    },1000);
         }
         updateLayoutBasedOnItems();
 
@@ -411,6 +420,12 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
             binding.addItemMessageTextView.setVisibility(View.GONE);
             binding.controlButtonLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        LanguageUtil.setLocale(context);
     }
 
 

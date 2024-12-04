@@ -4,27 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0d023c"
     android:id="@+id/fragment_container"
     android:padding="16dp">
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="689dp"
         android:orientation="vertical">
-
 
 
         <!-- User Profile Section -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#27104e">
+            android:backgroundTint="#27104e"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -36,37 +33,37 @@
                     android:id="@+id/user_image"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:src="@drawable/user_icon"
                     android:layout_marginEnd="16dp"
+                    android:src="@drawable/user_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- User Info -->
                 <TextView
                     android:id="@+id/user_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
                     android:text="User Profile"
+                    android:textColor="@color/vibrant_orange"
                     android:textSize="18sp"
-                    android:textColor="#FFFFFF"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/user_image"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/tap_to_edit"
-                    android:layout_marginBottom="4dp" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/user_image"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tap_to_edit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Tap to view and edit"
-                    android:textSize="14sp"
                     android:textColor="#FFB300"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/user_name"
-                    app:layout_constraintTop_toBottomOf="@id/user_name"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/user_name" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -76,10 +73,9 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#27104e">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,23 +87,25 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_marginEnd="16dp"
+                        android:backgroundTint="@color/vibrant_orange"
                         android:src="@drawable/night_mode"
-                        android:layout_marginEnd="16dp" />
+                        android:tint="@color/vibrant_orange" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Night Mode"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:layout_weight="1" />
+                        android:textColor="@color/vibrant_orange"
+                        android:textSize="16sp" />
 
                     <Switch
                         android:id="@+id/night_mode_switch"
@@ -120,22 +118,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/privacy"
-                        android:layout_marginEnd="16dp" />
+                        android:tint="@color/vibrant_orange" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Private Account"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:layout_weight="1" />
+                        android:textColor="@color/vibrant_orange"
+                        android:textSize="16sp" />
 
                     <Switch
                         android:id="@+id/private_account_switch"
@@ -151,10 +150,9 @@
             android:id="@+id/security_privacy_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#27104e">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -163,34 +161,35 @@
                 android:padding="16dp">
 
 
-
                 <!-- Text Size -->
                 <LinearLayout
                     android:id="@+id/text_size_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/font"
-                        android:layout_marginEnd="16dp" />
+                        android:tint="@color/vibrant_orange" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Text Size"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:layout_weight="1" />
+                        android:textColor="@color/vibrant_orange"
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/right_arrow" />
+                        android:src="@drawable/right_arrow"
+                        android:tint="@color/black" />
                 </LinearLayout>
 
                 <!-- Languages -->
@@ -198,65 +197,50 @@
                     android:id="@+id/languages_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/language"
-                        android:layout_marginEnd="16dp" />
+                        android:tint="@color/vibrant_orange" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Languages"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:layout_weight="1" />
+                        android:textColor="@color/vibrant_orange"
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/right_arrow" />
+                        android:src="@drawable/right_arrow"
+                        android:tint="@color/black" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Static Information Section -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
-            android:backgroundTint="#27104e">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/authors"
-                android:textStyle="italic"
-                android:textSize="16sp"
-                android:padding="10dp"
-                android:textColor="#FFFFFF" />
-        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
-            android:backgroundTint="#27104e">
+            app:cardElevation="6dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:gravity="center"
                 android:text="@string/app_version"
-                android:textSize="16sp"
-                android:padding="10dp"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/vibrant_orange"
+                android:textSize="16sp" />
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -265,17 +249,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
-            android:backgroundTint="#27104e">
+            app:cardElevation="6dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:gravity="center"
                 android:text="App Description"
+                android:textColor="@color/vibrant_orange"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:padding="10dp"
-                android:textColor="#FFFFFF" />
+                android:textStyle="bold" />
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Log Out Button -->
@@ -283,12 +267,30 @@
             android:id="@+id/logout_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="55dp"
             android:backgroundTint="#FF3D00"
+            android:padding="12dp"
             android:text="Log Out"
             android:textColor="@android:color/white"
-            app:cornerRadius="8dp"
-            android:padding="12dp" />
+            app:cornerRadius="8dp" />
 
+        <!-- Static Information Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:text="@string/authors"
+                android:textColor="@color/vibrant_orange"
+                android:textSize="16sp"
+                android:textStyle="italic" />
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </FrameLayout>

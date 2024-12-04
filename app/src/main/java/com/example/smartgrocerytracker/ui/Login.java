@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,10 +41,13 @@ public class Login extends AppCompatActivity {
 
     private TextView welcometext;
 
+    private ImageButton loginIcon;
+
     private TextView welcometext1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LanguageUtil.setLocale(this);
         super.onCreate(savedInstanceState);
         if (!TokenValidator.handleAuthentication(this)) {
             setContentView(R.layout.activity_login);
@@ -51,6 +55,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Initialize Views
+        loginIcon = findViewById(R.id.login_icon);
         emailEditText = findViewById(R.id.username); // Email/Username field
         passwordEditText = findViewById(R.id.password); // Password field
         rememberMeCheckBox = findViewById(R.id.rememberMeCheckbox); // "Remember me" checkbox
@@ -65,10 +70,13 @@ public class Login extends AppCompatActivity {
         welcometext = findViewById(R.id.welcomlogintext);
         welcometext1 = findViewById(R.id.second_login);
 
+
         Animation dropDownAnimation1 = AnimationUtils.loadAnimation(this, R.anim.drop_down);
         welcometext.startAnimation(dropDownAnimation1);
         Animation dropDownAnimation2 = AnimationUtils.loadAnimation(this, R.anim.drop_down);
         welcometext1.startAnimation(dropDownAnimation2);
+        Animation dropDownAnimation3 = AnimationUtils.loadAnimation(this, R.anim.drop_down);
+        loginIcon.startAnimation(dropDownAnimation3);
 
         // Request Queue for handling login
         RequestQueue queue = Volley.newRequestQueue(Login.this);

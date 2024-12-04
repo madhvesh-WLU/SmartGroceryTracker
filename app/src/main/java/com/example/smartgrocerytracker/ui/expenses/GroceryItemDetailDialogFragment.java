@@ -33,7 +33,6 @@ public class GroceryItemDetailDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         GroceryItemModel item = (GroceryItemModel) getArguments().getSerializable(ARG_GROCERY_ITEM);
-
         // Use DialogFragment to show item details
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.grocery_item_detail_modal);
@@ -53,5 +52,11 @@ public class GroceryItemDetailDialogFragment extends DialogFragment {
 
         closeButton.setOnClickListener(v -> dismiss());
         return dialog;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        LanguageUtil.setLocale(context);
     }
 }

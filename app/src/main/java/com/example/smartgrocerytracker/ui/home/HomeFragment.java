@@ -26,7 +26,7 @@ import com.example.smartgrocerytracker.databinding.FragmentHomeBinding;
 import com.example.smartgrocerytracker.services.fetchBudgetDetails;
 import com.example.smartgrocerytracker.utils.BudgetDialog;
 import com.github.mikephil.charting.highlight.Highlight;
-
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 public class HomeFragment extends Fragment{
 
     private FragmentHomeBinding binding;
@@ -98,6 +98,12 @@ public class HomeFragment extends Fragment{
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPref", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Guest");
         adapter.updateWelcomeMessage(username);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        LanguageUtil.setLocale(context);
     }
 }
 

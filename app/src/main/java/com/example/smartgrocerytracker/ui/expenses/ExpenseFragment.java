@@ -42,7 +42,11 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
         return inflater.inflate(R.layout.fragment_expense, container, false);
     }
 
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        LanguageUtil.setLocale(context);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

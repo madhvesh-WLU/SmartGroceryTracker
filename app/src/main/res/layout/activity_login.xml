@@ -58,14 +58,14 @@
         android:elevation="36dp">
 
         <!-- Login Title -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="48dp"
-            android:layout_marginTop="36dp"
-            android:fontFamily="@font/segoer"
-            android:text="LOGIN"
-            android:textColor="@color/vibrant_orange"
+        <ImageButton
+            android:id="@+id/login_icon"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/login_icon"
+            android:backgroundTint="@color/white"
             android:textSize="26sp" />
 
         <!-- Input Fields -->

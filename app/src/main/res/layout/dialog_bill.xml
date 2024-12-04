@@ -128,28 +128,36 @@
     </LinearLayout>
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/save_bill_button"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:paddingHorizontal="24dp"
-        android:background="@drawable/rounded_button_background"
-        android:text="Next"
-        android:textColor="@android:color/white"
-        app:backgroundTint="@color/vibrant_orange"
-        app:layout_constraintTop_toBottomOf="@id/divider2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_gravity="center">
 
-    <!-- Loading Spinner -->
-    <ProgressBar
-        android:id="@+id/loading_spinner"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:visibility="gone"
+        <!-- Material Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_bill_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:paddingHorizontal="24dp"
+            android:background="@drawable/rounded_button_background"
+            android:text="Next"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/vibrant_orange"
+            app:layout_constraintTop_toBottomOf="@id/divider2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
         android:layout_gravity="center"
         android:layout_marginTop="20dp" />
+
+    </FrameLayout>
+
 
 </LinearLayout>

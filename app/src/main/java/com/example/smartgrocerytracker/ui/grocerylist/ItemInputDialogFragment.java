@@ -3,12 +3,14 @@ package com.example.smartgrocerytracker.ui.grocerylist;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,8 @@ public class ItemInputDialogFragment extends DialogFragment {
     private Button doneButton;
     private Button cancelButton;
     private OnItemAddedListener listener;
+
+    private ProgressBar progressBar;
 
     private ImageButton closeButton;
 
@@ -58,7 +62,6 @@ public class ItemInputDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_add_item, container, false);
-
         initializeViews(view);
         setupDoneButton();
         setupCancelButton();
@@ -66,8 +69,15 @@ public class ItemInputDialogFragment extends DialogFragment {
         return view;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        LanguageUtil.setLocale(context);
+    }
+
     // Initializes all view components
     private void initializeViews(View view) {
+        progressBar = view.findViewById(R.id.loading_spinner);
         itemNameEditText = view.findViewById(R.id.item_name);
         closeButton=view.findViewById(R.id.close_button);
         itemCategoryEditText = view.findViewById(R.id.item_category);
@@ -91,27 +101,51 @@ public class ItemInputDialogFragment extends DialogFragment {
     // Configures the Done button to validate input and add the item
     private void setupDoneButton() {
         doneButton.setOnClickListener(v -> {
+            // Get text input from EditTexts
             String itemName = itemNameEditText.getText().toString().trim();
             String itemCategory = itemCategoryEditText.getText().toString().trim();
             String itemPriceText = itemPriceEditText.getText().toString().trim();
             String itemQuantityText = itemQuantityEditText.getText().toString().trim();
 
+            // Check if fields are empty
             if (itemName.isEmpty() || itemCategory.isEmpty() || itemPriceText.isEmpty() || itemQuantityText.isEmpty()) {
                 Toast.makeText(getContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
                 try {
+                    // Show progress bar and disable button
+                    progressBar.setVisibility(View.VISIBLE);
+                    doneButton.setEnabled(false);
+
+                    // Parse price and quantity
                     double itemPrice = Double.parseDouble(itemPriceText);
                     int itemQuantity = Integer.parseInt(itemQuantityText);
-                    if (listener != null) {
-                        listener.onItemAdded(itemName, itemCategory, itemPrice, itemQuantity);
-                    }
-                    clearFields();  // Reset fields for another input if needed
+
+                    // Simulate network operation or task (e.g., adding the item)
+                    new Handler().postDelayed(() -> {
+                        if (listener != null) {
+                            listener.onItemAdded(itemName, itemCategory, itemPrice, itemQuantity);
+                        }
+
+                        // Hide progress bar and re-enable the button
+                        progressBar.setVisibility(View.GONE);
+                        doneButton.setEnabled(true);
+
+                        clearFields();  // Reset fields for another input if needed
+
+                        // Optional: show a success message
+                        Toast.makeText(getContext(), "Item added successfully", Toast.LENGTH_SHORT).show();
+                    }, 500); // Simulate delay (e.g., network request)
+
                 } catch (NumberFormatException e) {
+                    // Hide progress bar and re-enable button on error
+                    progressBar.setVisibility(View.GONE);
+                    doneButton.setEnabled(true);
                     Toast.makeText(getContext(), "Please enter valid numbers for price and quantity", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
 
     // Configures the Cancel button to dismiss the dialog
     private void setupCancelButton() {

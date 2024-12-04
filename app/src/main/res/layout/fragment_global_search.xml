@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bill_background"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -108,43 +109,65 @@
             android:text="Apply Filters"
             android:textColor="@android:color/white"
             app:cornerRadius="8dp"
-            android:backgroundTint="@color/colorPrimary" />
+            android:backgroundTint="@color/vibrant_orange" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/clear_filter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clear Filters"
-            android:textColor="@android:color/white"
-            app:cornerRadius="8dp"/>
+            android:textColor="@color/colorPrimaryDark"
+            app:cornerRadius="8dp"
+            android:backgroundTint="@color/white"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/add_results"
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:visibility="gone"
-        android:layout_marginTop="16dp">
+        android:layout_height="1dp"
+        android:layout_marginVertical="8dp"
+        android:background="@android:color/darker_gray"/>
 
-        <TextView
-            android:id="@+id/no_results_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Please search"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:layout_marginEnd="8dp" />
+    <FrameLayout
+        android:id="@+id/results_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/no_results_image_button"
-            android:layout_width="wrap_content"
+        <!-- RecyclerView for displaying search results -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_results_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+        android:layout_marginTop="16dp" />
+
+        <!-- Layout to show when no results are found -->
+        <LinearLayout
+            android:id="@+id/add_results"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/search"
-            android:contentDescription="No results icon"
-            android:background="?attr/selectableItemBackgroundBorderless" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="150dp">
+
+            <TextView
+                android:id="@+id/no_results_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please search"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:layout_marginEnd="8dp" />
+
+            <ImageButton
+                android:id="@+id/no_results_image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search"
+                android:contentDescription="No results icon"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+        </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -154,12 +177,7 @@
 
 
     <!-- RecyclerView for Search Results -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_results_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp" />
+    </FrameLayout>
 
 
 

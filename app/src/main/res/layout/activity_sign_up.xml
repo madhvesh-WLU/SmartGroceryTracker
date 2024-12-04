@@ -189,19 +189,37 @@
             android:textColorHint="@color/colorPlaceholder" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Sign Up Button -->
-    <Button
-        android:id="@+id/signupButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="@color/vibrant_orange"
-        android:fontFamily="@font/segoer"
-        android:text="Sign Up"
-        android:textAllCaps="false"
-        android:textColor="@color/colorButtonText"
-        android:textSize="16sp" />
-</LinearLayout>
+        <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Sign Up Button -->
+            <Button
+                android:id="@+id/signupButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/vibrant_orange"
+                android:fontFamily="@font/segoer"
+                android:text="Sign Up"
+                android:textAllCaps="false"
+                android:textColor="@color/colorButtonText"
+                android:textSize="16sp" />
+
+            <!-- Progress Bar (Initially Hidden) -->
+            <ProgressBar
+                android:id="@+id/progress_Bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_gravity="center"
+                android:visibility="gone" /> <!-- Hidden initially -->
+
+        </FrameLayout>
+
+    </LinearLayout>
         <!-- Bottom Section -->
         <LinearLayout
             android:layout_width="wrap_content"

@@ -126,10 +126,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -187,6 +189,21 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
         binding.budgetIdRecyclerView.setAdapter(adapter);
         SearchView searchView = binding.searchView;
         searchView.setIconifiedByDefault(false);
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            // Set the title for the fragment
+            toolbar.setTitle("Monthly Spend");
+
+            // Enable the back arrow
+            toolbar.setNavigationIcon(R.drawable.back_arrow);
+            toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+            toolbar.setNavigationOnClickListener(v -> {
+                // Navigate back when the back arrow is clicked
+                NavController navController = NavHostFragment.findNavController(this);
+                navController.popBackStack();
+            });
+        }
 
         searchView.setQueryHint("Search Grocery Name");
 
@@ -269,6 +286,16 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
         });
     }
 
+    private void checkForNoResults() {
+        if (adapter.getItemCount() == 0) {
+            binding.budgetIdRecyclerView.setVisibility(View.GONE);
+            binding.noResultsLayout.setVisibility(View.VISIBLE);
+        } else {
+            binding.budgetIdRecyclerView.setVisibility(View.VISIBLE);
+            binding.noResultsLayout.setVisibility(View.GONE);
+        }
+    }
+
     private void applyFilters() {
         filterResults();
     }
@@ -318,8 +345,16 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+
+        // Reset the Toolbar when leaving ExpenseListFragment
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(null); // Remove the back arrow
+            toolbar.setTitle("Smart Grocery Tracker"); // Reset to default title
+        }
     }
+
 }
 
 

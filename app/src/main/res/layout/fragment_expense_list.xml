@@ -361,13 +361,13 @@
             android:padding="8dp"
             android:src="@drawable/additem"
             android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Add Item"
+            android:contentDescription="Add Item"
             app:tint="@color/vibrant_orange" />
 
         <!-- Delete Item ImageButton -->
         <ImageButton
             android:id="@+id/deleteItemButton"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
@@ -377,20 +377,38 @@
             android:layout_marginBottom="15dp"
             app:tint="@color/red"
             android:contentDescription="Delete Item"
-        android:background="?attr/selectableItemBackgroundBorderless"
-             />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            />
 
-        <!-- Submit Item ImageButton -->
-        <ImageButton
-            android:id="@+id/submitButton"
-            android:layout_width="0dp"
+        <FrameLayout
+            android:layout_width="2dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="8dp"
-            android:src="@drawable/submititems"
-        android:contentDescription="Submit"
-        android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/green" />
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1">
+
+            <!-- Submit Button -->
+            <ImageButton
+                android:id="@+id/submitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Submit"
+                android:padding="8dp"
+                android:src="@drawable/submititems"
+                app:tint="@color/green" />
+
+            <!-- ProgressBar, initially hidden -->
+            <ProgressBar
+                android:id="@+id/loading_spinner"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+        </FrameLayout>
     </LinearLayout>
 
 

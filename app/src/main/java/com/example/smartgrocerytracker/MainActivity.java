@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +49,7 @@ import com.example.smartgrocerytracker.utils.MediaUtils;
 import com.example.smartgrocerytracker.ModelClass.SharedBudgetViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -67,11 +67,16 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private RequestQueue requestQueue;
+    private static final String PREFS_NAME = "AppSettingsPrefs";
+    private static final String TEXT_SIZE_KEY = "TextSize";
+    private SharedPreferences sharedPreferences;
     private SharedBudgetViewModel sharedBudgetViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LanguageUtil.setLocale(this);
         super.onCreate(savedInstanceState);
 
+        applyTextSize();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -88,10 +93,15 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(view -> showBudgetInputDialog());
         // Set up button to navigate to GroceryListFragment
         TextView groceryListButton = findViewById(R.id.grocerylist);
-        groceryListButton.setOnClickListener(v -> navigateToDestination(R.id.nav_expense_fragment, true));
+        if (groceryListButton == null) {
+            Log.e("MainActivity", "grocerylist TextView is null");
+        } else {
+            groceryListButton.setOnClickListener(v -> navigateToDestination(R.id.nav_expense_fragment, true));
+        }
 
         // Fetch user details if needed
         handleFetchUserDetails();
+
 
         // Set up FAB for camera
 //        binding.appBarMain.fab.setOnClickListener(view -> {
@@ -162,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.nav_map);
                 return true;
             }else if (itemId == R.id.nav_expense_fragment) {
+                binding.appBarMain.toolbar.setTitle("Expense List");
                 navigateToDestination(R.id.nav_expense_fragment, false);
                 return true;
             } else {
@@ -210,6 +221,25 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else {
             return super.onOptionsItemSelected(item);
+        }
+    }
+    private void applyTextSize() {
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String textSize = sharedPreferences.getString(TEXT_SIZE_KEY, "Medium");
+
+        switch (textSize) {
+            case "Small":
+                setTheme(R.style.TextSizeSmall);
+                break;
+            case "Medium":
+                setTheme(R.style.TextSizeMedium);
+                break;
+            case "Large":
+                setTheme(R.style.TextSizeLarge);
+                break;
+            case "Extra Large":
+                setTheme(R.style.TextSizeExtraLarge);
+                break;
         }
     }
 

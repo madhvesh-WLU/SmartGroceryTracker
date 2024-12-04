@@ -84,6 +84,10 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
                 Toast.makeText(requireContext(), "Please select Budget", Toast.LENGTH_LONG).show();
             }
         });
+
+        view.findViewById(R.id.close_button).setOnClickListener(v -> {
+            dismiss();
+        });
     }
     private void showCameraOrGalleryChooser() {
         if (MediaUtils.checkCameraPermission(requireActivity()) && MediaUtils.checkStoragePermission(requireActivity())) {
