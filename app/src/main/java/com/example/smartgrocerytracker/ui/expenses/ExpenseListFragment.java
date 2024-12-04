@@ -97,7 +97,11 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(requireContext());
 
-        retrieveBillInfoFromArguments();
+        try {
+            retrieveBillInfoFromArguments();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         setupRecyclerViewForGroceryItemView();
         setupButtonListeners();
 
@@ -177,7 +181,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
     /**
      * Retrieves the expense details passed via arguments.
      */
-    private void retrieveBillInfoFromArguments() {
+    private void retrieveBillInfoFromArguments() throws ParseException {
         if (getArguments() != null) {
             billName = getArguments().getString("bill_name");
             dateOfPurchase = getArguments().getString("date_of_purchase");
@@ -208,7 +212,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         String formattedDate = isoFormat.format(parsedDate);
         binding.billNameTextView.setText(billName);
         binding.editBillName.setText(billName);
-        binding.editDateOfPurchase.setText(dateOfPurchase);
+        binding.editDateOfPurchase.setText(formattedDate);
         binding.editDescription.setText(description);
         binding.editTotalQuantity.setText(totalQuantity);
         binding.editTotalPrice.setText(totalPrice);
@@ -502,7 +506,11 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
             updateLayoutBasedOnItems();
 
             // Update displayed bill information
-            displayBillInfo();
+            try {
+                displayBillInfo();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
