@@ -70,7 +70,6 @@ public class GlobalSearchServices {
                     callback.onResponse(response);
                 },
                 error -> {
-                    // Log the error
                     Log.e("API Error", "URL: " + url + "\nError: " + error.toString());
 
                     // Pass the error to the errorCallback

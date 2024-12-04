@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.smartgrocerytracker"
-        minSdk = 32
-        targetSdk = 34
+        minSdk = 31
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 

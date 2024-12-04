@@ -139,8 +139,124 @@ public class GlobalSearchFragment extends Fragment implements
 
 
     private List<String> getCategories() {
-        // Replace this with actual data fetching logic
-        return Arrays.asList("Fruits", "Vegetables", "Electronics", "Clothing");
+        List<String> categories = Arrays.asList(
+                "Hummus, Dips, & Salsa",
+                "Energy Drinks",
+                "Oils & Shortening",
+                "Fresh Soups & Salads",
+                "Game Time Faves",
+                "Sparkling Water",
+                "Better for you",
+                "Healthy Snacks",
+                "Pudding & Gelatin",
+                "Pretzels",
+                "Granola Bars",
+                "Baking Nuts & Seeds",
+                "Yeast",
+                "Milk",
+                "Cheese",
+                "Halloween candy",
+                "Canned & Powdered Milks",
+                "Specialty Cheeses & Meats",
+                "Bacon, Hot Dogs, Sausage",
+                "Variety Pack Snacks",
+                "Drink Mixes",
+                "Eggs",
+                "Orange Juice & Chilled",
+                "Cream & Creamers",
+                "Beverage Deals",
+                "Hard candy & lollipops",
+                "Meat Sticks",
+                "Fruit Snacks",
+                "Chocolate",
+                "Fresh Pizza",
+                "Sugars & Sweeteners",
+                "New Arrivals",
+                "Biscuits, Cookies, Doughs",
+                "Top baking brands",
+                "Mints",
+                "Prepared Meals & Sides",
+                "Yogurt",
+                "Popcorn",
+                "Chips",
+                "Rotisserie Chicken",
+                "Juices",
+                "Deli Meat & Cheese",
+                "Gummy & chewy candy",
+                "Non-Alcoholic Mixers",
+                "Butter & Margarine",
+                "Sports Drinks",
+                "Multipacks & bags",
+                "Crackers",
+                "Fresh Pasta",
+                "Flours & Meals",
+                "Easy to make",
+                "Snack Nuts",
+                "Snacks & Fresh Sandwiches",
+                "Great Value Beverages",
+                "Sour Cream & Chilled Dips",
+                "Kids' Multi-Packs",
+                "Gum",
+                "Beef Jerky",
+                "Baking Soda & Starch",
+                "Tea",
+                "Fresh Bakery Breads",
+                "Breakfast Meats",
+                "Breakfast Breads",
+                "Cookies & Brownies",
+                "Grilling",
+                "Fresh Food",
+                "Rolls & Buns",
+                "Cakes & Cupcakes",
+                "Emergency & Institutional food",
+                "Cereal & Granola",
+                "Dairy & Eggs",
+                "Breakfast Beverages",
+                "Coffee Accessories",
+                "Tortillas",
+                "Pies",
+                "Donuts, Muffins & Pastries",
+                "Roast Type",
+                "Muffins & Pastries",
+                "Sweet Treats",
+                "Sliced Bread",
+                "Pancakes, Waffles & Syrups",
+                "Herbs, spices & seasonings",
+                "Frozen Meals & Snacks",
+                "Fresh Vegetables",
+                "Salad Kits & Bowls",
+                "Frozen Potatoes",
+                "Organic Produce",
+                "Fresh Dressings",
+                "Condiments",
+                "Salsa & Dips",
+                "Cooking oils & vinegars",
+                "Plant-based Protein & Tofu",
+                "Soup",
+                "Fresh Fruits",
+                "Frozen Meat & Seafood",
+                "Frozen Desserts",
+                "Canned goods",
+                "Frozen Breakfast",
+                "Cut Fruits & Vegetables",
+                "Pasta & pizza",
+                "International foods",
+                "Coffee Additives",
+                "Fresh Herbs",
+                "Frozen Pizza, Pasta, & Breads",
+                "Rice, grains & dried beans",
+                "Frozen Produce",
+                "Coffee By Type",
+                "Canned vegetables",
+                "Hot Cereals",
+                "Packaged meals & side dishes",
+                "Fresh Flowers",
+                "Wine",
+                "Spirits",
+                "Beer"
+        );
+
+        return categories;
     }
 
     private void setupChipClickListeners() {
@@ -224,17 +340,30 @@ public class GlobalSearchFragment extends Fragment implements
                         binding.addResults.setVisibility(View.VISIBLE);
                     }
                 }
-            else if(checkedChipId == R.id.chip_category) {
-                if (!query.isEmpty()){
-                    services.fetchCategoryData(query, finalSelectedYear, selectedMonth, this::handleCategoryResponse, this::handleError);
-
-            }else{
-                    Toast.makeText(requireContext(), "Please select category", Toast.LENGTH_SHORT).show();
+            else if (checkedChipId == R.id.chip_category) {
+                String selectedCategory = binding.categorySpinner.getSelectedItem() != null
+                        ? binding.categorySpinner.getSelectedItem().toString()
+                        : "";
+                if (!selectedCategory.isEmpty() && !selectedCategory.equals("Select Category")) {
+                    try {
+                        // URL encode the category to handle spaces and special characters
+                        String encodedCategory = java.net.URLEncoder.encode(selectedCategory, "UTF-8");
+                        Log.d("GlobalSearch", "Category search triggered with category: " + encodedCategory);
+                        services.fetchCategoryData(encodedCategory, finalSelectedYear, selectedMonth,
+                                this::handleCategoryResponse,
+                                this::handleError);
+                    } catch (Exception e) {
+                        Log.e("GlobalSearch", "Error encoding category: " + e.getMessage());
+                        Toast.makeText(requireContext(), "Failed to process category. Please try again.", Toast.LENGTH_SHORT).show();
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.addResults.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Please select a valid category.", Toast.LENGTH_SHORT).show();
                     binding.progressBar.setVisibility(View.GONE);
                     binding.addResults.setVisibility(View.VISIBLE);
                 }
             }
-
         }, 500); // Short delay (optional)
     }
 
@@ -388,7 +517,7 @@ public class GlobalSearchFragment extends Fragment implements
     }
 
     private String[] getYears() {
-        return new String[]{"2024", "2023", "2022", "2021", "2020", "2019"};
+        return new String[]{"2024", "2023", "2022", "2021", "2020"};
     }
 
     private String[] getMonths() {
