@@ -17,6 +17,8 @@ import com.example.smartgrocerytracker.ModelClass.GroceryItemModel;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.services.ScanningAddExpenseServices;
 import com.example.smartgrocerytracker.utils.ReviewGroceryItemAdapter;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,14 +38,14 @@ public class ReviewActivity extends AppCompatActivity {
     public static final int RESULT_RETAKE = 1;
     public static final int RESULT_SUBMIT = 2;
 
-    private EditText storeName;
+    private TextInputEditText storeName;
     private TextView storeAddress;
     private TextView totalAmount;
     private RecyclerView itemList;
     private Button btnRetake;
     private Button btnSubmit;
-    private EditText dateOfPurchase;
-    private EditText description;
+    private TextInputEditText dateOfPurchase;
+    private TextInputEditText description;
 
     private String selectedDate = null;
     // Define the Canadian EST TimeZone
@@ -71,6 +73,7 @@ public class ReviewActivity extends AppCompatActivity {
         List<GroceryItemModel> groceryItems = (ArrayList<GroceryItemModel>) getIntent().getSerializableExtra("groceryItems");
 
         // Set data to views
+
         storeName.setText(storeNameStr);
         storeAddress.setText(storeAddressStr);
         totalAmount.setText(String.format("Total Amount: $%.2f", totalAmountValue));

@@ -47,7 +47,7 @@
             android:id="@+id/english_language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="English"
+            android:text="@string/language_english"
             android:textColor="@color/vibrant_orange"
             android:textSize="16sp" />
 
@@ -55,32 +55,17 @@
             android:id="@+id/hindi_language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hindi"
+            android:text="@string/language_hindi"
             android:textColor="@color/vibrant_orange"
             android:textSize="16sp" />
 
-        <RadioButton
-            android:id="@+id/spanish_language"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Spanish"
-            android:textColor="@color/vibrant_orange"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/french_language"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="French"
-            android:textColor="@color/vibrant_orange"
-            android:textSize="16sp" />
     </RadioGroup>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/apply_language_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Apply"
+        android:text="@string/apply"
         android:layout_marginTop="24dp"
         android:backgroundTint="#FF3D00"
         android:textColor="@android:color/white"

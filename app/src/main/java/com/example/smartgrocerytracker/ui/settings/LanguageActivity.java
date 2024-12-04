@@ -37,8 +37,7 @@ public class LanguageActivity extends AppCompatActivity {
         languageRadioGroup = findViewById(R.id.language_radio_group);
         englishLanguage = findViewById(R.id.english_language);
         hindiLanguage = findViewById(R.id.hindi_language);
-        spanishLanguage = findViewById(R.id.spanish_language);
-        frenchLanguage = findViewById(R.id.french_language);
+
         applyButton = findViewById(R.id.apply_language_button);
         cancelButton = findViewById(R.id.close_button);
 
@@ -60,10 +59,6 @@ public class LanguageActivity extends AppCompatActivity {
                 editor.putString(LANGUAGE_KEY, "en");
             } else if (selectedLanguageId == R.id.hindi_language) {
                 editor.putString(LANGUAGE_KEY, "hi");
-            } else if (selectedLanguageId == R.id.spanish_language) {
-                editor.putString(LANGUAGE_KEY, "es");
-            } else if (selectedLanguageId == R.id.french_language) {
-                editor.putString(LANGUAGE_KEY, "fr");
             }
 
             editor.apply();
@@ -84,12 +79,6 @@ public class LanguageActivity extends AppCompatActivity {
                 break;
             case "hi":
                 hindiLanguage.setChecked(true);
-                break;
-            case "es":
-                spanishLanguage.setChecked(true);
-                break;
-            case "fr":
-                frenchLanguage.setChecked(true);
                 break;
         }
     }

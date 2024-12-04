@@ -185,10 +185,10 @@ public class BudgetDialog {
                     TextView endDateTextView = detailsView.findViewById(R.id.textViewEndDate);
 
                     // Set values from BudgetModel
-                    budgetAmountTextView.setText("Budget Amount: " + budgetModel.getBudgetAmount());
-                    spentAmountTextView.setText("Spent Amount: " + budgetModel.getSpentAmount());
-                    startDateTextView.setText("Start Date: " + budgetModel.getStartDate());
-                    endDateTextView.setText("End Date: " + budgetModel.getEndDate());
+                    budgetAmountTextView.setText(context.getString(R.string.budget_amount_0) + budgetModel.getBudgetAmount());
+                    spentAmountTextView.setText(context.getString(R.string.spent_amount_0) + budgetModel.getSpentAmount());
+                    startDateTextView.setText(context.getString(R.string.start_date_yyyy_mm_dd) + budgetModel.getStartDate());
+                    endDateTextView.setText(context.getString(R.string.end_date_yyyy_mm_dd) + budgetModel.getEndDate());
 
                     // Initialize buttons
                     MaterialButton buttonEditBudget = detailsView.findViewById(R.id.buttonEditBudget);

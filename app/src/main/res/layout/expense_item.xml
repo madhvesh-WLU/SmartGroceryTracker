@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="4dp"
-                    android:text="Store Name"
+                    android:text="@string/Store_name"
                     android:textColor="@color/vibrant_orange"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -54,7 +54,7 @@
                     android:id="@+id/dateOfPurchaseTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date of Purchase"
+                    android:text="@string/date_of_purchase"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="4dp"
-                    android:text="Price"
+                    android:text="@string/price"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -84,7 +84,7 @@
                     android:id="@+id/quantityTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quantity"
+                    android:text="@string/quantity"
                     android:layout_gravity="end"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="16sp"

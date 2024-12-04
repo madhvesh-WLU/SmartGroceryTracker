@@ -1,6 +1,12 @@
 package com.example.smartgrocerytracker.ui.home;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+import static androidx.core.content.res.TypedArrayUtils.getString;
+
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
+
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
@@ -57,8 +63,11 @@ public class HomeFragmentAdapter {
      * @param username The name of the user.
      */
     public void updateWelcomeMessage(String username) {
-        welcomeView.setText("Hello, " + (username == null ? "Guest" : username));
+        // Get the message string with placeholder replacement
+        String welcomeMessage = context.getString(R.string.welcome_message, username != null ? username : "Guest");
+        welcomeView.setText(welcomeMessage);
     }
+
 
     /**
      * Updates the budget information displayed in the TextViews.
@@ -86,8 +95,8 @@ public class HomeFragmentAdapter {
     public void updatePieChart(float spent, float remaining) {
         if (spent != lastSpent || remaining != lastRemaining) {
             List<PieEntry> entries = new ArrayList<>();
-            entries.add(new PieEntry(spent, "Spent"));
-            entries.add(new PieEntry(remaining, "Remaining"));
+            entries.add(new PieEntry(spent,context.getString(R.string.spent)));
+            entries.add(new PieEntry(remaining,context.getString(R.string.remaining)));
 
             PieDataSet dataSet = new PieDataSet(entries, "Budget Breakdown");
             dataSet.setSliceSpace(3f);

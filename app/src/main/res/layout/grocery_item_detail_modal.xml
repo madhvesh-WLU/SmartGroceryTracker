@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Detailed Description"
+                android:text="@string/detailed_description"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="8dp"
-                android:text="Item Name:  "
+                android:text="@string/Item_name2"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="8dp"
-                android:text="Category:  "
+                android:text="@string/Category4"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="8dp"
-                android:text="Quantity: "
+                android:text="@string/Quantity3"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="8dp"
-                android:text="Price:  "
+                android:text="@string/Price3"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -154,7 +154,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="8dp"
-                android:text="Description:  "
+                android:text="@string/Description1"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

@@ -13,7 +13,7 @@
         android:id="@+id/text_size_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Text Size"
+        android:text="@string/textsize_title"
         android:textSize="20sp"
         android:textColor="@color/dark_grey"
         android:textStyle="bold"
@@ -48,7 +48,7 @@
             android:id="@+id/small_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Small"
+            android:text="@string/small"
             android:textColor="@color/vibrant_orange"
             android:textSize="16sp" />
 
@@ -56,7 +56,7 @@
             android:id="@+id/medium_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium (Default)"
+            android:text="@string/medium"
             android:textColor="@color/vibrant_orange"
             android:textSize="16sp" />
 
@@ -64,7 +64,7 @@
             android:id="@+id/large_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Large"
+            android:text="@string/large"
             android:textColor="@color/vibrant_orange"
             android:textSize="16sp" />
 
@@ -72,7 +72,7 @@
             android:id="@+id/extra_large_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Extra Large"
+            android:text="@string/extra_large"
             android:textColor="@color/vibrant_orange"
             android:textSize="16sp" />
     </RadioGroup>

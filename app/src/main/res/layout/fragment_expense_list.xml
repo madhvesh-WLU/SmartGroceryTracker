@@ -1,11 +1,10 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@drawable/grocerylist_background">
+    android:background="@drawable/grocerylist_background"
+    android:padding="16dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/bill_info_card"
@@ -31,11 +30,11 @@
                 android:id="@+id/header_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="5dp"
-                android:clickable="true"
-                android:focusable="true">
+                android:paddingBottom="5dp">
 
                 <!-- Bill Name TextView -->
                 <TextView
@@ -45,7 +44,7 @@
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_bill"
                     android:padding="4dp"
-                    android:text="Bill Name"
+                    android:text="@string/bill_name"
                     android:textColor="#404040"
                     android:textSize="18sp" />
 
@@ -83,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_bill"
                         android:padding="4dp"
-                        android:text="Bill Name: "
+                        android:text="@string/Bill_name"
                         android:textColor="#404040"
                         android:textSize="18sp" />
 
@@ -94,7 +93,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_text_background"
                         android:enabled="false"
-                        android:hint="Bill Name"
+                        android:hint="@string/Bill_name2"
                         android:padding="4dp"
                         android:textColor="#000000"
                         android:textSize="18sp" />
@@ -114,7 +113,7 @@
                         android:layout_weight="0.16"
                         android:drawableLeft="@drawable/calender"
                         android:padding="4dp"
-                        android:text="Date: "
+                        android:text="@string/date"
                         android:textColor="#404040"
                         android:textSize="18sp" />
 
@@ -125,7 +124,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_text_background"
                         android:enabled="false"
-                        android:hint="Date"
+                        android:hint="@string/Date"
                         android:padding="4dp"
                         android:textColor="#000000"
                         android:textSize="18sp" />
@@ -145,7 +144,7 @@
                         android:layout_weight="0.05"
                         android:drawableLeft="@drawable/store"
                         android:padding="4dp"
-                        android:text="Quantity: "
+                        android:text="@string/Quantity"
                         android:textColor="#404040"
                         android:textSize="18sp" />
 
@@ -156,7 +155,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_text_background"
                         android:enabled="false"
-                        android:hint="Total Quantity"
+                        android:hint="@string/total_quantity"
+
                         android:padding="4dp"
                         android:textColor="#000000"
                         android:textSize="18sp" />
@@ -176,7 +176,7 @@
                         android:layout_weight="0.055"
                         android:drawableLeft="@drawable/ic_price"
                         android:padding="4dp"
-                        android:text="Amount: "
+                        android:text="@string/Price"
                         android:textColor="#404040"
                         android:textSize="18sp" />
 
@@ -187,7 +187,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_text_background"
                         android:enabled="false"
-                        android:hint="Total Price"
+                        android:hint="@string/total_price"
                         android:padding="4dp"
                         android:textColor="#000000"
                         android:textSize="18sp" />
@@ -206,7 +206,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/store"
                         android:padding="4dp"
-                        android:text="Description: "
+                        android:text="@string/Description"
                         android:textColor="#404040"
                         android:textSize="18sp" />
 
@@ -217,7 +217,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_text_background"
                         android:enabled="false"
-                        android:hint="Description"
+                        android:hint="@string/Description1"
                         android:padding="4dp"
                         android:textColor="#000000"
                         android:textSize="18sp" />
@@ -239,7 +239,7 @@
                         android:layout_marginEnd="8dp"
                         android:backgroundTint="#f44336"
                         android:padding="12dp"
-                        android:text="Cancel"
+                        android:text="@string/Cancel"
                         android:textColor="#ffffff"
                         android:textSize="16sp"
                         android:visibility="gone" />
@@ -251,7 +251,7 @@
                         android:background="@null"
                         android:backgroundTint="#4CAF50"
                         android:padding="12dp"
-                        android:text="Update"
+                        android:text="@string/update"
                         android:textColor="#ffffff"
                         android:textSize="16sp"
                         android:visibility="gone" />
@@ -287,16 +287,16 @@
         android:id="@+id/addItemButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Item"
-        android:backgroundTint="@color/vibrant_orange"
-        android:textColor="@android:color/black"
-        android:drawableLeft="@drawable/additem"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintTop_toBottomOf="@id/bill_info_card"
-        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/vibrant_orange"
+        android:drawableLeft="@drawable/additem"
+        android:text="@string/add_item"
+        android:textColor="@android:color/black"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bill_info_card" />
 
     <ImageView
         android:id="@+id/addIconImageView"
@@ -305,26 +305,26 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="Add Item Icon"
         android:src="@drawable/additem"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/addItemMessageTextView"
         app:layout_constraintEnd_toEndOf="@id/expenseRecyclerView"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@id/expenseRecyclerView"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/addItemMessageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please add items"
-        android:textSize="24sp"
+        android:text="@string/please_add_items"
         android:textColor="@android:color/black"
-        app:layout_constraintTop_toTopOf="@id/expenseRecyclerView"
+        android:textSize="24sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/expenseRecyclerView"
-        app:layout_constraintStart_toStartOf="@id/expenseRecyclerView"
         app:layout_constraintEnd_toEndOf="@id/expenseRecyclerView"
-        android:visibility="gone" />
+        app:layout_constraintStart_toStartOf="@id/expenseRecyclerView"
+        app:layout_constraintTop_toTopOf="@id/expenseRecyclerView" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -333,35 +333,35 @@
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/bill_info_card"
         app:layout_constraintBottom_toTopOf="@id/control_button_layout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/bill_info_card" />
 
     <!-- Button Layout for Add, Delete, Submit -->
     <LinearLayout
         android:id="@+id/control_button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-
-        android:orientation="horizontal"
         android:layout_marginBottom="60dp"
+
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- Add Item ImageButton -->
         <ImageButton
             android:id="@+id/addItemButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:padding="8dp"
-            android:src="@drawable/additem"
+            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Add Item"
+            android:padding="8dp"
+            android:src="@drawable/additem"
             app:tint="@color/vibrant_orange" />
 
         <!-- Delete Item ImageButton -->
@@ -369,16 +369,15 @@
             android:id="@+id/deleteItemButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:padding="8dp"
-            android:visibility="gone"
-            android:src="@drawable/delete"
             android:layout_marginBottom="15dp"
-            app:tint="@color/red"
-            android:contentDescription="Delete Item"
+            android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
-            />
+            android:contentDescription="Delete Item"
+            android:padding="8dp"
+            android:src="@drawable/delete"
+            android:visibility="gone"
+            app:tint="@color/red" />
 
         <FrameLayout
             android:layout_width="2dp"
@@ -411,6 +410,12 @@
         </FrameLayout>
     </LinearLayout>
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

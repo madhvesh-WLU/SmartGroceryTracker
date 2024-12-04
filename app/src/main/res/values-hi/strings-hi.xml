@@ -39,16 +39,26 @@
 
     <!-- Other strings -->
 
-    <string-array name="language_options">
-        <item>अंग्रेज़ी</item>
-        <item>स्पैनिश</item>
-        <item>फ़्रेंच</item>
-        <item>जर्मन</item>
-    </string-array>
 
+    <string name="textsize_title">टेक्स्ट साइज चुनें</string>
+    <string name="small">छोटा</string>
+    <string name="medium">मध्यम (डिफ़ॉल्ट)</string>
+    <string name="large">बड़ा</string>
+    <string name="extra_large">अत्यधिक बड़ा</string>
 
-    <string name="create_account_text">खाता बनाएं</string>
-    <string name="second_text_signup">अपने खर्चों को बेहतर ढंग से प्रबंधित करने के लिए हमसे जुड़ें</string>
+    <!-- Static Information -->
+    <string name="no_item_found">कोई आइटम नहीं मिला</string>
+    <string name="detailed_description">विस्तृत विवरण</string>
+    <string name="apply">लागू करें</string>
+
+    <string name="bigheading">स्नैप कार्ट</string>
+    <string name="create_account_text">खाता बनाएँ</string>
+    <string name="second_text_signup">हमसे जुड़ें और अपने खर्चों को बेहतर तरीके से प्रबंधित करें</string>
+    <string name="welcomeback_login">वापस स्वागत है</string>
+    <string name="second_login">हमें आपकी याद आई! लॉगिन करके शुरुआत करें</string>
+    <string name="spent">खर्च किया</string>
+    <string name="remaining">बाकी</string>
+    <string name="no_active_budget">कोई सक्रिय बजट नहीं है</string>
     <string name="hello_folks">नमस्ते दोस्तों!</string>
     <string name="user">उपयोगकर्ता</string>
     <string name="username">उपयोगकर्ता नाम</string>
@@ -58,6 +68,21 @@
     <string name="select_start_date">आरंभ तिथि चुनें</string>
     <string name="end_date">अंतिम तिथि</string>
     <string name="start_date">आरंभ करने की तिथि</string>
+    <string name="zero">0</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="clear">C</string>
+    <string name="night_mode">रात्रि मोड</string>
+    <string name="privacy">गोपनीयता</string>
+    <string name="text_size">टेक्स्ट साइज</string>
+    <string name="languages">भाषाएँ</string>
     <string name="enter_your_budget_cad">अपना बजट दर्ज करें (CAD)</string>
     <string name="set_your_budget">अपना बजट निर्धारित करें</string>
     <string name="cancel">रद्द करना</string>
@@ -115,8 +140,8 @@
     <string name="budget_details">बजट विवरण</string>
     <string name="budget_amount_0">बजट राशि: $0</string>
     <string name="spent_amount_0">खर्च की गई राशि: $0</string>
-    <string name="start_date_yyyy_mm_dd">आरंभ तिथि: YYYY-MM-DD</string>
-    <string name="end_date_yyyy_mm_dd">अंतिम तिथि: YYYY-MM-DD</string>
+    <string name="start_date_yyyy_mm_dd">आरंभ तिथि: </string>
+    <string name="end_date_yyyy_mm_dd">अंतिम तिथि: </string>
     <string name="edit_budget">बजट संपादित करें</string>
     <string name="Close">बंद करना</string>
     <string name="Captured_image">कैप्चर की गई छवि</string>
@@ -144,6 +169,7 @@
     <string name="Delete_item">आइटम हटाएँ</string>
     <string name="submit">जमा करना</string>
     <string name="welcome_user">आपका स्वागत है, उपयोगकर्ता</string>
+    <string name="welcome_message">आपका स्वागत ह, %1$s</string>
     <string name="left_to_spend">खर्च करने के लिए छोड़ दिया:</string>
     <string name="_45_00">$45.00</string>
     <string name="out_of">से बाहर</string>
