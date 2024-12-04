@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -28,7 +29,8 @@ public class uploadImage {
 
         // Initialize loader
         ScreenLoader loader = new ScreenLoader(context);
-        loader.show(); // Show loader
+        ViewGroup rootView = ((Activity) context).findViewById(android.R.id.content);
+        loader.show(rootView); // Show loader
 
         Log.d("UploadLog", "File Path: " + imageFile.getAbsolutePath());
         Log.d("UploadLog", "File Name: " + imageFile.getName());
@@ -40,7 +42,7 @@ public class uploadImage {
                 "file", // The key expected by the backend
                 context,
                 response -> {
-                    loader.hide(); // Hide loader on success
+                    loader.hide(rootView); // Hide loader on success
                     Log.i("UploadLog", "Response: " + response.toString());
                     try {
                         JSONObject data = response.getJSONObject("data");
@@ -82,7 +84,7 @@ public class uploadImage {
                     }
                 },
                 error -> {
-                    loader.hide(); // Hide loader on error
+                    loader.hide(rootView); // Hide loader on error
                     Log.e("UploadLog", "Error uploading image: " + error.toString());
                     if (error.networkResponse != null && error.networkResponse.data != null) {
                         String body = new String(error.networkResponse.data);

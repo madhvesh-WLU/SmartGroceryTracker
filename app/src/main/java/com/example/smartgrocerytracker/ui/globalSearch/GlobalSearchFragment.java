@@ -3,6 +3,7 @@ package com.example.smartgrocerytracker.ui.globalSearch;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.example.smartgrocerytracker.services.GlobalSearchServices;
 import com.example.smartgrocerytracker.services.deleteExpenseServices;
 import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.services.deleteGroceryServices;
+import com.example.smartgrocerytracker.utils.HideKeyboard;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -142,15 +144,18 @@ public class GlobalSearchFragment extends Fragment implements
     private void performSearch() {
         Log.d("GlobalSearch", "Perform search triggered");
 
-
+        // Show ProgressBar immediately
 
         int checkedChipId = binding.categoryChipGroup.getCheckedChipId();
         if (checkedChipId == -1) {
             Log.e("GlobalSearch", "No chip selected. Please select a filter.");
             Toast.makeText(requireContext(), "Please select a filter.", Toast.LENGTH_SHORT).show();
+             // Hide ProgressBar if no chip is selected
             return; // Exit early if no chip is selected
         }
-
+        binding.progressBar.setVisibility(View.VISIBLE);
+        HideKeyboard.hideKeyboard(requireContext(), getView());
+        binding.addResults.setVisibility(View.GONE);
         String query = binding.editTextBillOrGrocery.getText().toString().trim();
         String selectedYear = binding.yearSpinner.getSelectedItem() != null ? binding.yearSpinner.getSelectedItem().toString() : "";
         String selectedMonthName = binding.monthSpinner.getSelectedItem() != null ? binding.monthSpinner.getSelectedItem().toString() : "";
@@ -158,39 +163,45 @@ public class GlobalSearchFragment extends Fragment implements
         // Skip "Select Year" and "Select Month"
         selectedYear = selectedYear.equals("Select Year") ? "" : selectedYear;
         String selectedMonth = selectedMonthName.equals("Select Month") ? "" : getMonthNumber(selectedMonthName);
+
         // Perform your filtering logic here and update RecyclerView
         binding.searchResultsRecyclerView.setVisibility(View.VISIBLE);
-        binding.addResults.setVisibility(View.GONE);
-        if (checkedChipId == R.id.chip_bill_name) {
-            if (!query.isEmpty()) {
-                Log.d("GlobalSearch", "Bill Name search triggered with query: " + query);
-                services.fetchBillNameData(query, selectedYear, selectedMonth,
-                        this::handleBillNameResponse,
-                        this::handleError);
-            } else {
-                Toast.makeText(requireContext(), "Please enter a bill name to search.", Toast.LENGTH_SHORT).show();
+        // Use a handler to add a delay before proceeding with the search
+        String finalSelectedYear = selectedYear;
+        new Handler().postDelayed(() -> {
+
+
+
+            // Check chip selection and call the corresponding search logic
+            if (checkedChipId == R.id.chip_bill_name) {
+                if (!query.isEmpty()) {
+                    Log.d("GlobalSearch", "Bill Name search triggered with query: " + query);
+                    services.fetchBillNameData(query, finalSelectedYear, selectedMonth,
+                            this::handleBillNameResponse,
+                            this::handleError);
+
+                } else {
+                    Toast.makeText(requireContext(), "Please enter a bill name to search.", Toast.LENGTH_SHORT).show();
+                }
+            } else if (checkedChipId == R.id.chip_grocery_name) {
+                if (!query.isEmpty()) {
+                    Log.d("GlobalSearch", "Grocery Name search triggered with query: " + query);
+                    services.fetchGroceryNameData(query, finalSelectedYear, selectedMonth,
+                            this::handleGroceryNameResponse,
+                            this::handleError);
+
+                } else {
+                    Toast.makeText(requireContext(), "Please enter a grocery name to search.", Toast.LENGTH_SHORT).show();
+                    binding.addResults.setVisibility(View.VISIBLE);
+                }
             }
-        } else if (checkedChipId == R.id.chip_grocery_name) {
-            if (!query.isEmpty()) {
-                Log.d("GlobalSearch", "Grocery Name search triggered with query: " + query);
-                services.fetchGroceryNameData(query, selectedYear, selectedMonth,
-                        this::handleGroceryNameResponse,
-                        this::handleError);
-            } else {
-                Toast.makeText(requireContext(), "Please enter a grocery name to search.", Toast.LENGTH_SHORT).show();
-            }
-        } else if (checkedChipId == R.id.chip_category) {
-            String selectedCategory = binding.categorySpinner.getSelectedItem() != null ? binding.categorySpinner.getSelectedItem().toString() : "";
-            if (!selectedCategory.isEmpty()) {
-                Log.d("GlobalSearch", "Category search triggered with category: " + selectedCategory);
-                services.fetchCategoryData(selectedCategory, selectedYear, selectedMonth,
-                        this::handleCategoryResponse,
-                        this::handleError);
-            } else {
-                Toast.makeText(requireContext(), "Please select a category to search.", Toast.LENGTH_SHORT).show();
-            }
-        }
+
+            // Hide ProgressBar after the delay and the search operation
+            binding.progressBar.setVisibility(View.GONE);
+
+        }, 1500);  // Delay of 2 seconds (2000 milliseconds)
     }
+
 
     private void handleBillNameResponse(JSONObject response) {
         try {
