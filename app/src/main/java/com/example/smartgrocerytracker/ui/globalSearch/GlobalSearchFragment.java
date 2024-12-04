@@ -78,6 +78,31 @@ public class GlobalSearchFragment extends Fragment implements
 
         // Apply filter button
         binding.applyFilterButton.setOnClickListener(v -> performSearch());
+        binding.clearFilterButton.setOnClickListener(v -> clearFilters());
+    }
+
+
+    private void clearFilters() {
+        // Clear selected chips
+        binding.categoryChipGroup.clearCheck();
+
+        // Reset text fields
+        binding.editTextBillOrGrocery.setText("");
+
+        // Reset spinners
+        binding.yearSpinner.setSelection(0); // Select the placeholder
+        binding.monthSpinner.setSelection(0); // Select the placeholder
+        binding.categorySpinner.setSelection(0); // Select the placeholder
+
+        // Hide specific fields
+        binding.editTextBillOrGrocery.setVisibility(View.GONE);
+        binding.categorySpinner.setVisibility(View.GONE);
+
+        // Optionally hide the RecyclerView and show the placeholder
+        binding.searchResultsRecyclerView.setVisibility(View.GONE);
+        binding.addResults.setVisibility(View.VISIBLE);
+
+        Toast.makeText(requireContext(), "Filters cleared.", Toast.LENGTH_SHORT).show();
     }
 
     private void setupSpinners() {
@@ -195,26 +220,35 @@ public class GlobalSearchFragment extends Fragment implements
     private void handleBillNameResponse(JSONObject response) {
         try {
             JSONArray dataArray = response.getJSONArray("data");
-
             List<BillInfo> billList = new ArrayList<>();
-            for (int i = 0; i < dataArray.length(); i++) {
-                Log.i("Big data", dataArray.getJSONObject(i).toString());
-                JSONObject jsonObject = dataArray.getJSONObject(i);
-                BillInfo billInfo = new BillInfo();
-                billInfo.setBillName(jsonObject.getString("bill_name"));
-                billInfo.setBillAmount(jsonObject.getDouble("bill_amount"));
-                billInfo.setTotalQuantity(jsonObject.getDouble("total_quantity"));
-                billInfo.setDateOfPurchase(jsonObject.getString("date_of_purchase"));
-                billInfo.setDescription(jsonObject.optString("description"));
-                billInfo.setExpenseId(jsonObject.getString("expense_id"));
-                billInfo.setBudgetId(jsonObject.optString("budget_id"));
-                billInfo.setStoreId(jsonObject.optString("store_id"));
-                billInfo.setUserId(jsonObject.getString("user_id"));
-                billInfo.setCreatedAt(jsonObject.getString("created_at"));
-                billList.add(billInfo);
+            if (dataArray.length() == 0) {
+                // No results found, show error layout
+                binding.errorResults.setVisibility(View.VISIBLE);
+                binding.searchResultsRecyclerView.setVisibility(View.GONE);
             }
-            adapter.setViewType(SearchResultsAdapter.VIEW_TYPE_BILL_NAME);
-            adapter.setData(billList);
+            else{
+                binding.errorResults.setVisibility(View.GONE);
+                binding.searchResultsRecyclerView.setVisibility(View.VISIBLE);
+                for (int i = 0; i < dataArray.length(); i++) {
+                    Log.i("Big data", dataArray.getJSONObject(i).toString());
+                    JSONObject jsonObject = dataArray.getJSONObject(i);
+                    BillInfo billInfo = new BillInfo();
+                    billInfo.setBillName(jsonObject.getString("bill_name"));
+                    billInfo.setBillAmount(jsonObject.getDouble("bill_amount"));
+                    billInfo.setTotalQuantity(jsonObject.getDouble("total_quantity"));
+                    billInfo.setDateOfPurchase(jsonObject.getString("date_of_purchase"));
+                    billInfo.setDescription(jsonObject.optString("description"));
+                    billInfo.setExpenseId(jsonObject.getString("expense_id"));
+                    billInfo.setBudgetId(jsonObject.optString("budget_id"));
+                    billInfo.setStoreId(jsonObject.optString("store_id"));
+                    billInfo.setUserId(jsonObject.getString("user_id"));
+                    billInfo.setCreatedAt(jsonObject.getString("created_at"));
+                    billList.add(billInfo);
+                }
+                adapter.setViewType(SearchResultsAdapter.VIEW_TYPE_BILL_NAME);
+                adapter.setData(billList);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(requireContext(), "Failed to parse bill data.", Toast.LENGTH_SHORT).show();

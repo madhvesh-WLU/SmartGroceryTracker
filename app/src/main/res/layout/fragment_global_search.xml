@@ -169,6 +169,33 @@
                 android:background="?attr/selectableItemBackgroundBorderless" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/error_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="150dp">
+
+            <TextView
+                android:id="@+id/no_results_text_view1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Result Found!"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:layout_marginEnd="8dp" />
+
+            <ImageButton
+                android:id="@+id/no_results_image_button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search"
+                android:contentDescription="No results icon"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+        </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

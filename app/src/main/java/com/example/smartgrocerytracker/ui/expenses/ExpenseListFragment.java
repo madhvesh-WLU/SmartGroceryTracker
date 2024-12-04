@@ -39,9 +39,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ExpenseListFragment extends Fragment implements searchGroceryItemsServices.GroceryItemsFetchListener,GroceryItemAdapter.OnGroceryLongClickListener {
@@ -197,7 +201,11 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
     /**
      * Displays the expense bill information.
      */
-    private void displayBillInfo() {
+    private static final SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+    private void displayBillInfo() throws ParseException {
+        Date parsedDate = isoFormat.parse(dateOfPurchase); // Parse the input date
+        String formattedDate = isoFormat.format(parsedDate);
         binding.billNameTextView.setText(billName);
         binding.editBillName.setText(billName);
         binding.editDateOfPurchase.setText(dateOfPurchase);
@@ -258,14 +266,15 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
      * Submits the added grocery items to the backend.
      */
     private void onSubmit() {
-        // Show the ProgressBar and hide the Submit button
-      binding.loadingSpinner.setVisibility(View.VISIBLE);
-      binding.submitButton.setVisibility(View.GONE);
+
 
         if (addedItemsList.isEmpty()) {
             Toast.makeText(getContext(), "No new items added. Nothing to submit.", Toast.LENGTH_SHORT).show();
             return;
         }
+        // Show the ProgressBar and hide the Submit button
+        binding.loadingSpinner.setVisibility(View.VISIBLE);
+        binding.submitButton.setVisibility(View.GONE);
         JSONArray jsonArray = new JSONArray();
         try {
             for (GroceryItemModel item : addedItemsList) {
@@ -278,11 +287,15 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
                 jsonArray.put(itemObject);
             }
         } catch (JSONException e) {
+            binding.loadingSpinner.setVisibility(View.GONE);
+            binding.submitButton.setVisibility(View.VISIBLE);
             e.printStackTrace();
         }
 
         if (expense_id == null) {
             Toast.makeText(getContext(), "Expense ID is null", Toast.LENGTH_SHORT).show();
+            binding.loadingSpinner.setVisibility(View.GONE);
+            binding.submitButton.setVisibility(View.VISIBLE);
             return;
         } else {
             new Handler().postDelayed(() -> {
