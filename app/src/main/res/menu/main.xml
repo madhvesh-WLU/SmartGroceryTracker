@@ -6,23 +6,23 @@
         android:id="@+id/action_settings2"
         android:orderInCategory="100"
         android:title="@string/action_budget"
-        android:icon="@drawable/budget_icom"
-        app:showAsAction="always"
-        app:iconTint="@color/bottom_nav_item_color" />
+        android:icon="@drawable/budget_icon"
+        android:iconTint="@color/vibrant_orange"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings3"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        android:icon="@drawable/settings"
-        app:showAsAction="always"
-        app:iconTint="@color/bottom_nav_item_color" />
+        android:icon="@drawable/setting"
+        android:iconTint="@color/vibrant_orange"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_information"
-        android:icon="@drawable/user_icon"
-        app:showAsAction="always"
-        app:iconTint="@color/bottom_nav_item_color" />
+        android:icon="@drawable/user"
+        android:iconTint="@color/vibrant_orange"
+        app:showAsAction="always" />
 </menu>

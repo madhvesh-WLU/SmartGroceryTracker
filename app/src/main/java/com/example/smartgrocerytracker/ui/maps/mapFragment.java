@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri; // Import for Uri
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -45,7 +47,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class mapFragment extends Fragment implements OnMapReadyCallback {
-
+    // Request codes
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
+    private static final int SETTINGS_REQUEST_CODE = 101;
     private static final String TAG = "SlideshowFragment";
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
@@ -140,8 +144,15 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            enableUserLocation();
+        } else {
+            requestLocationPermission();
+        }
+    }
+
+    private void enableUserLocation() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return;
         }
 
@@ -160,6 +171,69 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(requireContext(), "Location not available.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void requestLocationPermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Show an explanation to the user
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Location Permission Needed")
+                    .setMessage("This app requires location access to display nearby stores on the map.")
+                    .setPositiveButton("Grant", (dialog, which) -> {
+                        // Request the permission
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                        dialog.dismiss();
+                        Toast.makeText(requireContext(), "Location permission is required to use this feature.", Toast.LENGTH_SHORT).show();
+                    })
+                    .create()
+                    .show();
+        } else {
+            // No explanation needed; request the permission
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted
+                enableUserLocation();
+            } else {
+                // Permission denied
+                boolean showRationale = shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION);
+                if (!showRationale) {
+                    // User selected "Don't ask again"
+                    showSettingsRedirectDialog();
+                } else {
+                    // User denied without "Don't ask again"
+                    Toast.makeText(requireContext(), "Location permission denied. Some features may not work.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private void showSettingsRedirectDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Permission Required")
+                .setMessage("Location permission has been permanently denied. Please enable it in the app settings to use this feature.")
+                .setPositiveButton("Go to Settings", (dialog, which) -> {
+                    // Redirect to app settings
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", requireContext().getPackageName(), null);
+                    intent.setData(uri);
+                    startActivityForResult(intent, SETTINGS_REQUEST_CODE);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    dialog.dismiss();
+                    Toast.makeText(requireContext(), "Location permission denied. Some features may not work.", Toast.LENGTH_SHORT).show();
+                })
+                .create()
+                .show();
     }
 
     private void fetchNearbyStores(Location location) {

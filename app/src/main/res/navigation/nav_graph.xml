@@ -13,7 +13,6 @@
         tools:layout="@layout/fragment_home" />
 
 
-
     <!--<item
         android:id="@+id/nav_expense_list"
         android:title="Expense List" />-->

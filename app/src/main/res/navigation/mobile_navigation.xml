@@ -85,4 +85,11 @@
             app:destination="@id/nav_profile" />
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_budget_fragment"
+        android:name="com.example.smartgrocerytracker.ui.grocerylist.BudgetFragment"
+        android:label="Budget Fragment"
+        tools:layout="@layout/fragment_budget" />
+
+
 </navigation>

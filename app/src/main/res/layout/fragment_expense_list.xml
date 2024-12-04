@@ -298,6 +298,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/addIconImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Add Item Icon"
+        android:src="@drawable/additem"
+        app:layout_constraintBottom_toTopOf="@id/addItemMessageTextView"
+        app:layout_constraintEnd_toEndOf="@id/expenseRecyclerView"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@id/expenseRecyclerView"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="1.0" />
+
     <TextView
         android:id="@+id/addItemMessageTextView"
         android:layout_width="wrap_content"

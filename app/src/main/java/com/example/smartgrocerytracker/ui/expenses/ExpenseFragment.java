@@ -74,17 +74,17 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
             @Override
             public void onExpensesFetched(ExpenseModel expense) {
                 Bundle bundle = new Bundle();
-            bundle.putString("bill_name",  expense.getBillName());
-            bundle.putString("date_of_purchase", expense.getDateOfPurchase());
-            bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
-            bundle.putString("total_quantity", String.valueOf(expense.getTotalQuantity()));
-            bundle.putString("expense_id", expense.getExpenseId());
-            bundle.putString("description", expense.getDescription());
-            bundle.putString("budget_id", expense.getBudgetId());
-            bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) expense.getGroceryItems());
+                bundle.putString("bill_name",  expense.getBillName());
+                bundle.putString("date_of_purchase", expense.getDateOfPurchase());
+                bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
+                bundle.putString("total_quantity", String.valueOf(expense.getTotalQuantity()));
+                bundle.putString("expense_id", expense.getExpenseId());
+                bundle.putString("description", expense.getDescription());
+                bundle.putString("budget_id", expense.getBudgetId());
+                bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) expense.getGroceryItems());
 
-            NavController navController = NavHostFragment.findNavController(requireParentFragment());
-            navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
+                NavController navController = NavHostFragment.findNavController(requireParentFragment());
+                navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
             }
         });
 

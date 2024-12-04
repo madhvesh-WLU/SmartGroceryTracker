@@ -51,7 +51,7 @@ public class fetchUserServices {
                                     // Store the budget details in SharedPreferences
                                     SharedPreferences sharedPreferences = context.getSharedPreferences("ActiveBudget", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("id", null);
+                                    editor.putString("budget_id", null);
                                     editor.putString("user_id", null);
                                     editor.putString("amount", null);
                                     editor.putString("spent_amount", null);
@@ -69,6 +69,23 @@ public class fetchUserServices {
                                 editor.putString(EMAIL_KEY, email);
                                 editor.putString("user_id", user_id);
                                 editor.putString("budget_id", budget_id);
+//                                fetchBudgetDetails.getBudgetService(context, queue, budget_id, new fetchBudgetDetails.BudgetDetailsUpdateListener() {
+//                                    @Override
+//                                    public void onBudgetDetailsUpdated(String amount, String startDate, String endDate, String spentAmount) {
+//                                        Log.d(TAG, "Budget details fetched: Amount=" + amount + ", Start=" + startDate + ", End=" + endDate);
+//
+//                                        SharedPreferences sharedPreferences = context.getSharedPreferences("ActiveBudget", Context.MODE_PRIVATE);
+//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                        editor.putString("amount", amount);
+//                                        editor.putString("spent_amount", spentAmount);
+//                                        editor.putString("start_date", startDate);
+//                                        editor.putString("end_date", endDate);
+//                                        editor.apply();
+//
+//                                        // Optional: Notify the user
+//                                        Toast.makeText(context, "Budget details fetched and stored successfully", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
                                 editor.apply();
 
                             } else {

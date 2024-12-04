@@ -1,5 +1,7 @@
+// File: GlobalSearchFragment.java
 package com.example.smartgrocerytracker.ui.globalSearch;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -26,6 +29,7 @@ import com.example.smartgrocerytracker.ModelClass.BillInfo;
 import com.example.smartgrocerytracker.ModelClass.GroceryItem;
 import com.example.smartgrocerytracker.services.GlobalSearchServices;
 import com.example.smartgrocerytracker.services.fetchGroceryListServices;
+import com.example.smartgrocerytracker.services.deleteGroceryServices;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +39,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GlobalSearchFragment extends Fragment implements SearchResultsAdapter.OnItemClickListener {
+public class GlobalSearchFragment extends Fragment implements
+        SearchResultsAdapter.OnItemClickListener,
+        SearchResultsAdapter.OnItemLongClickListener { // Implement OnItemLongClickListener
 
     private FragmentGlobalSearchBinding binding;
     private SearchResultsAdapter adapter;
@@ -53,7 +59,7 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
         super.onViewCreated(view, savedInstanceState);
 
         // Initialize RecyclerView and adapter
-        adapter = new SearchResultsAdapter(this);
+        adapter = new SearchResultsAdapter(this, this); // Pass both listeners
         binding.searchResultsRecyclerView.setAdapter(adapter);
         binding.searchResultsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
@@ -137,6 +143,7 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
         int checkedChipId = binding.categoryChipGroup.getCheckedChipId();
         if (checkedChipId == -1) {
             Log.e("GlobalSearch", "No chip selected. Please select a filter.");
+            Toast.makeText(requireContext(), "Please select a filter.", Toast.LENGTH_SHORT).show();
             return; // Exit early if no chip is selected
         }
 
@@ -154,6 +161,8 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
                 services.fetchBillNameData(query, selectedYear, selectedMonth,
                         this::handleBillNameResponse,
                         this::handleError);
+            } else {
+                Toast.makeText(requireContext(), "Please enter a bill name to search.", Toast.LENGTH_SHORT).show();
             }
         } else if (checkedChipId == R.id.chip_grocery_name) {
             if (!query.isEmpty()) {
@@ -161,6 +170,8 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
                 services.fetchGroceryNameData(query, selectedYear, selectedMonth,
                         this::handleGroceryNameResponse,
                         this::handleError);
+            } else {
+                Toast.makeText(requireContext(), "Please enter a grocery name to search.", Toast.LENGTH_SHORT).show();
             }
         } else if (checkedChipId == R.id.chip_category) {
             String selectedCategory = binding.categorySpinner.getSelectedItem() != null ? binding.categorySpinner.getSelectedItem().toString() : "";
@@ -169,16 +180,19 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
                 services.fetchCategoryData(selectedCategory, selectedYear, selectedMonth,
                         this::handleCategoryResponse,
                         this::handleError);
+            } else {
+                Toast.makeText(requireContext(), "Please select a category to search.", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
     private void handleBillNameResponse(JSONObject response) {
         try {
             JSONArray dataArray = response.getJSONArray("data");
 
             List<BillInfo> billList = new ArrayList<>();
             for (int i = 0; i < dataArray.length(); i++) {
-                Log.i("Big data",dataArray.getJSONObject(i).toString());
+                Log.i("Big data", dataArray.getJSONObject(i).toString());
                 JSONObject jsonObject = dataArray.getJSONObject(i);
                 BillInfo billInfo = new BillInfo();
                 billInfo.setBillName(jsonObject.getString("bill_name"));
@@ -193,10 +207,11 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
                 billInfo.setCreatedAt(jsonObject.getString("created_at"));
                 billList.add(billInfo);
             }
-            adapter.setViewType(0);
+            adapter.setViewType(SearchResultsAdapter.VIEW_TYPE_BILL_NAME);
             adapter.setData(billList);
         } catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(requireContext(), "Failed to parse bill data.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -224,10 +239,11 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
                 groceryItem.setStoreId(jsonObject.optString("store_id"));
                 groceryList.add(groceryItem);
             }
-            adapter.setViewType(1);
+            adapter.setViewType(SearchResultsAdapter.VIEW_TYPE_GROCERY_NAME);
             adapter.setData(groceryList);
         } catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(requireContext(), "Failed to parse grocery data.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -236,16 +252,17 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
     }
 
     private void handleError(VolleyError error) {
-        Log.e("Asd",error.getMessage());
-        error.printStackTrace();
+        Log.e("GlobalSearch", "Error: " + error.getMessage());
+        Toast.makeText(requireContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     private String[] getYears() {
-        return new String[]{"2024","2023", "2022", "2021", "2020", "2019"};
+        return new String[]{"2024", "2023", "2022", "2021", "2020", "2019"};
     }
 
     private String[] getMonths() {
-        return new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        return new String[]{"January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"};
     }
 
     private String getMonthNumber(String monthName) {
@@ -272,6 +289,7 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
         binding = null;
     }
 
+    // Implementing OnItemClickListener
     @Override
     public void onItemClick(Object item) {
         if (item instanceof BillInfo) {
@@ -290,7 +308,7 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
                     bundle.putString("budget_id", expense.getBudgetId());
                     bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) expense.getGroceryItems());
 
-                    NavController navController = NavHostFragment.findNavController(requireParentFragment());
+                    NavController navController = NavHostFragment.findNavController(thisFragment());
                     navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
                 }
             });
@@ -310,10 +328,55 @@ public class GlobalSearchFragment extends Fragment implements SearchResultsAdapt
                     bundle.putString("budget_id", expense.getBudgetId());
                     bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) expense.getGroceryItems());
 
-                    NavController navController = NavHostFragment.findNavController(requireParentFragment());
+                    NavController navController = NavHostFragment.findNavController(thisFragment());
                     navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
                 }
             });
         }
+    }
+
+    // Implementing OnItemLongClickListener
+    @Override
+    public void onItemLongClick(GroceryItem groceryItem, int position) {
+        // Show a confirmation dialog before deletion
+        showDeleteConfirmationDialog(groceryItem, position);
+    }
+
+    private void showDeleteConfirmationDialog(GroceryItem groceryItem, int position) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Delete Item")
+                .setMessage("Are you sure you want to delete \"" + groceryItem.getItemName() + "\"?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    // Perform deletion
+                    deleteGroceryItem(groceryItem, position);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .create()
+                .show();
+    }
+
+    private void deleteGroceryItem(GroceryItem groceryItem, int position) {
+//        // Implement your deletion logic here, e.g., API call
+////        deleteGroceryServices.deleteGroceryItem(requireContext(), groceryItem.getItemId(), new deleteGroceryServices.DeleteCallback() {
+//            @Override
+//            public void onDeleteSuccess() {
+//                // Remove the item from the adapter's data and notify
+//                adapter.data.remove(position);
+//                adapter.notifyItemRemoved(position);
+//                Toast.makeText(requireContext(), "Item deleted successfully.", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onDeleteFailure(String errorMessage) {
+//                Toast.makeText(requireContext(), "Failed to delete item: " + errorMessage, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+    }
+
+    // Helper method to get the fragment instance
+    private Fragment thisFragment() {
+        return this;
     }
 }

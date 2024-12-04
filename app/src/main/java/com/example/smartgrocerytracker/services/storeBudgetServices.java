@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.smartgrocerytracker.Config;
+import com.example.smartgrocerytracker.ModelClass.BudgetModel;
 import com.example.smartgrocerytracker.ui.Login;
 import com.example.smartgrocerytracker.utils.SecurePreferences;
 
@@ -25,19 +26,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class storeBudgetServices {
+    public interface BudgetCallback {
+        void onSuccess(BudgetModel budgetModel);
+    }
 
     private static final String BASE_URL = Config.BUDGET_STORE_URL;
     private static final String TAG = "store";
 
-    public static void sendBudgetRequest(Context context, RequestQueue queue, Integer budgetAmount, String startDate, String endDate) {
+    public static void sendBudgetRequest(Context context, RequestQueue queue, Integer budgetAmount, String startDate, String endDate, BudgetCallback callback) {
         String token = SecurePreferences.getAuthToken(context);
-        Log.i("check",startDate);
-        Log.i("check", endDate);
 
         JSONObject postData = new JSONObject();
         try {
-            postData.put("budget_amount",budgetAmount);
-            postData.put("spent_amount",0);
+            postData.put("budget_amount", budgetAmount);
+            postData.put("spent_amount", 0);
             postData.put("start_date", startDate);
             postData.put("end_date", endDate);
         } catch (JSONException e) {
@@ -46,17 +48,28 @@ public class storeBudgetServices {
             return;
         }
 
-        JsonObjectRequest fetchUserRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL,postData,
+        JsonObjectRequest fetchUserRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL, postData,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             if (response.getBoolean("success")) {
+                                JSONObject data = response.getJSONObject("data");
 
-                                fetchUserServices.fetchUserDetails(context,queue);
+                                // Create BudgetModel instance
+                                BudgetModel budgetModel = new BudgetModel(
+                                        data.getString("budget_id"),
+                                        data.getString("user_id"),
+                                        data.getDouble("budget_amount"),
+                                        data.getDouble("spent_amount"),
+                                        data.getString("start_date"),
+                                        data.getString("end_date")
+                                );
+
+                                // Pass the model to the callback
+                                callback.onSuccess(budgetModel);
+
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
-
-
                             } else {
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                                 Log.e(TAG, response.getString("message"));
@@ -84,11 +97,9 @@ public class storeBudgetServices {
         };
 
         queue.add(fetchUserRequest);
+    }
 
-
-    };
 }
-
 
 
 

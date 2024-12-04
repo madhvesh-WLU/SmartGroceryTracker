@@ -1,4 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -6,40 +8,58 @@
     android:padding="30dp"
     android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="20dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="399dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="20dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="4dp">
 
+        <!-- Dialog Icon -->
+
+        <!-- Dialog Title -->
         <ImageView
             android:id="@+id/dialog_icon"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="5dp"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="28dp"
             android:contentDescription="Dialog Icon"
-            android:src="@drawable/additems" />
+            android:src="@drawable/additems"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4" />
 
+        <!-- Close Button positioned in the right corner -->
         <TextView
             android:id="@+id/dialog_title"
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
+            android:layout_width="236dp"
+            android:layout_height="41dp"
+            android:gravity="left"
             android:text="Add New Item"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textColor="@color/dark_grey"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/close_button"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/dialog_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.304" />
 
         <ImageButton
             android:id="@+id/close_button"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_gravity="end"
+            android:layout_marginEnd="32dp"
             android:background="@android:color/transparent"
             android:contentDescription="Close Button"
-            android:padding="16dp"
-            android:src="@drawable/cross" />
-    </LinearLayout>
+            android:src="@drawable/cross"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.521" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"

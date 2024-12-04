@@ -18,15 +18,15 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/bottom_nav_background"
-            android:title="Smart Grocery Tracker"
-            android:titleTextColor="@android:color/white"
-            app:popupTheme="@style/Theme.SmartGroceryTracker.PopupOverlay" />
+            app:title="@string/app_name"
+            android:background="@drawable/bottom_nav_background" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Main Content Layout -->
     <include layout="@layout/content_main" />
+
+
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,50 +34,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- BottomAppBar -->
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:backgroundTint="@color/colorPrimaryDark"
-        app:elevation="12dp"
-        app:fabCradleMargin="10dp"
-        app:fabCradleRoundedCornerRadius="50dp"
-        app:fabCradleVerticalOffset="10dp"
-        app:hideOnScroll="false">
-
-        <!-- BottomNavigationView inside BottomAppBar -->
+        <!-- BottomNavigationView -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:background="@drawable/bottom_nav_background"
-            app:menu="@menu/bottom_menu"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimaryDark"
             app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_menu"
             app:itemIconTint="@color/bottom_nav_item_color"
             app:itemTextColor="@color/bottom_nav_item_color"
             app:itemRippleColor="?attr/colorControlHighlight" />
-    </com.google.android.material.bottomappbar.BottomAppBar>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <!-- Floating Action Button (Optional) -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_gravity="bottom|center"
+            android:translationY="-16dp"
+            android:backgroundTint="@color/vibrant_orange"
+            app:layout_anchor="@id/bottomNavigationView"
+            app:layout_anchorGravity="center"
+            app:maxImageSize="40dp"
+            app:srcCompat="@drawable/ocr_scan"
+            tools:ignore="ContentDescription" />
 
-    <!-- Floating Action Button (FAB) -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_anchor="@id/bottomAppBar"
-        app:layout_anchorGravity="center"
-        android:backgroundTint="#ff6f00"
-        android:tint="@android:color/white"
-        android:elevation="10dp"
-        app:maxImageSize="36dp"
-        app:srcCompat="@drawable/ocr_scan"
-        tools:ignore="ContentDescription" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>

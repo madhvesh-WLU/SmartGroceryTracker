@@ -1,12 +1,18 @@
 package com.example.smartgrocerytracker.ui;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +26,10 @@ public class SignUp extends AppCompatActivity {
     private EditText usernameEditText, emailEditText, passwordEditText, rePasswordEditText;
     private Button signupButton;
 
+    private TextView welcomesignup;
+
+    private TextView welcomesignup1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +39,35 @@ public class SignUp extends AppCompatActivity {
         usernameEditText = findViewById(R.id.username);
         emailEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
-        rePasswordEditText = findViewById(R.id.re_password);
-        signupButton = findViewById(R.id.signup);
+        rePasswordEditText = findViewById(R.id.confirm_password);
+        signupButton = findViewById(R.id.signupButton);
+        ImageView playButtonImage = findViewById(R.id.imgplaybtn);
+        welcomesignup = findViewById(R.id.welcomeSignUpText);
+        welcomesignup1 = findViewById(R.id.second_signup);
+        Animation dropDownAnimation = AnimationUtils.loadAnimation(this, R.anim.drop_down);
+        welcomesignup.startAnimation(dropDownAnimation);
+        Animation dropDownAnimation1 = AnimationUtils.loadAnimation(this, R.anim.drop_down);
+        welcomesignup1.startAnimation(dropDownAnimation1);
+        // Create the rotation animation
+        ObjectAnimator rotationAnimator = ObjectAnimator.ofFloat(playButtonImage, "rotation", 0f, 360f);
+        rotationAnimator.setDuration(1500); // 1 second duration
+        rotationAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        // Start the animation
+        rotationAnimator.start();
+
+        TextView loginLink = findViewById(R.id.login_link);
+
+        // Set click listener for the login link
+        loginLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Navigate to LoginActivity
+                Intent intent = new Intent(SignUp.this, Login.class);
+                startActivity(intent);
+                finish(); // Optional: Close the current activity
+            }
+        });
 
         // Set up RequestQueue
         RequestQueue queue = Volley.newRequestQueue(SignUp.this);

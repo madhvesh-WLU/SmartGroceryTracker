@@ -1,11 +1,9 @@
+// File: SearchResultsAdapter.java
 package com.example.smartgrocerytracker.ui.globalSearch;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,16 +21,24 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public interface OnItemClickListener {
         void onItemClick(Object item);
     }
-    private static final int VIEW_TYPE_BILL_NAME = 0;
-    private static final int VIEW_TYPE_GROCERY_NAME = 1;
+
+    public interface OnItemLongClickListener {
+        void onItemLongClick(GroceryItem groceryItem, int position);
+    }
+
+    public static final int VIEW_TYPE_BILL_NAME = 0;
+    public static final int VIEW_TYPE_GROCERY_NAME = 1;
     private static final int VIEW_TYPE_CATEGORY = 2;
 
     private int currentViewType = VIEW_TYPE_BILL_NAME; // Default view type
-    private List<Object> data = new ArrayList<>();
-    private final OnItemClickListener listener;
+    List<Object> data = new ArrayList<>();
+    private final OnItemClickListener clickListener;
+    private final OnItemLongClickListener longClickListener;
 
-    public SearchResultsAdapter(OnItemClickListener listener) {
-        this.listener = listener;
+    // Updated constructor to accept both listeners
+    public SearchResultsAdapter(OnItemClickListener clickListener, OnItemLongClickListener longClickListener) {
+        this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
     }
 
     public void setViewType(int viewType) {
@@ -71,11 +77,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         Object item = data.get(position);
 
         if (holder instanceof BillNameViewHolder && item instanceof BillInfo) {
-            ((BillNameViewHolder) holder).bind((BillInfo) item, listener);
+            ((BillNameViewHolder) holder).bind((BillInfo) item, clickListener);
         } else if (holder instanceof GroceryNameViewHolder && item instanceof GroceryItem) {
-            ((GroceryNameViewHolder) holder).bind((GroceryItem) item, listener);
+            ((GroceryNameViewHolder) holder).bind((GroceryItem) item, clickListener, longClickListener, position);
         } else if (holder instanceof CategoryViewHolder && item instanceof GroceryItem) {
-            ((CategoryViewHolder) holder).bind((GroceryItem) item, listener);
+            ((CategoryViewHolder) holder).bind((GroceryItem) item, clickListener);
         }
     }
 
@@ -87,7 +93,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     // ViewHolder for BillInfo
     static class BillNameViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView, priceView, categoryView, quantityView;
-        CheckBox checkbox;
 
         public BillNameViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,10 +100,9 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             priceView = itemView.findViewById(R.id.price);
             categoryView = itemView.findViewById(R.id.category);
             quantityView = itemView.findViewById(R.id.quantity);
-//            checkbox.setVisibility(false);
         }
 
-        void bind(BillInfo billInfo,  OnItemClickListener listener) {
+        void bind(BillInfo billInfo, OnItemClickListener listener) {
             textView.setText(billInfo.getBillName());
             priceView.setText("- $" + billInfo.getBillAmount());
             quantityView.setText("Qty: " + billInfo.getTotalQuantity());
@@ -112,6 +116,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    // ViewHolder for GroceryName
     static class GroceryNameViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView, categoryView, priceView, quantityView, billNameView, BillQuantityView, totalPriceView, DateView;
 
@@ -127,7 +132,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             DateView = itemView.findViewById(R.id.date_of_bill_global);
         }
 
-        void bind(GroceryItem groceryItem,OnItemClickListener listener) {
+        void bind(GroceryItem groceryItem, OnItemClickListener listener, OnItemLongClickListener longClickListener, int position) {
             textView.setText(groceryItem.getItemName());
             categoryView.setText(groceryItem.getCategory().toUpperCase());
             priceView.setText("$" + groceryItem.getPrice());
@@ -137,15 +142,23 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             totalPriceView.setText("$" + groceryItem.getBillAmount());
             DateView.setText(groceryItem.getDateOfPurchase());
 
+            // Handle regular click
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onItemClick(groceryItem);
                 }
             });
+
+            // Handle long click
+            itemView.setOnLongClickListener(v -> {
+                if (longClickListener != null) {
+                    longClickListener.onItemLongClick(groceryItem, position);
+                    return true; // Indicate that the event was handled
+                }
+                return false;
+            });
         }
     }
-
-
 
     // ViewHolder for Category (uses GroceryItem data)
     static class CategoryViewHolder extends RecyclerView.ViewHolder {
@@ -157,7 +170,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             categoryView = itemView.findViewById(R.id.item_category_global);
             priceView = itemView.findViewById(R.id.item_price_global);
             quantityView = itemView.findViewById(R.id.item_quantity_global);
-
             billNameView = itemView.findViewById(R.id.bill_name_global);
             BillQuantityView = itemView.findViewById(R.id.total_quantity_global);
             totalPriceView = itemView.findViewById(R.id.bill_price_global);
@@ -169,9 +181,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             categoryView.setText(groceryItem.getCategory().toUpperCase());
             priceView.setText("$" + groceryItem.getPrice());
             quantityView.setText("Qty: " + groceryItem.getQuantity());
-//
-//
-            //bill info below with groery name
+
             billNameView.setText(groceryItem.getBillName());
             BillQuantityView.setText("Bill Qty: " + groceryItem.getTotalQuantity());
             totalPriceView.setText("$" + groceryItem.getBillAmount());
@@ -184,5 +194,4 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
         }
     }
-
 }

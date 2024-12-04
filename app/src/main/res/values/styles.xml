@@ -21,6 +21,34 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="BigRoundedButton" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item> <!-- Big Button Height -->
+        <item name="android:background">@drawable/button_selector</item> <!-- Use the selector -->
+        <item name="android:textSize">20sp</item> <!-- Bigger Text -->
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="CustomDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/scale_in</item>
+        <item name="android:windowExitAnimation">@anim/scale_out</item>
+    </style>
 
 
+    <style name="CustomActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:titleTextStyle">@style/CustomActionBarTitleText</item>
+    </style>
+
+    <style name="CustomActionBarTitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item> <!-- Set title color to orange -->
+        <item name="android:textSize">20sp</item> <!-- Optional: Adjust text size -->
+    </style>
 </resources>

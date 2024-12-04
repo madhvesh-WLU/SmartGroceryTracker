@@ -3,6 +3,7 @@ package com.example.smartgrocerytracker.utils;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.smartgrocerytracker.ModelClass.BudgetModel;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.services.fetchBudgetDetails;
 import com.example.smartgrocerytracker.services.storeBudgetServices;
@@ -26,10 +28,17 @@ import java.util.Objects;
 
 public class BudgetDialog {
 
-    private final Context context;
 
-    public BudgetDialog(Context context) {
+    public interface BudgetUpdateListener {
+        void onBudgetUpdated(BudgetModel updatedBudgetModel);
+    }
+
+    private final Context context;
+    private final BudgetUpdateListener updateListener;
+
+    public BudgetDialog(Context context, BudgetUpdateListener updateListener) {
         this.context = context;
+        this.updateListener = updateListener;
     }
 
     public void showBudgetDialog(String currentBudget, String currentStartDate, String currentEndDate, boolean isEditMode) {
@@ -122,11 +131,26 @@ public class BudgetDialog {
 
                     RequestQueue queue = Volley.newRequestQueue(context);
                     if (isEditMode) {
-                        updateBudgetDetails.putBudgetRequest(context, queue, budgetId, budget, formattedStartDate, formattedEndDate);
+                        updateBudgetDetails.putBudgetRequest(context, queue, budgetId, budget, formattedStartDate, formattedEndDate, new updateBudgetDetails.UpdateBudgetListener() {
+                            @Override
+                            public void onBudgetUpdated(BudgetModel updatedBudgetModel) {
+                                if (updateListener != null) {
+                                    updateListener.onBudgetUpdated(updatedBudgetModel);
+                                }
+                                dialog.dismiss();
+                            }
+                        });
                     } else {
-                        storeBudgetServices.sendBudgetRequest(context, queue, budget, formattedStartDate, formattedEndDate);
+                        storeBudgetServices.sendBudgetRequest(context, queue, budget, formattedStartDate, formattedEndDate, new storeBudgetServices.BudgetCallback() {
+                            @Override
+                            public void onSuccess(BudgetModel budgetModel) {
+                                if (updateListener != null) {
+                                    updateListener.onBudgetUpdated(budgetModel);
+                                }
+                                dialog.dismiss();
+                            }
+                        });
                     }
-
                     dialog.dismiss();
                 } catch (NumberFormatException e) {
                     Toast.makeText(context, "Please enter a valid number for the budget", Toast.LENGTH_SHORT).show();
@@ -143,28 +167,38 @@ public class BudgetDialog {
         } else {
             // Show details layout
             RequestQueue queue = Volley.newRequestQueue(context);
-            fetchBudgetDetails.getBudgetService(context, queue, budgetId, new fetchBudgetDetails.BudgetDetailsUpdateListener() {
+            fetchBudgetDetails.getBudgetService(context, new fetchBudgetDetails.BudgetDetailsUpdateListener() {
                 @Override
-                public void onBudgetDetailsUpdated(String amount, String startDate, String endDate, String spentAmount) {
+                public void onBudgetDetailsUpdated(BudgetModel budgetModel) {
+                    // Inflate the dialog layout
                     View detailsView = inflater.inflate(R.layout.dialog_budget_details, null);
                     dialog.setContentView(detailsView);
 
-                    TextView budget_amount = detailsView.findViewById(R.id.textViewBudgetAmount);
-                    TextView start_date = detailsView.findViewById(R.id.textViewStartDate);
-                    TextView spent_amount = detailsView.findViewById(R.id.textViewSpentAmount);
-                    TextView end_date = detailsView.findViewById(R.id.textViewEndDate);
+                    // Initialize views
+                    TextView budgetAmountTextView = detailsView.findViewById(R.id.textViewBudgetAmount);
+                    TextView startDateTextView = detailsView.findViewById(R.id.textViewStartDate);
+                    TextView spentAmountTextView = detailsView.findViewById(R.id.textViewSpentAmount);
+                    TextView endDateTextView = detailsView.findViewById(R.id.textViewEndDate);
 
-                    budget_amount.setText("Budget Amount: " + amount);
-                    spent_amount.setText("Spent Amount: " + spentAmount);
-                    start_date.setText("Start Date: " + startDate);
-                    end_date.setText("End Date: " + endDate);
+                    // Set values from BudgetModel
+                    budgetAmountTextView.setText("Budget Amount: " + budgetModel.getBudgetAmount());
+                    spentAmountTextView.setText("Spent Amount: " + budgetModel.getSpentAmount());
+                    startDateTextView.setText("Start Date: " + budgetModel.getStartDate());
+                    endDateTextView.setText("End Date: " + budgetModel.getEndDate());
 
+                    // Initialize buttons
                     MaterialButton buttonEditBudget = detailsView.findViewById(R.id.buttonEditBudget);
                     MaterialButton buttonClose = detailsView.findViewById(R.id.buttonClose);
 
+                    // Set button click listeners
                     buttonEditBudget.setOnClickListener(v -> {
                         dialog.dismiss();
-                        showBudgetDialog(amount, startDate, endDate, true);
+                        showBudgetDialog(
+                                String.valueOf(budgetModel.getBudgetAmount()),
+                                budgetModel.getStartDate(),
+                                budgetModel.getEndDate(),
+                                true
+                        );
                     });
 
                     buttonClose.setOnClickListener(v -> dialog.dismiss());

@@ -11,7 +11,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.Config;
+import com.example.smartgrocerytracker.ModelClass.BudgetModel;
 import com.example.smartgrocerytracker.utils.SecurePreferences;
 
 import org.json.JSONException;
@@ -24,13 +26,14 @@ public class fetchBudgetDetails {
 
     // Interface to notify when the data is fetched and updated
     public interface BudgetDetailsUpdateListener {
-        void onBudgetDetailsUpdated(String amount, String startDate, String endDate, String spent_amount);
+        void onBudgetDetailsUpdated(BudgetModel budgetModel);
     }
-
-
-    public static void getBudgetService(Context context, RequestQueue queue, String budget_id, BudgetDetailsUpdateListener listener) {
+    public static void getBudgetService(Context context, BudgetDetailsUpdateListener listener) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("UserPref",Context.MODE_PRIVATE);
+        String budgetId = sharedPreferences.getString("budget_id",null);
         String token = SecurePreferences.getAuthToken(context);
-        String url = Config.GET_BUDGET_URL + budget_id;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.GET_BUDGET_URL + budgetId;
 
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -41,34 +44,36 @@ public class fetchBudgetDetails {
                             JSONObject jsonResponse = new JSONObject(response);
 
                             boolean success = jsonResponse.getBoolean("success");
-                            int statusCode = jsonResponse.getInt("statusCode");
                             String message = jsonResponse.getString("message");
 
                             if (success) {
                                 // Get the budget data
                                 JSONObject data = jsonResponse.getJSONObject("data");
-                                String id = data.getString("id");
-                                String userId = data.getString("user_id");
-                                String amount = data.getString("amount");
-                                String spentAmount = data.getString("spent_amount");
-                                String startDate = data.getString("start_date");
-                                String endDate = data.getString("end_date");
+
+                                BudgetModel budgetModel = new BudgetModel(
+                                        data.getString("budget_id"),
+                                        data.getString("user_id"),
+                                        data.getDouble("budget_amount"),
+                                        data.getDouble("spent_amount"),
+                                        data.getString("start_date"),
+                                        data.getString("end_date")
+                                );
 
                                 // Store the budget details in SharedPreferences
                                 SharedPreferences sharedPreferences = context.getSharedPreferences("ActiveBudget", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("id", id);
-                                editor.putString("user_id", userId);
-                                editor.putString("amount", amount);
-                                editor.putString("spent_amount", spentAmount);
-                                editor.putString("start_date", startDate);
-                                editor.putString("end_date", endDate);
+                                editor.putString("id", budgetModel.getBudgetId());
+                                editor.putString("user_id", budgetModel.getUserId());
+                                editor.putString("amount", String.valueOf(budgetModel.getBudgetAmount()));
+                                editor.putString("spent_amount", String.valueOf(budgetModel.getSpentAmount()));
+                                editor.putString("start_date", budgetModel.getStartDate());
+                                editor.putString("end_date", budgetModel.getEndDate());
                                 editor.apply();
+
                                 // Notify the listener that the data is updated
                                 if (listener != null) {
-                                    listener.onBudgetDetailsUpdated(amount, startDate, endDate, spentAmount);
+                                    listener.onBudgetDetailsUpdated(budgetModel);
                                 }
-
                             } else {
                                 // Handle case where success is false
                                 Toast.makeText(context, "Error: " + message, Toast.LENGTH_SHORT).show();
@@ -95,7 +100,7 @@ public class fetchBudgetDetails {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 headers.put("Authorization", "Bearer " + token);
-                Log.i("RequestHeaders", "Headers: " + headers.toString());
+                Log.i("RequestHeaders", "Headers: " + headers);
                 return headers;
             }
         };

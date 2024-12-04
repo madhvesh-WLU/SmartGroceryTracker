@@ -153,9 +153,10 @@ public class ReviewActivity extends AppCompatActivity {
                 JSONArray itemsArray = new JSONArray();
                 for (GroceryItemModel item : groceryItems) {
                     JSONObject itemJson = new JSONObject();
+                    float quantity = Float.parseFloat(String.valueOf(item.getQuantity()));
                     try {
                         itemJson.put("item_name", item.getItemName());
-                        itemJson.put("quantity", item.getQuantity());
+                        itemJson.put("quantity",quantity);
                         itemJson.put("category", item.getCategory());
                         itemJson.put("price", item.getPrice());
                         itemJson.put("purchased", item.isPurchased());

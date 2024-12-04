@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -35,6 +37,10 @@ public class Login extends AppCompatActivity {
     private ProgressBar progressSpinner;
     private static final String SharedPrefName = "UserPref";
 
+    private TextView welcometext;
+
+    private TextView welcometext1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +59,15 @@ public class Login extends AppCompatActivity {
         progressSpinner = findViewById(R.id.buttonProgressBar); // Progress Spinner
         // Shared Preferences for saving username
         sharedPreferences = getSharedPreferences(SharedPrefName, MODE_PRIVATE);
+
+
+        welcometext = findViewById(R.id.welcomlogintext);
+        welcometext1 = findViewById(R.id.second_login);
+
+        Animation dropDownAnimation1 = AnimationUtils.loadAnimation(this, R.anim.drop_down);
+        welcometext.startAnimation(dropDownAnimation1);
+        Animation dropDownAnimation2 = AnimationUtils.loadAnimation(this, R.anim.drop_down);
+        welcometext1.startAnimation(dropDownAnimation2);
 
         // Request Queue for handling login
         RequestQueue queue = Volley.newRequestQueue(Login.this);

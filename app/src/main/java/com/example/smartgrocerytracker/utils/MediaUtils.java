@@ -83,13 +83,13 @@ public class MediaUtils {
         }
     }
 
-    // Open Camera
+    // Open Camera  DOMNW DOMNE
     public static void openCamera(Activity activity) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         activity.startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
     }
 
-    // Open Gallery
+    // Open Gallery DONE DONE
     public static void openGallery(Activity activity) {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK);
         galleryIntent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

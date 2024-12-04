@@ -35,14 +35,14 @@ public class GroceryItemDetailDialogFragment extends DialogFragment {
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.grocery_item_detail_modal);
 
-        TextView itemNameTextView = dialog.findViewById(R.id.item_name);
-        TextView categoryTextView = dialog.findViewById(R.id.category);
-        TextView quantityTextView = dialog.findViewById(R.id.quantity);
-        TextView priceTextView = dialog.findViewById(R.id.price);
+        TextView itemNameTextView = dialog.findViewById(R.id.item_name_value);
+        TextView categoryTextView = dialog.findViewById(R.id.category_value);
+        TextView quantityTextView = dialog.findViewById(R.id.quantity_value);
+        TextView priceTextView = dialog.findViewById(R.id.price_value);
 
         itemNameTextView.setText(item.getItemName());
         categoryTextView.setText(item.getCategory());
-        quantityTextView.setText("Quantity: " + item.getQuantity());
+        quantityTextView.setText(" " + item.getQuantity());
         priceTextView.setText("$" + item.getPrice());
 
         return dialog;

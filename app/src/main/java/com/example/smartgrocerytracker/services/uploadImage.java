@@ -47,7 +47,7 @@ public class uploadImage {
 
                         // Extract store details
                         String storeName = data.getString("store_name");
-                        String storeAddress = data.getString("store_address");
+                        String storeAddress = data.optString("store_address","asdasd");
                         double totalAmount = data.getDouble("total_amount");
 
                         // Extract grocery items
@@ -59,7 +59,7 @@ public class uploadImage {
                                     null, // itemId is not provided in response
                                     item.getString("item_name"),
                                     null, // userId is not provided in response
-                                    1, // Default quantity
+                                    item.getDouble("quantity"), // Default quantity
                                     item.getString("category"),
                                     item.getDouble("price"),
                                     false // Default purchased status
@@ -87,10 +87,8 @@ public class uploadImage {
                     if (error.networkResponse != null && error.networkResponse.data != null) {
                         String body = new String(error.networkResponse.data);
                         Log.e("UploadLog", body);
-                        Toast.makeText(context, "Gemini API exceeded", Toast.LENGTH_LONG).show();
                         Toast.makeText(context, body, Toast.LENGTH_SHORT).show();
                     } else if (error.networkResponse != null && error.networkResponse.statusCode == 429) {
-                        Toast.makeText(context, "Gemini API exceeded", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "An unexpected error occurred.", Toast.LENGTH_SHORT).show();
                     }

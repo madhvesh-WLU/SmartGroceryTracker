@@ -1,34 +1,47 @@
-// HomeFragment.java
 package com.example.smartgrocerytracker.ui.home;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.smartgrocerytracker.MainActivity;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.example.smartgrocerytracker.ModelClass.BudgetModel;
+import com.example.smartgrocerytracker.ModelClass.SharedBudgetViewModel;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.databinding.FragmentHomeBinding;
+import com.example.smartgrocerytracker.services.fetchBudgetDetails;
+import com.example.smartgrocerytracker.utils.BudgetDialog;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
 
     private FragmentHomeBinding binding;
+    private HomeFragmentAdapter adapter;
+    private SharedBudgetViewModel sharedBudgetViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        // Initialize the adapter
+        adapter = new HomeFragmentAdapter(binding.getRoot());
+
+        // Set up the user head
         setUserHead();
+
         return binding.getRoot();
     }
 
@@ -45,14 +58,31 @@ public class HomeFragment extends Fragment {
         binding.monthlyMainButton.setOnClickListener(v ->
                 navController.navigate(R.id.nav_search_fragment));
 
-        SharedPreferences sharedPreference = getContext().getSharedPreferences("ActiveBudget", MODE_PRIVATE);
-        String budgetAmount = sharedPreference.getString("amount",null);
-        String spentAmount = sharedPreference.getString("spent_amount",null);
+        // Initialize Shared ViewModel
+        sharedBudgetViewModel = new ViewModelProvider(requireActivity()).get(SharedBudgetViewModel.class);
 
-        binding.valueTotalBudget.setText(budgetAmount == null? "No Active Budget" : budgetAmount);
-        binding.valueLeftToSpend.setText(spentAmount == null? "$0" : spentAmount);
+        // Observe changes in the budget data
+        sharedBudgetViewModel.getBudgetModel().observe(getViewLifecycleOwner(), this::updateBudgetData);
+
+        fetchBudgetDetails.getBudgetService(requireContext(), new fetchBudgetDetails.BudgetDetailsUpdateListener() {
+            @Override
+            public void onBudgetDetailsUpdated(BudgetModel budgetModel) {
+                updateBudgetData(budgetModel);
+            }
+        });
+    }
 
 
+    private void updateBudgetData(BudgetModel updatedBudgetModel) {
+        if (updatedBudgetModel == null) return;
+
+        float spent = (float) updatedBudgetModel.getSpentAmount();
+        float budget = (float) updatedBudgetModel.getBudgetAmount();
+        String remaining = String.valueOf(budget - spent);
+
+        // Update adapter/UI
+        adapter.updateBudgetInfo(String.valueOf(budget), remaining);
+        adapter.updatePieChart(spent, budget - spent);
     }
 
     @Override
@@ -60,13 +90,10 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
     private void setUserHead() {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPref", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "Guest");
-        if ( binding.welcomeview != null) {
-            binding.welcomeview.setText("Hello, " + username);
-        } else {
-            Log.e("UserName", "TextView not found.");
-        }
+        adapter.updateWelcomeMessage(username);
     }
 }

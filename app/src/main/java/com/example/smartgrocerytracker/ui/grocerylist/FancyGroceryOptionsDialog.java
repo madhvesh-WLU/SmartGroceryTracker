@@ -85,28 +85,66 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
             }
         });
     }
-
-    /**
-     * Show a chooser dialog to select between camera and gallery.
-     */
     private void showCameraOrGalleryChooser() {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (MediaUtils.checkCameraPermission(requireActivity()) && MediaUtils.checkStoragePermission(requireActivity())) {
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cameraIntent});
+            Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cameraIntent});
 
-        startActivityForResult(chooserIntent, CAMERA_PERMISSION_CODE);
+            startActivityForResult(chooserIntent, CAMERA_PERMISSION_CODE);
+        }else{
+            MediaUtils.requestStoragePermission(requireActivity());
+        }
     }
 
-    // Handle the results in onActivityResult
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 101) {
+        // Handle Chooser Result
+        if (requestCode == CAMERA_PERMISSION_CODE && resultCode == RESULT_OK) {
+            Uri imageUri = null;
+
+            if (data != null) {
+                // Check if the data has a URI (Gallery)
+                imageUri = data.getData();
+
+                if (imageUri != null) {
+                    // Image selected from gallery
+                    File imageFile = MediaUtils.getFileFromUri(imageUri, requireActivity());
+                    if (imageFile != null && imageFile.exists()) {
+                        dismiss();
+                        uploadImage.uploadImageToGeminiAI(requireActivity(), imageFile, requestQueue);
+                    } else {
+                        Toast.makeText(requireActivity(), "Failed to process selected image.", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (data.getExtras() != null) {
+                    // Image captured from camera (thumbnail)
+                    Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
+                    if (capturedImage != null) {
+                        File imageFile = MediaUtils.convertBitmapToFile(requireActivity(), capturedImage, "captured_image.jpg");
+                        if (imageFile != null) {
+                            dismiss();
+                            uploadImage.uploadImageToGeminiAI(requireActivity(), imageFile, requestQueue);
+                        } else {
+                            Toast.makeText(requireActivity(), "Failed to process captured image.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            } else {
+                // Handle the case where data is null (might be full-size image saved to URI)
+                // Implement this if you're using EXTRA_OUTPUT to save the image to a specific URI
+                Toast.makeText(requireActivity(), "No image captured.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        // Handle ReviewActivity result
+        if (requestCode == 101) { // ReviewActivity result
             if (resultCode == RESULT_OK) {
-                Toast.makeText(requireContext(), "Items successfully stored!", Toast.LENGTH_SHORT).show();
+                // Submission successful
+                Toast.makeText(requireActivity(), "Items successfully stored!", Toast.LENGTH_SHORT).show();
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle Retake: Open camera again
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -114,44 +152,6 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
             }
         }
 
-        if (requestCode == CAMERA_PERMISSION_CODE && resultCode == RESULT_OK && data != null) {
-            if (data.getData() != null) {
-                Uri imageUri = data.getData();
-                handleImageFromGallery(imageUri);
-            } else if (data.getExtras() != null) {
-                Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
-                handleImageFromCamera(capturedImage);
-            } else {
-                Toast.makeText(requireContext(), "No image selected or captured", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    /**
-     * Handle image selected from the gallery.
-     *
-     * @param imageUri URI of the selected image.
-     */
-    private void handleImageFromGallery(Uri imageUri) {
-        File imageFile = MediaUtils.getFileFromUri(imageUri,requireContext());
-        if (imageFile != null && imageFile.exists()) {
-            uploadImage.uploadImageToGeminiAI(requireContext(), imageFile, requestQueue);
-        } else {
-            Toast.makeText(requireContext(), "Failed to process selected image.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /**
-     * Handle image captured using the camera.
-     *
-     * @param bitmap Bitmap of the captured image.
-     */
-    private void handleImageFromCamera(Bitmap bitmap) {
-        File imageFile = MediaUtils.convertBitmapToFile(requireContext(), bitmap, "captured_image.jpg");
-        if (imageFile != null) {
-            uploadImage.uploadImageToGeminiAI(requireContext(), imageFile, requestQueue);
-        } else {
-            Toast.makeText(requireContext(), "Failed to process captured image.", Toast.LENGTH_SHORT).show();
-        }
+        // Handle other results as necessary
     }
 }

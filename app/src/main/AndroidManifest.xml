@@ -7,6 +7,7 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
@@ -22,12 +23,13 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SmartGroceryTracker"
-        android:usesCleartextTraffic="true">
+        android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+
         <activity
             android:name=".ui.profile.EditProfileActivity"
             android:exported="false" />
@@ -38,17 +40,43 @@
         <activity
             android:name=".ui.FullScreenImageActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+            android:name=".ui.ReviewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+            android:name=".utils.BudgetEditActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ForgotPasswordActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.Login"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.Login" />
+        </activity>
+
+
+        <!-- Sign Up Activity -->
         <activity
             android:name=".ui.SignUp"
-            android:exported="true" />
-        <activity android:name=".ui.ReviewActivity" />
+            android:exported="true"
+            android:parentActivityName=".ui.Login"
+            android:theme="@style/Theme.SmartGroceryTracker.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.Login" />
+        </activity>
+
+        <!-- Login Activity -->
         <activity
             android:name=".ui.Login"
             android:exported="true"
             android:theme="@style/Theme.SmartGroceryTracker.NoActionBar" />
+
+        <!-- Splash Screen -->
         <activity
             android:name=".SplashScreen"
             android:exported="true"
@@ -56,14 +84,14 @@
             android:theme="@style/Theme.SmartGroceryTracker.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.SmartGroceryTracker.NoActionBar" />
     </application>
 

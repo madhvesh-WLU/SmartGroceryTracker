@@ -7,13 +7,13 @@ public class GroceryItemModel implements Serializable {
     private String itemId;
     private String itemName;
     private String userId;
-    private int quantity;
+    private double quantity;
     private String category;
     private double price;
     private boolean purchased;
 
     // Constructor
-    public GroceryItemModel(String itemId, String itemName, String userId, int quantity, String category, double price, boolean purchased) {
+    public GroceryItemModel(String itemId, String itemName, String userId, double quantity, String category, double price, boolean purchased) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.userId = userId;
@@ -35,8 +35,8 @@ public class GroceryItemModel implements Serializable {
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }
 
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public double getQuantity() { return quantity; }
+    public void setQuantity(double quantity) { this.quantity = quantity; }
 
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }

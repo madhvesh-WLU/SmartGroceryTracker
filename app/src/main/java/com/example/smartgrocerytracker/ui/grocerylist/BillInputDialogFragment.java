@@ -8,12 +8,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -29,6 +30,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.services.addExpenseServices;
+import com.example.smartgrocerytracker.utils.CapitalizeLetter;
 
 import org.json.JSONObject;
 
@@ -50,7 +52,7 @@ public class BillInputDialogFragment extends DialogFragment {
     private EditText descriptionEditText;
     private Button nextButton;
     private ProgressBar loadingSpinner;
-    private String final_expensId;
+    private String final_expenseId;
     private ImageButton closeButton;
 
     public BillInputDialogFragment() {
@@ -67,10 +69,50 @@ public class BillInputDialogFragment extends DialogFragment {
         setupDatePicker();
         setupNextButton();
         setupCloseButton();
-
+        setupBillNameAutoCapitalization();
         return view;
     }
 
+    private void setupBillNameAutoCapitalization() {
+        billNameEditText.addTextChangedListener(new TextWatcher() {
+            private String currentText = "";
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No action needed
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No action needed
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String input = s.toString();
+
+                // If input has changed, apply capitalization logic
+                if (!input.equals(currentText)) {
+                    CapitalizeLetter capitalizeLetter = new CapitalizeLetter();
+                    currentText= capitalizeLetter.capitalizeFirstLetter(input);
+
+                    // Temporarily remove the TextWatcher to avoid recursion
+                    billNameEditText.removeTextChangedListener(this);
+
+                    // Update the EditText content
+                    billNameEditText.setText(currentText);
+
+                    // Set the cursor position at the end
+                    billNameEditText.setSelection(currentText.length());
+
+                    // Reattach the TextWatcher
+                    billNameEditText.addTextChangedListener(this);
+                }
+            }
+
+
+        });
+    }
     @Override
     public void onStart() {
         super.onStart();
@@ -101,8 +143,6 @@ public class BillInputDialogFragment extends DialogFragment {
 
     private boolean isDatePickerShowing = false;
 
-
-
     private void setupDatePicker() {
         dateOfPurchaseEditText.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
@@ -110,43 +150,14 @@ public class BillInputDialogFragment extends DialogFragment {
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            // Retrieve minDate and maxDate from SharedPreferences
-            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("ActiveBudget", Context.MODE_PRIVATE);
-            String minDateStr = sharedPreferences.getString("start_date", null); // e.g., "2024-01-10"
-            String maxDateStr = sharedPreferences.getString("end_date", null);   // e.g., "2024-01-20"
-
-            try {
-                // Parse the minDate and maxDate strings into Calendar objects
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Calendar minDate = Calendar.getInstance();
-                Calendar maxDate = Calendar.getInstance();
-
-                if (minDateStr != null) {
-                    minDate.setTime(dateFormat.parse(minDateStr));
-                }
-                if (maxDateStr != null) {
-                    maxDate.setTime(dateFormat.parse(maxDateStr));
-                }
-
-                // Create the DatePickerDialog
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        requireContext(),
-                        (view, selectedYear, selectedMonth, selectedDay) -> {
-                            String formattedDate = formatSelectedDate(selectedDay, selectedMonth, selectedYear);
-                            dateOfPurchaseEditText.setText(formattedDate);
-                        },
-                        year, month, day);
-
-                // Set the allowed date range
-                DatePicker datePicker = datePickerDialog.getDatePicker();
-                datePicker.setMinDate(minDate.getTimeInMillis());
-                datePicker.setMaxDate(maxDate.getTimeInMillis());
-
-                datePickerDialog.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(requireContext(), "Invalid date range.", Toast.LENGTH_SHORT).show();
-            }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    requireContext(),
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        String formattedDate = formatSelectedDate(selectedDay, selectedMonth, selectedYear);
+                        dateOfPurchaseEditText.setText(formattedDate);
+                    },
+                    year, month, day);
+            datePickerDialog.show();
         });
     }
 
@@ -201,7 +212,7 @@ public class BillInputDialogFragment extends DialogFragment {
                 addExpenseServices.postExpenseDetails(requireContext(), queue, jsonObject, new addExpenseServices.ExpenseResponseListener() {
                     @Override
                     public void onExpenseAdded(String expenseId) {
-                        final_expensId = expenseId;
+                        final_expenseId = expenseId;
                     }
 
                     @Override
@@ -226,10 +237,6 @@ public class BillInputDialogFragment extends DialogFragment {
         });
     }
 
-
-
-
-
     private boolean areInputsValid() {
         return !isEditTextEmpty(billNameEditText) &&
                 !isEditTextEmpty(dateOfPurchaseEditText) &&
@@ -243,20 +250,15 @@ public class BillInputDialogFragment extends DialogFragment {
     }
 
     private void navigateToExpenseListFragment() {
-        // Ensure expenseId is available
-        if (final_expensId == null || final_expensId.isEmpty()) {
-            Toast.makeText(requireContext(), "Expense ID is missing!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
+        // Bundle the data with proper labels for display
         Bundle bundle = new Bundle();
-        bundle.putString("bill_name", billNameEditText.getText().toString().trim());
-        bundle.putString("date_of_purchase", dateOfPurchaseEditText.getText().toString().trim());
-        bundle.putString("description", descriptionEditText.getText().toString().trim());
-        bundle.putString("expense_id", final_expensId);
-        bundle.putString("total_quantity", storeTotalQuantityEditText.getText().toString().trim());
-        bundle.putString("total_price", totalPriceEditText.getText().toString().trim());
+        bundle.putString("bill_name", "Bill Name: " + billNameEditText.getText().toString().trim());
+        bundle.putString("date_of_purchase", "Date of Purchase: " + dateOfPurchaseEditText.getText().toString().trim());
+        bundle.putString("description", "Description: " + descriptionEditText.getText().toString().trim());
+        bundle.putString("total_quantity", "Total Quantity: " + storeTotalQuantityEditText.getText().toString().trim());
+        bundle.putString("total_price", "Total Price: " + totalPriceEditText.getText().toString().trim());
 
+        // Navigate to the expense list fragment and pass the data
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.nav_expense_list, bundle);
     }
