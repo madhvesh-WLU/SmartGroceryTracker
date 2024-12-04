@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,8 +22,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
@@ -36,16 +33,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.smartgrocerytracker.databinding.ActivityMainBinding;
 import com.example.smartgrocerytracker.services.fetchBudgetDetails;
 import com.example.smartgrocerytracker.services.fetchUserServices;
-import com.example.smartgrocerytracker.ui.Login;
 import com.example.smartgrocerytracker.ui.grocerylist.BudgetActivity;
-import com.example.smartgrocerytracker.ui.settings.SettingsActivity;
 import com.example.smartgrocerytracker.utils.BudgetDialog;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -61,8 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LanguageUtil.setLocale(this);
         super.onCreate(savedInstanceState);
-applyTextSize();
+        applyTextSize();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -76,10 +69,15 @@ applyTextSize();
 
         // Set up button to navigate to GroceryListFragment
         TextView groceryListButton = findViewById(R.id.grocerylist);
-        groceryListButton.setOnClickListener(v -> navigateToDestination(R.id.nav_expense_fragment, true));
+        if (groceryListButton == null) {
+            Log.e("MainActivity", "grocerylist TextView is null");
+        } else {
+            groceryListButton.setOnClickListener(v -> navigateToDestination(R.id.nav_expense_fragment, true));
+        }
 
         // Fetch user details if needed
         handleFetchUserDetails();
+
 
         // Set up FAB for camera
         binding.appBarMain.fab.setOnClickListener(view -> {
@@ -203,22 +201,22 @@ applyTextSize();
         }
     }
 
-    private void applyTextSize() {
+   private void applyTextSize() {
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String textSize = sharedPreferences.getString(TEXT_SIZE_KEY, "Medium");
 
         switch (textSize) {
             case "Small":
-                setTheme(R.style.TextSize_Small);
+                setTheme(R.style.TextSizeSmall);
                 break;
             case "Medium":
-                setTheme(R.style.TextSize_Medium);
+                setTheme(R.style.TextSizeMedium);
                 break;
             case "Large":
-                setTheme(R.style.TextSize_Large);
+                setTheme(R.style.TextSizeLarge);
                 break;
             case "Extra Large":
-                setTheme(R.style.TextSize_ExtraLarge);
+                setTheme(R.style.TextSizeExtraLarge);
                 break;
         }
     }

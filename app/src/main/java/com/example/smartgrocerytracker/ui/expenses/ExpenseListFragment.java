@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,8 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
     private final List<GroceryItemModel> groceryItemsList = new ArrayList<>();
     private final List<GroceryItemModel> addedItemsList = new ArrayList<>();
     private RequestQueue queue;
+
+
 
     private String billName;
     private String dateOfPurchase;
@@ -214,10 +217,18 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
      * Submits the added grocery items to the backend.
      */
     private void onSubmit() {
+        // Show the ProgressBar and hide the Submit button
+      binding.loadingSpinner.setVisibility(View.VISIBLE);
+      binding.submitButton.setVisibility(View.GONE);
+
         if (addedItemsList.isEmpty()) {
             Toast.makeText(getContext(), "No new items added. Nothing to submit.", Toast.LENGTH_SHORT).show();
+            // Hide the ProgressBar and show the Submit button again
+            binding.loadingSpinner.setVisibility(View.GONE);
+            binding.submitButton.setVisibility(View.VISIBLE);
             return;
         }
+
         JSONArray jsonArray = new JSONArray();
         try {
             for (GroceryItemModel item : addedItemsList) {
@@ -231,10 +242,17 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            // Hide the ProgressBar and show the Submit button again
+            binding.loadingSpinner.setVisibility(View.GONE);
+            binding.submitButton.setVisibility(View.VISIBLE);
+            return;
         }
 
         if (expense_id == null) {
             Toast.makeText(getContext(), "Expense ID is null", Toast.LENGTH_SHORT).show();
+            // Hide the ProgressBar and show the Submit button again
+            binding.loadingSpinner.setVisibility(View.GONE);
+            binding.submitButton.setVisibility(View.VISIBLE);
             return;
         } else {
             addGroceryServices.postGroceryDetailsByExpenseID(requireContext(), queue, jsonArray, expense_id, new Runnable() {
@@ -243,11 +261,14 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
                     // Navigate back to the previous fragment
                     NavController navController = NavHostFragment.findNavController(ExpenseListFragment.this);
                     navController.popBackStack();
+
+                    // Hide the ProgressBar and show the Submit button again after task completion
+                    binding.loadingSpinner.setVisibility(View.GONE);
+                    binding.submitButton.setVisibility(View.VISIBLE);
                 }
             });
         }
         updateLayoutBasedOnItems();
-
     }
 
     /**
@@ -412,6 +433,12 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         }
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        LanguageUtil.setLocale(context);
+    }
+
 
 
     @Override
@@ -423,7 +450,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
 
         if (toolbar != null) {
             toolbar.setNavigationIcon(null); // Remove the back arrow
-            toolbar.setTitle("Smart Grocery Tracker"); // Reset to default title
+            toolbar.setTitle("Expense List"); // Reset to default title
         }
     }
 }

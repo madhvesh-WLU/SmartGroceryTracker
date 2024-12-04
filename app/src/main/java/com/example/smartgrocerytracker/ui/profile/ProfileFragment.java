@@ -134,4 +134,6 @@ public class ProfileFragment extends Fragment {
             TokenValidator.redirectToLogin(requireContext());
         }
     }
+
+
 }

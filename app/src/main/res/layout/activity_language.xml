@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0d023c"
+    android:background="@drawable/card_background"
     android:padding="16dp"
     tools:context=".ui.settings.LanguageActivity">
 
@@ -14,12 +14,24 @@
         android:layout_height="wrap_content"
         android:text="Select Language"
         android:textSize="20sp"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/dark_grey"
         android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="16dp" />
+
+    <ImageButton
+        android:id="@+id/close_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Close Button"
+        android:padding="8dp"
+        android:src="@drawable/cross"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
         android:id="@+id/language_radio_group"
@@ -36,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="English"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/vibrant_orange"
             android:textSize="16sp" />
 
         <RadioButton
@@ -44,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hindi"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/vibrant_orange"
             android:textSize="16sp" />
 
         <RadioButton
@@ -52,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Spanish"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/vibrant_orange"
             android:textSize="16sp" />
 
         <RadioButton
@@ -60,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="French"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/vibrant_orange"
             android:textSize="16sp" />
     </RadioGroup>
 

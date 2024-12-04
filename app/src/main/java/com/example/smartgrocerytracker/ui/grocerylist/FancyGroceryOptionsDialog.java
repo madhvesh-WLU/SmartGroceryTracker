@@ -52,5 +52,9 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
             Toast.makeText(requireContext(),"Next Feature Release",Toast.LENGTH_LONG).show();
             dismiss();
         });
+
+        view.findViewById(R.id.close_button).setOnClickListener(v -> {
+            dismiss();
+        });
     }
 }

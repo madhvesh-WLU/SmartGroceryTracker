@@ -1,5 +1,6 @@
 package com.example.smartgrocerytracker.ui.slideshow;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartgrocerytracker.databinding.FragmentSlideshowBinding;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 
 public class SlideshowFragment extends Fragment {
 
@@ -28,6 +30,8 @@ public class SlideshowFragment extends Fragment {
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
+
+
 
     @Override
     public void onDestroyView() {

@@ -187,4 +187,10 @@ public class HomeFragment extends Fragment {
             }
         }, 2000); // Start after 2 seconds
     }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        LanguageUtil.setLocale(context);
+    }
 }

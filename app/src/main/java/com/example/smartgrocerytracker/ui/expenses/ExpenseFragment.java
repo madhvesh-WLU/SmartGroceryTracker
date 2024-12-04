@@ -42,12 +42,17 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         // Use the binding to inflate the layout
         binding = FragmentExpenseBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        LanguageUtil.setLocale(context);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

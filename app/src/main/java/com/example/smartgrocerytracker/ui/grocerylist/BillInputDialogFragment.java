@@ -65,13 +65,18 @@ public class BillInputDialogFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_bill, container, false);
 
-
         initializeViews(view);
         setupDatePicker();
         setupNextButton();
         setupCloseButton();
         setupBillNameAutoCapitalization();
         return view;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        LanguageUtil.setLocale(context);
     }
 
     private void setupBillNameAutoCapitalization() {

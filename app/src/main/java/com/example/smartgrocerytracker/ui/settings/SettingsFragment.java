@@ -20,7 +20,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.ui.Login;
@@ -53,7 +58,26 @@ public class SettingsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false); // Ensure you have fragment_settings.xml
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
 
+        if (toolbar != null) {
+            // Set the title for User Profile
+            toolbar.setTitle("Settings");
+
+            // Set the back arrow
+            toolbar.setNavigationIcon(R.drawable.back_arrow); // Replace with your back arrow drawable
+            toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+            // Handle back arrow click
+            toolbar.setNavigationOnClickListener(v -> {
+                NavController navController = NavHostFragment.findNavController(this);
+
+                // Check if the desired fragment is already in the back stack
+                if (!navController.popBackStack(R.id.nav_home, false)) {
+                    // If it's not in the back stack, navigate to it
+                    navController.navigate(R.id.nav_home);
+                }
+            });
+        }
         initViews(view);
         setupListeners();
         loadPreferences();
@@ -82,10 +106,13 @@ public class SettingsFragment extends Fragment {
     private void setupListeners() {
         // Handle Night Mode Switch
         nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Save the state in SharedPreferences
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(NIGHT_MODE_KEY, isChecked);
             editor.apply();
-            //applyNightMode(isChecked);
+
+            // Apply the night mode
+            applyNightMode(isChecked);
         });
 
         // Handle Private Account Switch
@@ -103,7 +130,6 @@ public class SettingsFragment extends Fragment {
         // Handle Security & Privacy Card Click
         securityPrivacyCard.setOnClickListener(v -> {
             // Implement navigation to Security & Privacy settings screen
-            // For example, open a new fragment or activity
             // Example:
             // startActivity(new Intent(getActivity(), SecurityPrivacyActivity.class));
         });
@@ -125,23 +151,21 @@ public class SettingsFragment extends Fragment {
     }
 
     private void loadPreferences() {
-        boolean isNightMode = sharedPreferences.getBoolean(NIGHT_MODE_KEY, false);
-        boolean isPrivateAccount = sharedPreferences.getBoolean(PRIVATE_ACCOUNT_KEY, false);
-
-        // Set initial states
+        boolean isNightMode = sharedPreferences.getBoolean(NIGHT_MODE_KEY, false); // Default to false (light mode)
         nightModeSwitch.setChecked(isNightMode);
-        privateAccountSwitch.setChecked(isPrivateAccount);
+        applyNightMode(isNightMode);  // Apply the theme based on saved preference
     }
 
-    /*private void applyNightMode(boolean isEnabled) {
-        // Implement night mode application here
+    private void applyNightMode(boolean isEnabled) {
+        // Change the app's theme based on the night mode preference
         if (isEnabled) {
-            requireActivity().setTheme(R.style.Theme_AppCompat_DayNight);
+            // Apply dark theme
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
-            requireActivity().setTheme(R.style.Theme_AppCompat_Light);
+            // Apply light theme
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        requireActivity().recreate();
-    }*/
+    }
 
     private void openUserProfile() {
         ProfileFragment fragment = new ProfileFragment();
@@ -157,9 +181,9 @@ public class SettingsFragment extends Fragment {
         editor.clear();
         editor.apply();
 
-        startActivity(new Intent(getActivity(), Login.class));
-
-
+        Intent intent = new Intent(getActivity(), Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
 
         // Optionally, call getActivity().finish() to ensure the current fragment/activity is finished
         if (getActivity() != null) {
@@ -168,12 +192,13 @@ public class SettingsFragment extends Fragment {
     }
 
     private void handleLogout() {
-        if(SecurePreferences.removeAuthToken(requireContext())){
+        if (SecurePreferences.removeAuthToken(requireContext())) {
             UserProfile userDataManager = UserProfile.getInstance();
             userDataManager.clearData();
             TokenValidator.redirectToLogin(requireContext());
         }
     }
+
     private void showAppDescriptionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_app_description, null);
@@ -234,5 +259,17 @@ public class SettingsFragment extends Fragment {
         });
 
         dialog.show();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // Reset the Toolbar when leaving ExpenseListFragment
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(null); // Remove the back arrow
+            toolbar.setTitle("Smart Grocery Tracker"); // Reset to default title
+        }
     }
 }

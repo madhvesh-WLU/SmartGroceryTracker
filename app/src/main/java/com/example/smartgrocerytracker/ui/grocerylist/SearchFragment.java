@@ -125,6 +125,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -158,10 +160,30 @@ public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExp
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        LanguageUtil.setLocale(context);
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            // Set the title for the fragment
+            toolbar.setTitle("Monthly Spend");
+
+            // Enable the back arrow
+            toolbar.setNavigationIcon(R.drawable.back_arrow);
+            toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+            toolbar.setNavigationOnClickListener(v -> {
+                // Navigate back when the back arrow is clicked
+                NavController navController = NavHostFragment.findNavController(this);
+                navController.popBackStack();
+            });
+        }
 
         // Initialize the RecyclerView
         expenseList = new ArrayList<>();
@@ -203,6 +225,7 @@ public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExp
                 expenseList.clear();
                 expenseList.addAll(expenses);
                 adapter.updateData(expenseList, ""); // Clear query for highlighting
+                checkForNoResults();
             });
             return;
         }
@@ -215,6 +238,16 @@ public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExp
     }
     private void applyFilters() {
 
+    }
+
+    private void checkForNoResults() {
+        if (adapter.getItemCount() == 0) {
+            binding.budgetIdRecyclerView.setVisibility(View.GONE);
+            binding.noResultsLayout.setVisibility(View.VISIBLE);
+        } else {
+            binding.budgetIdRecyclerView.setVisibility(View.VISIBLE);
+            binding.noResultsLayout.setVisibility(View.GONE);
+        }
     }
     @Override
     public void onExpenseClick(ExpenseModel expense) {
@@ -240,6 +273,13 @@ public class SearchFragment extends Fragment implements ExpenseViewAdapter.OnExp
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+
+        // Reset the Toolbar when leaving ExpenseListFragment
+        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(null); // Remove the back arrow
+            toolbar.setTitle("Smart Grocery Tracker"); // Reset to default title
+        }
     }
 }

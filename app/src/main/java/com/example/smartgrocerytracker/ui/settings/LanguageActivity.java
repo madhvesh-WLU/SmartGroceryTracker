@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -19,6 +20,8 @@ public class LanguageActivity extends AppCompatActivity {
     private RadioGroup languageRadioGroup;
     private RadioButton englishLanguage, hindiLanguage, spanishLanguage, frenchLanguage;
     private Button applyButton;
+
+    private ImageButton cancelButton;
 
     private SharedPreferences sharedPreferences;
     private static final String PREFS_NAME = "AppSettingsPrefs";
@@ -37,9 +40,12 @@ public class LanguageActivity extends AppCompatActivity {
         spanishLanguage = findViewById(R.id.spanish_language);
         frenchLanguage = findViewById(R.id.french_language);
         applyButton = findViewById(R.id.apply_language_button);
+        cancelButton = findViewById(R.id.close_button);
 
         // Load SharedPreferences
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+
 
         // Set previously saved language option
         loadPreferences();
@@ -61,10 +67,14 @@ public class LanguageActivity extends AppCompatActivity {
             }
 
             editor.apply();
+
             setLocaleAndRestart();
         });
+        setupCancelButton();
     }
-
+    private void setupCancelButton() {
+        cancelButton.setOnClickListener(v -> finish());
+    }
     private void loadPreferences() {
         String language = sharedPreferences.getString(LANGUAGE_KEY, "en");
 

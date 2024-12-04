@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartgrocerytracker.databinding.FragmentGalleryBinding;
+import com.example.smartgrocerytracker.utils.LanguageUtil;
 
 public class GalleryFragment extends Fragment {
 
@@ -20,6 +21,7 @@ public class GalleryFragment extends Fragment {
         GalleryViewModel galleryViewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
 
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
+        LanguageUtil.setLocale(getContext());
         View root = binding.getRoot();
 
         final TextView textView = binding.textGallery;
