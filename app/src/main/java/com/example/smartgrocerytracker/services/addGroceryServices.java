@@ -9,10 +9,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.smartgrocerytracker.Config;
-import com.example.smartgrocerytracker.ModelClass.GroceryItemModel;
 import com.example.smartgrocerytracker.utils.SecurePreferences;
 
 import org.json.JSONArray;
@@ -44,7 +42,7 @@ public class addGroceryServices {
                     try {
                         Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                         if (onSuccess != null) {
-                            onSuccess.run();  // Call the onSuccess method (navigate back)
+                            onSuccess.run();
                         }
                     } catch (JSONException e) {
                         throw new RuntimeException(e);

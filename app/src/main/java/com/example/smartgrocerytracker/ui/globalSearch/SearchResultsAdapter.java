@@ -35,12 +35,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static final int VIEW_TYPE_GROCERY_NAME = 1;
     private static final int VIEW_TYPE_CATEGORY = 2;
 
-    private int currentViewType = VIEW_TYPE_BILL_NAME; // Default view type
+    private int currentViewType = VIEW_TYPE_BILL_NAME;
     List<Object> data = new ArrayList<>();
     private final OnItemClickListener clickListener;
     private final OnItemLongClickListener longClickListener;
 
-    // Updated constructor to accept both listeners
     public SearchResultsAdapter(OnItemClickListener clickListener, OnItemLongClickListener longClickListener) {
         this.clickListener = clickListener;
         this.longClickListener = longClickListener;
@@ -99,7 +98,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
         return data.size();
     }
 
-    // ViewHolder for BillInfo
+
     static class BillNameViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView, priceView, categoryView, quantityView;
         CheckBox checkBox;
@@ -129,12 +128,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (longClickListener != null) {
                     longClickListener.onItemLongClick(billInfo, position);
                 }
-                return true; // Indicate the long click was handled
+                return true;
             });
         }
     }
 
-    // ViewHolder for GroceryName
+
     static class GroceryNameViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView, categoryView, priceView, quantityView, billNameView, BillQuantityView, totalPriceView, DateView;
 
@@ -158,22 +157,22 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.View
             billNameView.setText(groceryItem.getBillName());
             BillQuantityView.setText("Bill Qty: " + groceryItem.getTotalQuantity());
             totalPriceView.setText("$" + groceryItem.getBillAmount());
-            Date parsedDate = isoFormat.parse(groceryItem.getDateOfPurchase()); // Parse the input date
+            Date parsedDate = isoFormat.parse(groceryItem.getDateOfPurchase());
             String formattedDate = isoFormat.format(parsedDate);
             DateView.setText(formattedDate);
 
-            // Handle regular click
+
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onItemClick(groceryItem);
                 }
             });
 
-            // Handle long click
+
             itemView.setOnLongClickListener(v -> {
                 if (longClickListener != null) {
                     longClickListener.onItemLongClick(groceryItem, position);
-                    return true; // Indicate that the event was handled
+                    return true;
                 }
                 return false;
             });

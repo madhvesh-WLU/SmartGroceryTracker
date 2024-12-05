@@ -39,15 +39,13 @@ public class uploadImage {
         MultipartRequest multipartRequest = new MultipartRequest(
                 uploadUrl,
                 imageFile,
-                "file", // The key expected by the backend
+                "file",
                 context,
                 response -> {
-                    loader.hide(rootView); // Hide loader on success
+                    loader.hide(rootView);
                     Log.i("UploadLog", "Response: " + response.toString());
                     try {
                         JSONObject data = response.getJSONObject("data");
-
-                        // Extract store details
                         String storeName = data.getString("store_name");
                         String storeAddress = data.optString("store_address","asdasd");
                         double totalAmount = data.getDouble("total_amount");
@@ -58,13 +56,13 @@ public class uploadImage {
                         for (int i = 0; i < itemsArray.length(); i++) {
                             JSONObject item = itemsArray.getJSONObject(i);
                             groceryItems.add(new GroceryItemModel(
-                                    null, // itemId is not provided in response
+                                    null,
                                     item.getString("item_name"),
-                                    null, // userId is not provided in response
-                                    item.getDouble("quantity"), // Default quantity
+                                    null,
+                                    item.getDouble("quantity"),
                                     item.getString("category"),
                                     item.getDouble("price"),
-                                    false // Default purchased status
+                                    false
                             ));
                         }
 
@@ -75,7 +73,6 @@ public class uploadImage {
                         intent.putExtra("totalAmount", totalAmount);
                         intent.putExtra("groceryItems", (ArrayList<GroceryItemModel>) groceryItems);
 
-                        // Use startActivityForResult to receive result
                         ((Activity) context).startActivityForResult(intent, 101);
 
                     } catch (JSONException e) {

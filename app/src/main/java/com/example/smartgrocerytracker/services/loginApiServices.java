@@ -28,16 +28,6 @@ public class loginApiServices {
         void onLoginSuccess();
         void onLoginFailure(String errorMessage);
     }
-    /**
-     * Initiates the user login process by making a POST request to the login API.
-     *
-     * @param context           The context from which this method is called.
-     * @param username          The username or email entered by the user.
-     * @param password          The password entered by the user.
-     * @param queue             The Volley RequestQueue.
-     * @param sharedPreferences The SharedPreferences for storing user data.
-     * @param callback          The callback to handle login responses.
-     */
 
     public static void loginUser(Context context, String username, String password, RequestQueue queue, SharedPreferences sharedPreferences, LoginCallback callback) {
         String url = Config.LOGIN_URL;

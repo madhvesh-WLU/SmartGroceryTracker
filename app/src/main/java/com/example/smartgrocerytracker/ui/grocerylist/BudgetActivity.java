@@ -43,7 +43,7 @@ public class BudgetActivity extends AppCompatActivity {
     private String spentAmount;
     private SharedBudgetViewModel sharedBudgetViewModel;
 
-    private final DecimalFormat decimalFormat = new DecimalFormat("#.00"); // Ensure up to 2 decimal places
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +51,9 @@ public class BudgetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget);
 
-        // Retrieve the budget ID from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE);
         budgetId = sharedPreferences.getString("budget_id", null);
 
-        // Initialize UI elements
         editTextBudget = findViewById(R.id.editTextAmount);
         buttonStartDate = findViewById(R.id.buttonStartDate);
         buttonEndDate = findViewById(R.id.buttonEndDate);
@@ -63,14 +61,12 @@ public class BudgetActivity extends AppCompatActivity {
         buttonCancel = findViewById(R.id.close_button);
         calculatorLayout = findViewById(R.id.gridLayout);
 
-        // Initialize Shared ViewModel
         sharedBudgetViewModel = new ViewModelProvider(this).get(SharedBudgetViewModel.class);
 
         // Check if this is an edit operation
         isEditMode = getIntent().getBooleanExtra("isEditMode", false);
 
         if (isEditMode) {
-            // Pre-fill data for editing
             String amount = getIntent().getStringExtra("amount");
             spentAmount = getIntent().getStringExtra("spent_amount");
             String startDateStr = getIntent().getStringExtra("startDate");
@@ -88,7 +84,6 @@ public class BudgetActivity extends AppCompatActivity {
 
             buttonSubmit.setText("Update");
         } else {
-            // Leave fields empty by default
             buttonSubmit.setText("Submit");
         }
 
@@ -116,8 +111,6 @@ public class BudgetActivity extends AppCompatActivity {
                     (view, selectedYear, selectedMonth, selectedDay) -> {
                         String formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
                         button.setText(formattedDate);
-
-                        // Update startDate or endDate based on the button clicked
                         if (isStartDate) {
                             startDate = BudgetHelper.parseDate(formattedDate);
                         } else {
@@ -127,7 +120,7 @@ public class BudgetActivity extends AppCompatActivity {
                     year, month, day
             );
 
-            // Set min and max date for DatePickerDialog
+            // Set min and max date for DatePickerDia
             if (startDate != null && !isStartDate) {
                 datePickerDialog.getDatePicker().setMinDate(startDate.getTime());
             }
@@ -165,7 +158,6 @@ public class BudgetActivity extends AppCompatActivity {
             }
 
             try {
-                // Parse budget and spent amount as float with up to 2 decimal places
                 float budget = parseAndFormat(budgetInput);
                 float spent = isEditMode && spentAmount != null ? parseAndFormat(spentAmount) : 0.00f;
 
@@ -183,14 +175,13 @@ public class BudgetActivity extends AppCompatActivity {
                         finish();
                     });
                 } else {
-                    // Store new budget
                     storeBudgetServices.sendBudgetRequest(this, queue, budget, formattedStartDate, formattedEndDate, newBudgetModel -> {
                         // Save new budget ID to SharedPreferences
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("budget_id", newBudgetModel.getBudgetId());
                         editor.apply();
 
-                        // Update Shared ViewModel
+                        // Update Shared ViewModel for live updates
                         sharedBudgetViewModel.setBudgetModel(newBudgetModel);
                         Toast.makeText(this, "Budget Saved!", Toast.LENGTH_SHORT).show();
                         finish();
@@ -207,10 +198,10 @@ public class BudgetActivity extends AppCompatActivity {
         buttonCancel.setOnClickListener(v -> finish());
     }
 
-    // Helper method to parse and format input as float with up to 2 decimal places
+
     private float parseAndFormat(String value) throws ParseException {
-        Number number = decimalFormat.parse(value); // Parse to ensure valid float
+        Number number = decimalFormat.parse(value);
         if (number == null) throw new ParseException("Invalid number format", 0);
-        return Float.parseFloat(decimalFormat.format(number.floatValue())); // Ensure 2 decimal places
+        return Float.parseFloat(decimalFormat.format(number.floatValue()));
     }
 }

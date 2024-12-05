@@ -13,16 +13,16 @@ public class ScreenLoader {
     private View overlay;
 
     public ScreenLoader(Context context) {
-        // Create the overlay view
+
         overlay = new View(context);
-        overlay.setBackgroundColor(0x80000000); // Semi-transparent black background
+        overlay.setBackgroundColor(0x80000000);
 
         // Create and configure the ProgressBar
         progressBar = new ProgressBar(context);
         progressBar.setIndeterminate(true);
-        progressBar.setVisibility(View.GONE); // Initially hidden
+        progressBar.setVisibility(View.GONE);
 
-        // Create a FrameLayout.LayoutParams to center the progress bar in the overlay
+
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -34,20 +34,20 @@ public class ScreenLoader {
     // Show the loader
     public void show(ViewGroup rootView) {
         if (rootView != null && progressBar != null) {
-            // Add the overlay and progress bar to the root view of the activity/fragment
+
             rootView.addView(overlay, new FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT)); // Full screen overlay
+                    FrameLayout.LayoutParams.MATCH_PARENT));
             rootView.addView(progressBar);
-            progressBar.setVisibility(View.VISIBLE); // Show the loader
+            progressBar.setVisibility(View.VISIBLE);
         }
     }
 
     // Hide the loader
     public void hide(ViewGroup rootView) {
         if (rootView != null && progressBar != null) {
-            rootView.removeView(overlay); // Remove the overlay
-            rootView.removeView(progressBar); // Remove the progress bar
+            rootView.removeView(overlay);
+            rootView.removeView(progressBar);
         }
     }
 }

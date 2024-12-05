@@ -1,10 +1,12 @@
 package com.example.smartgrocerytracker.ui.maps;
 
+import static com.example.smartgrocerytracker.Config.GMAP_API_KEY;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri; // Import for Uri
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -55,7 +57,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient fusedLocationClient;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
-    private List<Place> placeList = new ArrayList<>(); // Updated to use Place objects
+    private List<Place> placeList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -63,7 +65,6 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_map, container, false);
 
-        // Initialize MapFragment
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         if (mapFragment == null) {
@@ -73,11 +74,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                     .commit();
         }
         mapFragment.getMapAsync(this);
-
-        // Initialize FusedLocationProviderClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-        // Initialize RecyclerView
         recyclerView = root.findViewById(R.id.nearby_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -105,18 +103,14 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                 distanceTextView.setText(place.distance);
                 estTimeTextView.setText(place.estTime);
 
-                // Set the color of the status text based on the status
                 if (place.status.equalsIgnoreCase("Open")) {
                     statusTextView.setTextColor(ContextCompat.getColor(itemView.getContext(), android.R.color.holo_green_dark));
                 } else if (place.status.equalsIgnoreCase("Closed")) {
                     statusTextView.setTextColor(ContextCompat.getColor(itemView.getContext(), android.R.color.holo_red_dark));
                 } else {
-                    // Default color
                     statusTextView.setTextColor(ContextCompat.getColor(itemView.getContext(), android.R.color.black));
                 }
 
-
-                // Set OnClickListener to open Google Maps with directions
                 itemView.setOnClickListener(v -> {
                     String uri = "google.navigation:q=" + place.latitude + "," + place.longitude;
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
@@ -164,7 +158,6 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("You are here"));
 
-                // Fetch and display nearby stores
                 fetchNearbyStores(location);
             } else {
                 Log.e(TAG, "Failed to retrieve location.");
@@ -175,7 +168,6 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
     private void requestLocationPermission() {
         if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            // Show an explanation to the user
             new AlertDialog.Builder(requireContext())
                     .setTitle("Location Permission Needed")
                     .setMessage("This app requires location access to display nearby stores on the map.")
@@ -190,7 +182,6 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                     .create()
                     .show();
         } else {
-            // No explanation needed; request the permission
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
@@ -201,16 +192,12 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted
                 enableUserLocation();
             } else {
-                // Permission denied
                 boolean showRationale = shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION);
                 if (!showRationale) {
-                    // User selected "Don't ask again"
                     showSettingsRedirectDialog();
                 } else {
-                    // User denied without "Don't ask again"
                     Toast.makeText(requireContext(), "Location permission denied. Some features may not work.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -237,9 +224,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void fetchNearbyStores(Location location) {
-        String apiKey = "AIzaSyDwXvYsGKTh2JU-C4jLRxslfdaZgwgjCHU"; // Replace with your actual API key
+        String apiKey = GMAP_API_KEY;
 
-        // Fixed location: Waterloo coordinates
         double waterlooLat = 43.4643;
         double waterlooLng = -80.5204;
 
@@ -268,59 +254,45 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                         JSONArray results = response.getJSONArray("results");
                         placeList.clear();
 
-                        // Optional: Clear existing markers if needed
-                        // mMap.clear();
-
-                        // Re-add user's location marker if necessary
-                        // LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                        // mMap.addMarker(new MarkerOptions().position(userLocation).title("You are here"));
-
                         for (int i = 0; i < results.length(); i++) {
                             JSONObject placeJson = results.getJSONObject(i);
                             String name = placeJson.getString("name");
 
-                            // Convert name to lowercase for case-insensitive comparison
                             String lowerCaseName = name.toLowerCase();
                             if (lowerCaseName.contains("walmart") || lowerCaseName.contains("freshco") || lowerCaseName.contains("costco")) {
-                                // Extract other details
                                 String address = placeJson.optString("vicinity", "Unknown Address");
                                 boolean openNow = placeJson.optJSONObject("opening_hours") != null &&
                                         placeJson.getJSONObject("opening_hours").optBoolean("open_now", false);
                                 String status = openNow ? "Open" : "Closed";
 
-                                // Get latitude and longitude
                                 JSONObject locationObj = placeJson.getJSONObject("geometry").getJSONObject("location");
                                 double latitude = locationObj.getDouble("lat");
                                 double longitude = locationObj.getDouble("lng");
 
-                                // Calculate actual distance
                                 float[] resultsDistance = new float[1];
                                 Location.distanceBetween(location.getLatitude(), location.getLongitude(), latitude, longitude, resultsDistance);
-                                double distanceInMiles = resultsDistance[0] / 1609.34; // Convert meters to miles
+                                double distanceInMiles = resultsDistance[0] / 1609.34;
                                 String distStr = String.format("%.1f mi", distanceInMiles);
 
-                                int estTime = (int) (distanceInMiles * 5); // Approximate travel time
+                                int estTime = (int) (distanceInMiles * 5);
 
                                 Place place = new Place(name, address, status, distStr, estTime + " min", latitude, longitude);
                                 placeList.add(place);
 
-                                // **Add marker to map**
                                 if (mMap != null) {
                                     LatLng placeLocation = new LatLng(latitude, longitude);
                                     mMap.addMarker(new MarkerOptions()
                                             .position(placeLocation)
                                             .title(name)
-                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))); // Red marker
+                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                                 }
                             }
                         }
-
                         adapter.notifyDataSetChanged();
 
                         if (placeList.isEmpty()) {
                             Toast.makeText(requireContext(), "No nearby stores found.", Toast.LENGTH_SHORT).show();
                         }
-
                     } catch (Exception e) {
                         Log.e(TAG, "Error parsing places: " + e.getMessage());
                         Toast.makeText(requireContext(), "Error parsing store data.", Toast.LENGTH_SHORT).show();

@@ -1,5 +1,7 @@
 package com.example.smartgrocerytracker.ui;
 
+import static com.example.smartgrocerytracker.utils.LoginUtils.validateForm;
+
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +35,7 @@ public class SignUp extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private TextView welcomesignup;
-
+    RequestQueue queue;
     private TextView welcomesignup1;
 
     @Override
@@ -42,7 +44,6 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        // Initialize fields
         progressBar= findViewById(R.id.progress_Bar);
         usernameEditText = findViewById(R.id.username);
         emailEditText = findViewById(R.id.email);
@@ -56,9 +57,9 @@ public class SignUp extends AppCompatActivity {
         welcomesignup.startAnimation(dropDownAnimation);
         Animation dropDownAnimation1 = AnimationUtils.loadAnimation(this, R.anim.drop_down);
         welcomesignup1.startAnimation(dropDownAnimation1);
-        // Create the rotation animation
+
         ObjectAnimator rotationAnimator = ObjectAnimator.ofFloat(playButtonImage, "rotation", 0f, 360f);
-        rotationAnimator.setDuration(1500); // 1 second duration
+        rotationAnimator.setDuration(1500);
         rotationAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
 
         // Start the animation
@@ -66,78 +67,44 @@ public class SignUp extends AppCompatActivity {
 
         TextView loginLink = findViewById(R.id.login_link);
 
-        // Set click listener for the login link
         loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Navigate to LoginActivity
                 Intent intent = new Intent(SignUp.this, Login.class);
                 startActivity(intent);
-                finish(); // Optional: Close the current activity
+                finish();
             }
         });
 
-        // Set up RequestQueue
-        RequestQueue queue = Volley.newRequestQueue(SignUp.this);
+        queue = Volley.newRequestQueue(SignUp.this);
 
-        progressBar.setVisibility(View.GONE); // Initially hidden
+        progressBar.setVisibility(View.GONE);
         signupButton.setEnabled(true);
 
-        // Set Signup Button click listener
+
         signupButton.setOnClickListener(v -> {
-            if (validateForm()) {
-                progressBar.setVisibility(View.VISIBLE);  // Show ProgressBar
-                signupButton.setEnabled(false);  // Disable the button to prevent multiple clicks
-                String username = usernameEditText.getText().toString().trim();
-                String email = emailEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
-                // Simulate a network request (Replace this with actual API call)
-                new Handler().postDelayed(() -> {
-                    // Example of successful signup
-                    signUpApiServices.sendPostRequest(SignUp.this, queue, email, password, username);
-                    SnackbarHelper.showSnackbar(findViewById(android.R.id.content), "SignUp successful");
-                    //Toast.makeText(SignUp.this, "Sign Up Successful!", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);  // Hide ProgressBar
-                    signupButton.setEnabled(true);  // Enable button again
-                    // Optionally navigate to the next activity, e.g.:
-                    Intent intent = new Intent(SignUp.this, Login.class);
-                    startActivity(intent);
-                    finish();
-                }, 2000);  // 2-second delay for simulation
-            }
+            localSignupCall();
         });
+
+
     }
+    private void localSignupCall(){
+        if (validateForm(usernameEditText,emailEditText,passwordEditText,rePasswordEditText)) {
+            progressBar.setVisibility(View.VISIBLE);
+            signupButton.setEnabled(false);
+            String username = usernameEditText.getText().toString().trim();
+            String email = emailEditText.getText().toString().trim();
+            String password = passwordEditText.getText().toString().trim();
 
-    // Form Validation
-    private boolean validateForm() {
-        String username = usernameEditText.getText().toString().trim();
-        String email = emailEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
-        String rePassword = rePasswordEditText.getText().toString().trim();
+            new Handler().postDelayed(() -> {
 
-        if (TextUtils.isEmpty(username)) {
-            usernameEditText.setError("Username is required");
-            return false;
+                signUpApiServices.sendPostRequest(SignUp.this, queue, email, password, username);
+                SnackbarHelper.showSnackbar(findViewById(android.R.id.content), "SignUp successful");
+
+                progressBar.setVisibility(View.GONE);
+                signupButton.setEnabled(true);
+            }, 1200);
         }
-        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEditText.setError("Valid email is required");
-            return false;
-        }
-        if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError("Password is required");
-            return false;
-        }
-        if (TextUtils.isEmpty(rePassword) || !rePassword.equals(password)) {
-            rePasswordEditText.setError("Passwords do not match");
-            return false;
-        }
+    };
 
-        return true;
-    }
-
-
-    private boolean isValidPassword(String password) {
-        String specialCharacters = "[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]+";
-        return password.matches(".*" + specialCharacters + ".*");
-    }
 }

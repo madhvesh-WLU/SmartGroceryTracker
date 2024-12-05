@@ -123,9 +123,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         setupExpandCollapseFeature();
     }
 
-    /**
-     * Sets up the expand/collapse functionality for the CardView.
-     */
+
     private void setupExpandCollapseFeature() {
         // Initially, set the collapsible content to be gone
         binding.collapsibleContent.setVisibility(View.GONE);
@@ -138,9 +136,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         binding.expandButton.setOnClickListener(toggleListener);
     }
 
-    /**
-     * Toggles the visibility of the collapsible content.
-     */
+
     private void toggleCollapsibleContent() {
         if (isExpanded) {
             // Collapse the content with animation
@@ -158,11 +154,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         isExpanded = !isExpanded;
     }
 
-    /**
-     * Filters the grocery items based on the search query.
-     *
-     * @param query The search query entered by the user.
-     */
+
     private void filterResults(String query) {
         if (query.isEmpty()) {
             // Reset to original grocery items if the query is empty
@@ -178,9 +170,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         searchGroceryItemsServices.searchGroceryItems(requireContext(), queue, query, expense_id, this);
     }
 
-    /**
-     * Retrieves the expense details passed via arguments.
-     */
+
     private void retrieveBillInfoFromArguments() throws ParseException {
         if (getArguments() != null) {
             billName = getArguments().getString("bill_name");
@@ -202,9 +192,6 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         }
     }
 
-    /**
-     * Displays the expense bill information.
-     */
     private static final SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     private void displayBillInfo() throws ParseException {
@@ -218,9 +205,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         binding.editTotalPrice.setText(totalPrice);
     }
 
-    /**
-     * Sets up the RecyclerView with the GroceryItemAdapter.
-     */
+
     private void setupRecyclerViewForGroceryItemView() {
         List<GroceryItemModel> combinedItems = new ArrayList<>(groceryItemsList);
         combinedItems.addAll(addedItemsList);
@@ -230,9 +215,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         binding.expenseRecyclerView.setAdapter(groceryItemAdapter);
     }
 
-    /**
-     * Handles click events for adding, submitting, deleting, and editing grocery items.
-     */
+
     private void setupButtonListeners() {
         binding.addItemButton.setOnClickListener(v -> showItemInputDialog());
         binding.addItemButton1.setOnClickListener(v -> showItemInputDialog());
@@ -249,9 +232,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         });
     }
 
-    /**
-     * Shows the dialog to input a new grocery item.
-     */
+
     private void showItemInputDialog() {
         ItemInputDialogFragment itemInputDialog = new ItemInputDialogFragment();
         itemInputDialog.setOnItemAddedListener((name, category, price, quantity) -> {
@@ -266,9 +247,7 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         itemInputDialog.show(getParentFragmentManager(), "ItemInputDialog");
     }
 
-    /**
-     * Submits the added grocery items to the backend.
-     */
+
     private void onSubmit() {
 
 
@@ -319,17 +298,13 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
 
     }
 
-    /**
-     * Deletes selected grocery items.
-     */
+
     private void deleteSelectedItem() {
 //        groceryItemAdapter.deleteSelectedItem(expense_id);
         updateLayoutBasedOnItems();
     }
 
-    /**
-     * Enables editing of billing information.
-     */
+
     private void editSelectedItem() {
         binding.editBillName.setEnabled(true);
         binding.editDateOfPurchase.setEnabled(true);
@@ -349,15 +324,13 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         binding.editTotalQuantity.setEnabled(false);
         binding.editTotalPrice.setEnabled(false);
 
-        // Hide Cancel and Update buttons, show Edit Information button
+
         binding.editBillingInfoButton.setVisibility(View.VISIBLE);
         binding.cancelButton.setVisibility(View.GONE);
         binding.updateButton.setVisibility(View.GONE);
     }
 
-    /**
-     * Updates the billing information by sending data to the backend.
-     */
+
     private void updateInformation() throws JSONException {
         // Save the updated information
         String updatedBillName = binding.editBillName.getText().toString();
@@ -379,10 +352,9 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         expenseDetails.put("budget_id", bill_budget_id == null ? "" : bill_budget_id);
         JSONObject jsonObject = new JSONObject(expenseDetails);
 
-        // Call update API to save information
-        callUpdateApi(jsonObject);
 
-        // Update TextViews with new values
+        callUpdateApi(jsonObject);
+ // Update TextViews with new values
         binding.editBillName.setText(updatedBillName);
         binding.editDateOfPurchase.setText(updatedDateOfPurchase);
         binding.editDescription.setText(updatedDescription);
@@ -400,21 +372,13 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
         binding.updateButton.setVisibility(View.GONE);
     }
 
-    /**
-     * Calls the update API to update billing information.
-     *
-     * @param updatedBillInfo The JSON object containing updated billing information.
-     */
+
 
     private void callUpdateApi(JSONObject updatedBillInfo) {
         updateExpenseServices.putExpenseDetails(requireContext(), queue, updatedBillInfo, expense_id);
     }
 
-    /**
-     * Callback method when grocery items are fetched from the search API.
-     *
-     * @param groceryItems The list of fetched grocery items.
-     */
+
     @Override
     public void onGroceryFetched(List<GroceryItemModel> groceryItems) {
         if (groceryItems != null && !groceryItems.isEmpty()) {
@@ -469,43 +433,43 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
     private void deleteGroceryItem(GroceryItemModel item) {
         Log.i("DeleteGrocery", "Deleting item: " + item.getItemId());
         deleteGroceryServices.deleteGroceryItems(requireContext(), queue, item.getItemId(), () -> {
-            // Remove item from list
+
             groceryItemsList.remove(item);
 
-            // Update total quantity and price
+
             int currentTotalQuantity;
             try {
-                currentTotalQuantity = (int) Double.parseDouble(totalQuantity); // Safely parse as double, then cast to int
+                currentTotalQuantity = (int) Double.parseDouble(totalQuantity);
             } catch (NumberFormatException e) {
                 Log.e("DeleteGrocery", "Failed to parse totalQuantity: " + totalQuantity, e);
-                currentTotalQuantity = 0; // Default to 0 on error
+                currentTotalQuantity = 0;
             }
 
             double currentTotalPrice;
             try {
-                currentTotalPrice = Double.parseDouble(totalPrice); // Parse totalPrice as double
+                currentTotalPrice = Double.parseDouble(totalPrice);
             } catch (NumberFormatException e) {
                 Log.e("DeleteGrocery", "Failed to parse totalPrice: " + totalPrice, e);
-                currentTotalPrice = 0.0; // Default to 0.0 on error
+                currentTotalPrice = 0.0;
             }
 
-            // Deduct the item's quantity and price
+
             currentTotalQuantity -= item.getQuantity();
             currentTotalPrice -= (item.getPrice() * item.getQuantity());
 
-            // Ensure no negative values
+
             currentTotalQuantity = Math.max(currentTotalQuantity, 0);
             currentTotalPrice = Math.max(currentTotalPrice, 0.0);
 
-            // Format total price to 2 decimal places
+
             totalQuantity = String.valueOf(currentTotalQuantity);
             totalPrice = String.format("%.2f", currentTotalPrice);
 
-            // Update the fields with new values
+
             groceryItemAdapter.updateData(new ArrayList<>(groceryItemsList), "");
             updateLayoutBasedOnItems();
 
-            // Update displayed bill information
+
             try {
                 displayBillInfo();
             } catch (ParseException e) {
@@ -517,13 +481,11 @@ public class ExpenseListFragment extends Fragment implements searchGroceryItemsS
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        // Reset the Toolbar when leaving ExpenseListFragment
         Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
 
         if (toolbar != null) {
-            toolbar.setNavigationIcon(null); // Remove the back arrow
-            toolbar.setTitle("Expense List"); // Reset to default title
+            toolbar.setNavigationIcon(null);
+            toolbar.setTitle("Expense List");
         }
     }
 

@@ -1,4 +1,3 @@
-// BillInputDialogFragment.java
 package com.example.smartgrocerytracker.ui.grocerylist;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -59,8 +58,8 @@ public class BillInputDialogFragment extends DialogFragment {
     private String final_expenseId;
     private ImageButton closeButton;
     SharedPreferences sharedPreferences;
+    private boolean isDatePickerShowing = false;
     public BillInputDialogFragment() {
-        // Required empty public constructor
     }
 
     @Nullable
@@ -125,7 +124,6 @@ public class BillInputDialogFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        // Make the dialog width match the parent width
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
@@ -150,7 +148,6 @@ public class BillInputDialogFragment extends DialogFragment {
 
     }
 
-    private boolean isDatePickerShowing = false;
 
     private void setupDatePicker() {
         // Retrieve start_date and end_date from SharedPreferences
@@ -173,7 +170,6 @@ public class BillInputDialogFragment extends DialogFragment {
             maxDate = null;
         }
 
-        // Set up the DatePickerDialog
         dateOfPurchaseEditText.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -188,7 +184,6 @@ public class BillInputDialogFragment extends DialogFragment {
                     },
                     year, month, day);
 
-            // Apply minDate and maxDate if they are not null
             if (minDate != null) {
                 datePickerDialog.getDatePicker().setMinDate(minDate.getTime());
             }
@@ -290,10 +285,9 @@ public class BillInputDialogFragment extends DialogFragment {
     }
 
     private void navigateToExpenseListFragment() {
-        // Bundle the data with proper labels for display
         Bundle bundle = new Bundle();
         bundle.putString("bill_name", "Bill Name: " + billNameEditText.getText().toString().trim());
-        bundle.putString("date_of_purchase", "Date of Purchase: " + dateOfPurchaseEditText.getText().toString().trim());
+        bundle.putString("date_of_purchase", dateOfPurchaseEditText.getText().toString().trim());
         bundle.putString("description", "Description: " + descriptionEditText.getText().toString().trim());
         bundle.putString("total_quantity", "Total Quantity: " + storeTotalQuantityEditText.getText().toString().trim());
         bundle.putString("total_price", "Total Price: " + totalPriceEditText.getText().toString().trim());

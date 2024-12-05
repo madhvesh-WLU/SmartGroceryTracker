@@ -25,16 +25,14 @@ public class deleteExpenseServices {
 
     public static void deleteExpenseItems(Context context, RequestQueue queue, String expenseId, Runnable onSuccessCallback) {
         String url = Config.EXPENSES_URL +  expenseId;
-        // Create a DELETE request
         JsonObjectRequest deleteRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
                 url,
-                null, // No request body
+                null,
                 response -> {
-                    // Handle successful response
                     Log.d("DELETE_EXPENSE", "Response: " + response.toString());
                     if (onSuccessCallback != null) {
-                        onSuccessCallback.run(); // Trigger callback to update UI or perform other actions
+                        onSuccessCallback.run();
                     }
                 },
                 error -> {
@@ -50,13 +48,12 @@ public class deleteExpenseServices {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + SecurePreferences.getAuthToken(context)); // Add token if needed
+                headers.put("Authorization", "Bearer " + SecurePreferences.getAuthToken(context));
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
         };
 
-        // Add the request to the Volley request queue
         queue.add(deleteRequest);
     }
 }

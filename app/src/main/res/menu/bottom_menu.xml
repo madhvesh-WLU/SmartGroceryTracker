@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/nav_home"
-        android:title="Home"
+        android:title="@string/menu_home"
         android:icon="@drawable/budget"
 
         />
@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/nav_expense_fragment"
-        android:title="Expense"
+        android:title="@string/expenses_fragment"
         android:icon="@drawable/g_list"
         />
 
@@ -24,13 +24,13 @@
 
     <item
         android:id="@+id/nav_global_search"
-        android:title="Search"
+        android:title="@string/menu_gallery"
         android:icon="@drawable/g_search"
         />
 
     <item
         android:id="@+id/nav_map"
-        android:title="Store"
+        android:title="@string/menu_slideshow"
         android:icon="@drawable/location"
         />
 

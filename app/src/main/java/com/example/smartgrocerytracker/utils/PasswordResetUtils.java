@@ -12,7 +12,7 @@ import com.android.volley.toolbox.StringRequest;
 public class PasswordResetUtils {
 
     public static void sendPasswordResetRequest(String email, RequestQueue queue, Context context) {
-        String url = "https://yourserver.com/api/password-reset?email=" + email;
+        String url = "localhost:8000/password-reset?email=" + email;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {

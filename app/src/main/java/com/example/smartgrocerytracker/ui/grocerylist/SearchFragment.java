@@ -1,119 +1,3 @@
-//package com.example.smartgrocerytracker.ui.grocerylist;
-//
-//
-//import android.os.Bundle;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import androidx.annotation.NonNull;
-//import androidx.annotation.Nullable;
-//import androidx.appcompat.widget.SearchView;
-//import androidx.fragment.app.Fragment;
-//import androidx.recyclerview.widget.LinearLayoutManager;
-//import androidx.recyclerview.widget.RecyclerView;
-//import com.example.smartgrocerytracker.services.fetchExpenseActiveBudgetServices;
-//
-//import com.android.volley.RequestQueue;
-//import com.android.volley.toolbox.Volley;
-//import com.example.smartgrocerytracker.ModelClass.ExpenseModel;
-//import com.example.smartgrocerytracker.R;
-//import com.example.smartgrocerytracker.databinding.FragmentSearchBinding;
-//import com.example.smartgrocerytracker.services.fetchExpensesServices;
-//import com.example.smartgrocerytracker.ui.expenses.ExpenseViewAdapter;
-//
-//import java.util.List;
-//
-//public class SearchFragment extends Fragment{
-//
-//    private FragmentSearchBinding binding;
-//    private ExpenseViewAdapter adapter;
-//    private List<ExpenseModel> expenseList;
-//
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        binding = FragmentSearchBinding.inflate(inflater, container, false);
-//        return binding.getRoot();
-//    }
-//
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        // Set up RecyclerView
-//        binding.budgetIdRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        // Use an adapter to display search results
-//
-//        // Search functionality
-//        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                filterResults(query);
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                filterResults(newText);
-//                return true;
-//            }
-//        });
-//        // Checkbox filter listener (optional)
-//        binding.filterCategory1.setOnCheckedChangeListener((buttonView, isChecked) -> applyFilters());
-//        binding.filterCategory2.setOnCheckedChangeListener((buttonView, isChecked) -> applyFilters());
-//
-//
-//
-//        RequestQueue queue = Volley.newRequestQueue(requireContext());
-//        fetchExpenseActiveBudgetServices.fetchExpensesActiveBudget(requireContext(), queue, expenses -> {
-//            expenseList.clear();
-//            expenseList.addAll(expenses);
-//            adapter.notifyDataSetChanged();
-//        });
-//    }
-//
-
-//
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        binding = null; // Avoid memory leaks
-//    }
-//}
-
-
-
-        // Set up Checkbox filters (optional)
-//        binding.filterCategory1.setOnCheckedChangeListener((buttonView, isChecked) -> applyFilters());
-//        binding.filterCategory2.setOnCheckedChangeListener((buttonView, isChecked) -> applyFilters());
-
-
-
-//    private void filterResults(String query) {
-//        List<ExpenseModel> filteredList = new ArrayList<>();
-//        for (ExpenseModel expense : expenseList) {
-//            if (expense.getName().toLowerCase().contains(query.toLowerCase())) {
-//                filteredList.add(expense);
-//            }
-//        }
-//        adapter.updateData(filteredList);
-//    }
-
-//    private void applyFilters() {
-//        // Implement logic to apply additional filters
-//        // Example: Filter based on checkbox selections
-//        List<ExpenseModel> filteredList = new ArrayList<>();
-//        for (ExpenseModel expense : expenseList) {
-//            if (binding.filterCategory1.isChecked() && expense.getCategory().equalsIgnoreCase("Category1")) {
-//                filteredList.add(expense);
-//            } else if (binding.filterCategory2.isChecked() && expense.getCategory().equalsIgnoreCase("Category2")) {
-//                filteredList.add(expense);
-//            }
-//        }
-//        adapter.updateData(filteredList);
-//    }
-
-
 package com.example.smartgrocerytracker.ui.grocerylist;
 
 import android.content.Context;
@@ -136,31 +20,22 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.example.smartgrocerytracker.ModelClass.ExpenseModel;
 import com.example.smartgrocerytracker.ModelClass.GroceryItemModel;
 import com.example.smartgrocerytracker.R;
 import com.example.smartgrocerytracker.databinding.FragmentSearchBinding;
-import com.example.smartgrocerytracker.services.deleteExpenseServices;
 import com.example.smartgrocerytracker.services.deleteGroceryServices;
-import com.example.smartgrocerytracker.services.fetchExpenseActiveBudgetServices;
 import com.example.smartgrocerytracker.services.fetchGroceriesActiveBudgetServices;
-import com.example.smartgrocerytracker.services.searchExpensesServices;
-import com.example.smartgrocerytracker.services.fetchGroceryListServices;
 import com.example.smartgrocerytracker.services.searchGroceryItemsActiveBudgetServices;
-import com.example.smartgrocerytracker.ui.expenses.ExpenseViewAdapter;
 import com.example.smartgrocerytracker.ui.expenses.GroceryItemAdapter;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-//filteration
 public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGroceryLongClickListener {
 
     private FragmentSearchBinding binding;
@@ -170,7 +45,7 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
     private String budgetId;
     private String searchQuery = "";
     private String selectedCategory = null;
-    private boolean isCategoryFilterApplied = false; // Flag to track if category filter is applied
+    private boolean isCategoryFilterApplied = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -192,14 +67,11 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
         Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
 
         if (toolbar != null) {
-            // Set the title for the fragment
             toolbar.setTitle("Monthly Spend");
 
-            // Enable the back arrow
             toolbar.setNavigationIcon(R.drawable.back_arrow);
             toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white));
             toolbar.setNavigationOnClickListener(v -> {
-                // Navigate back when the back arrow is clicked
                 NavController navController = NavHostFragment.findNavController(this);
                 navController.popBackStack();
             });
@@ -214,7 +86,6 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
 
         queue = Volley.newRequestQueue(requireContext());
 
-        // Initialize Spinner
         Spinner categorySpinner = binding.categorySpinner;
         categorySpinner.setSelection(0);
 
@@ -235,10 +106,9 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
             }
         });
 
-        // Set up Apply Filters button
         MaterialButton applyFilterButton = binding.applyFilterButton;
         applyFilterButton.setOnClickListener(v -> {
-            isCategoryFilterApplied = true; // Set the flag to true when Apply Filters is clicked
+            isCategoryFilterApplied = true;
             applyFilters();
         });
 
@@ -258,14 +128,14 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchQuery = query;
-                filterResults(); // Call filterResults when query is submitted
+                filterResults();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchQuery = newText;
-                filterResults(); // Call filterResults as the user types
+                filterResults();
                 return true;
             }
         });
@@ -346,38 +216,12 @@ public class SearchFragment extends Fragment implements GroceryItemAdapter.OnGro
     public void onDestroyView() {
         super.onDestroyView();
 
-        // Reset the Toolbar when leaving ExpenseListFragment
         Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
 
         if (toolbar != null) {
-            toolbar.setNavigationIcon(null); // Remove the back arrow
-            toolbar.setTitle("Smart Grocery Tracker"); // Reset to default title
+            toolbar.setNavigationIcon(null);
+            toolbar.setTitle("Smart Grocery Tracker");
         }
     }
 
 }
-
-
-
-
-//@Override
-//    public void onExpenseClick(ExpenseModel expense) {
-//        RequestQueue queue = Volley.newRequestQueue(requireContext());
-//        fetchGroceryListServices.fetchGroceryList(requireContext(), queue, expense.getExpenseId(), new fetchGroceryListServices.ExpenseListFetchListener() {
-//            @Override
-//            public void onExpensesFetched(ExpenseModel fetchedExpense) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("bill_name", fetchedExpense.getBillName());
-//                bundle.putString("date_of_purchase", fetchedExpense.getDateOfPurchase());
-//                bundle.putString("total_price", String.valueOf(fetchedExpense.getBillAmount()));
-//                bundle.putString("total_quantity", String.valueOf(fetchedExpense.getTotalQuantity()));
-//                bundle.putString("budget_id", String.valueOf(fetchedExpense.getBudgetId()));
-//                bundle.putString("expense_id", fetchedExpense.getExpenseId());
-//                bundle.putString("description", fetchedExpense.getDescription());
-//                bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) fetchedExpense.getGroceryItems());
-//
-//                NavController navController = NavHostFragment.findNavController(SearchFragment.this);
-//                navController.navigate(R.id.action_searchFragment_to_expenseListFragment, bundle);
-//            }
-//        });
-//    }

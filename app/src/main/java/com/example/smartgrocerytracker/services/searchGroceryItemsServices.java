@@ -27,20 +27,9 @@ import java.util.Map;
 public class searchGroceryItemsServices {
     private static final String TAG = "SearchGroceryItemsServices";
 
-    // Define the listener interface
     public interface GroceryItemsFetchListener {
         void onGroceryFetched(List<GroceryItemModel> groceryItems);
     }
-
-    /**
-     * Fetches grocery items based on the search query and expense ID.
-     *
-     * @param context    The application context.
-     * @param queue      The Volley RequestQueue.
-     * @param query      The search query string.
-     * @param expenseId  The ID of the expense to filter grocery items.
-     * @param listener   The listener to handle the fetched data.
-     */
     public static void searchGroceryItems(Context context, RequestQueue queue, String query, String expenseId, GroceryItemsFetchListener listener) {
         String token = SecurePreferences.getAuthToken(context);
         String url = Config.SEARCH_GROCERY_ITEM_URL + expenseId + "?query=" + query;

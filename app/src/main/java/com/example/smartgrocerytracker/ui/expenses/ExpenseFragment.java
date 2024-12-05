@@ -54,25 +54,21 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
 
         recyclerView = view.findViewById(R.id.recyclerView);
         addButton = view.findViewById(R.id.add_gList);
-        deleteButton = view.findViewById(R.id.delete_gList); // Initialize deleteButton first
+        deleteButton = view.findViewById(R.id.delete_gList);
 
-        // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
         if (toolbar != null) {
-            // Set the title for Store Locator
             toolbar.setTitle("Expense List");
         }
         expenseList = new ArrayList<>();
         adapter = new ExpenseViewAdapter(expenseList, this, this, requireContext());
         recyclerView.setAdapter(adapter);
 
-        deleteButton.setVisibility(View.GONE); // Now set visibility after initializing
+        deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(v -> deleteSelectedItems());
 
         setupOptionButton();
-
-        // Fetch expenses
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         fetchExpensesServices.fetchExpenses(requireContext(), queue, expenses -> {
             expenseList.clear();
@@ -129,7 +125,7 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
                             deleteExpense(item);
                         }
                         adapter.clearSelection();
-                        deleteButton.setVisibility(View.GONE); // Hide delete button
+                        deleteButton.setVisibility(View.GONE);
                     })
                     .setNegativeButton("No", null)
                     .show();
@@ -150,78 +146,3 @@ public class ExpenseFragment extends Fragment implements ExpenseViewAdapter.OnEx
 
 }
 
-
-
-
-
-
-//@Override
-//    public void onExpenseClick(ExpenseModel expense) {
-//        RequestQueue queue = Volley.newRequestQueue(requireContext());
-//        fetchGroceryListServices.fetchGroceryList(requireContext(), queue, expense.getExpenseId(), fullExpense -> {
-//            Bundle bundle = new Bundle();
-//            bundle.putString("bill_name", fullExpense.getBillName());
-//            bundle.putString("date_of_purchase", fullExpense.getDateOfPurchase());
-//            bundle.putString("total_price", String.valueOf(fullExpense.getBillAmount()));
-//            bundle.putSerializable("grocery_items", (ArrayList<GroceryItemModel>) fullExpense.getGroceryItems());
-//
-//            NavController navController = NavHostFragment.findNavController(this);
-//            navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
-//        });
-//    }
-
-
-
-//    @Override
-//    public void onExpenseClick(ExpenseModel expense) {
-//        Bundle bundle = new Bundle();
-//        bundle.putString("bill_name", expense.getBillName());
-//        bundle.putString("date_of_purchase", expense.getDateOfPurchase());
-//        bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
-//        bundle.putString("expense_id", expense.getExpenseId());
-//
-////        TODO over here basedupon expenseID i want to make api call to fetch all informatin of expense and also send that data to expenseListFragment to display overall data
-//
-//        NavController navController = NavHostFragment.findNavController(this);
-//        navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
-//    }
-
-
-
-
-//    @Override
-//    public void onExpenseClick(ExpenseModel expense) {
-//
-//        //api call
-//        String expenseId = expense.getExpenseId();
-//        RequestQueue queue = Volley.newRequestQueue(requireContext());
-//        fetchGroceryListServices.fetchGroceryList(requireContext(),queue,expenseId);
-//
-//        Bundle bundle = new Bundle();
-//        bundle.putString("bill_name", expense.getBillName());
-//        bundle.putString("date_of_purchase", expense.getDateOfPurchase());
-//        bundle.putString("store_quantity", String.valueOf(expense.getQuantity()));
-//        bundle.putString("total_price", String.valueOf(expense.getBillAmount()));
-//        bundle.putString("store_name", expense.getBillName());
-//
-//
-//
-//        NavController navController = NavHostFragment.findNavController(this);
-//        navController.navigate(R.id.action_expenseFragment_to_expenseListFragment, bundle);
-//    }
-
-
-
-
-//    private void showEditDialog(ExpenseModel expense) {
-//        // Example of showing a dialog to edit the expense
-//        ExpenseEditDialog dialog = new ExpenseEditDialog(requireContext(), expense, updatedExpense -> {
-//            // Update the list and notify adapter
-//            int index = expenseList.indexOf(expense);
-//            if (index != -1) {
-//                expenseList.set(index, updatedExpense);
-//                adapter.notifyItemChanged(index);
-//            }
-//        });
-//        dialog.show();
-//    }

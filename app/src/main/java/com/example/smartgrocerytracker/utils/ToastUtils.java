@@ -8,7 +8,7 @@ public class ToastUtils {
 
     public static void showToast(Context context, String message) {
         if (currentToast != null) {
-            currentToast.cancel(); // Cancel the previous toast
+            currentToast.cancel();
         }
         currentToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         currentToast.show();

@@ -31,17 +31,6 @@ public class searchGroceryItemsActiveBudgetServices {
     public interface GroceryItemsFetchListener {
         void onGroceryFetched(List<GroceryItemModel> groceryItems);
     }
-
-    /**
-     * Fetches grocery items based on the search query, category, and budget ID.
-     *
-     * @param context    The application context.
-     * @param queue      The Volley RequestQueue.
-     * @param budgetId   The active budget ID.
-     * @param query      The search query string.
-     * @param category   The selected category.
-     * @param listener   The listener to handle the fetched data.
-     */
     public static void searchGroceryItemsAll(Context context, RequestQueue queue, String budgetId, String query, String category, GroceryItemsFetchListener listener) {
         String token = SecurePreferences.getAuthToken(context);
 

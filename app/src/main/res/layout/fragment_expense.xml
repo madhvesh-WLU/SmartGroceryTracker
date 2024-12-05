@@ -7,14 +7,19 @@
     android:background="@drawable/bill_background"
     tools:context=".ui.expenses.ExpenseFragment">
 
+    <!-- Delete Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/delete_gList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/user_login"
-        android:visibility="gone" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="150dp"
+         android:src="@drawable/delete"
+        android:visibility="gone"
+        app:backgroundTint="#d32f2f"
+            app:maxImageSize="30dp" />
+
 
 
 

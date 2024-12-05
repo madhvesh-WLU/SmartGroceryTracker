@@ -92,6 +92,5 @@ public class BillInfo {
         this.createdAt = createdAt;
     }
 
-    // Getters and Setters
 }
 

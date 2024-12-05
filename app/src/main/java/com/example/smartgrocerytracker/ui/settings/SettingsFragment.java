@@ -61,19 +61,15 @@ public class SettingsFragment extends Fragment {
         Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
 
         if (toolbar != null) {
-            // Set the title for User Profile
             toolbar.setTitle("Settings");
 
-            // Set the back arrow
             toolbar.setNavigationIcon(R.drawable.back_arrow); // Replace with your back arrow drawable
             toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white));
-            // Handle back arrow click
+
             toolbar.setNavigationOnClickListener(v -> {
                 NavController navController = NavHostFragment.findNavController(this);
 
-                // Check if the desired fragment is already in the back stack
                 if (!navController.popBackStack(R.id.nav_home, false)) {
-                    // If it's not in the back stack, navigate to it
                     navController.navigate(R.id.nav_home);
                 }
             });
@@ -88,7 +84,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        // Initialize Views using the inflated view
+
         nightModeSwitch = view.findViewById(R.id.night_mode_switch);
         privateAccountSwitch = view.findViewById(R.id.private_account_switch);
         userName = view.findViewById(R.id.user_name);
@@ -104,65 +100,56 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setupListeners() {
-        // Handle Night Mode Switch
+
         nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Save the state in SharedPreferences
+
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(NIGHT_MODE_KEY, isChecked);
             editor.apply();
-
             // Apply the night mode
             applyNightMode(isChecked);
         });
 
-        // Handle Private Account Switch
         privateAccountSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(PRIVATE_ACCOUNT_KEY, isChecked);
             editor.apply();
         });
 
-        // Handle User Profile Tap
         View.OnClickListener openProfileListener = v -> openUserProfile();
         userImage.setOnClickListener(openProfileListener);
         tapToEdit.setOnClickListener(openProfileListener);
 
-        // Handle Security & Privacy Card Click
         securityPrivacyCard.setOnClickListener(v -> {
-            // Implement navigation to Security & Privacy settings screen
-            // Example:
-            // startActivity(new Intent(getActivity(), SecurityPrivacyActivity.class));
+//        TODO
         });
 
-        // Handle Text Size Card Click
+
         textSizeCard.setOnClickListener(v -> {
-            // Implement navigation to Text Size settings screen
             startActivity(new Intent(getActivity(), TextsizeActivity.class));
         });
 
-        // Handle Languages Card Click
+        // Dual Languagess Card Click
         languagesCard.setOnClickListener(v -> {
             // Implement navigation to Language settings screen
             startActivity(new Intent(getActivity(), LanguageActivity.class));
         });
 
-        // Handle Logout Button Click
         logoutButton.setOnClickListener(v -> handleLogout());
     }
 
     private void loadPreferences() {
-        boolean isNightMode = sharedPreferences.getBoolean(NIGHT_MODE_KEY, false); // Default to false (light mode)
+        boolean isNightMode = sharedPreferences.getBoolean(NIGHT_MODE_KEY, false);
         nightModeSwitch.setChecked(isNightMode);
-        applyNightMode(isNightMode);  // Apply the theme based on saved preference
+        applyNightMode(isNightMode);
     }
 
     private void applyNightMode(boolean isEnabled) {
-        // Change the app's theme based on the night mode preference
         if (isEnabled) {
-            // Apply dark theme
+            // Apply dark theme for user
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
-            // Apply light theme
+            // Apply light theme for user
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
@@ -170,13 +157,13 @@ public class SettingsFragment extends Fragment {
     private void openUserProfile() {
         ProfileFragment fragment = new ProfileFragment();
         requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment) // Ensure you have a container with this ID
-                .addToBackStack(null) // Optional: add to back stack
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 
     private void logout() {
-        // Clear the shared preferences to log out the user
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
@@ -185,7 +172,6 @@ public class SettingsFragment extends Fragment {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
-        // Optionally, call getActivity().finish() to ensure the current fragment/activity is finished
         if (getActivity() != null) {
             getActivity().finish();
         }
@@ -206,22 +192,18 @@ public class SettingsFragment extends Fragment {
 
         AlertDialog dialog = builder.create();
 
-        // Apply the zoom-in animation when the dialog is shown
         dialog.setOnShowListener(dialogInterface -> {
             View dialogRoot = dialogView.getRootView();
 
-            // Create ObjectAnimators for scale X and Y
             ObjectAnimator scaleXIn = ObjectAnimator.ofFloat(dialogRoot, "scaleX", 0.7f, 1.0f);
             ObjectAnimator scaleYIn = ObjectAnimator.ofFloat(dialogRoot, "scaleY", 0.7f, 1.0f);
 
             scaleXIn.setDuration(400);
             scaleYIn.setDuration(400);
 
-            // Use a DecelerateInterpolator to make it smooth
             scaleXIn.setInterpolator(new DecelerateInterpolator());
             scaleYIn.setInterpolator(new DecelerateInterpolator());
 
-            // Play the animations together
             AnimatorSet zoomInSet = new AnimatorSet();
             zoomInSet.playTogether(scaleXIn, scaleYIn);
             zoomInSet.start();
@@ -232,7 +214,6 @@ public class SettingsFragment extends Fragment {
         closeButton.setOnClickListener(v -> {
             View dialogRoot = dialogView.getRootView();
 
-            // Create ObjectAnimators for scale X and Y (Zoom-out effect)
             ObjectAnimator scaleXOut = ObjectAnimator.ofFloat(dialogRoot, "scaleX", 1.0f, 0.7f);
             ObjectAnimator scaleYOut = ObjectAnimator.ofFloat(dialogRoot, "scaleY", 1.0f, 0.7f);
 
@@ -242,11 +223,9 @@ public class SettingsFragment extends Fragment {
             scaleXOut.setInterpolator(new DecelerateInterpolator());
             scaleYOut.setInterpolator(new DecelerateInterpolator());
 
-            // Play the animations together
             AnimatorSet zoomOutSet = new AnimatorSet();
             zoomOutSet.playTogether(scaleXOut, scaleYOut);
 
-            // Add a listener to dismiss the dialog after the animation
             zoomOutSet.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -254,7 +233,6 @@ public class SettingsFragment extends Fragment {
                 }
             });
 
-            // Start the zoom-out animation
             zoomOutSet.start();
         });
 
@@ -264,7 +242,6 @@ public class SettingsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
 
-        // Reset the Toolbar when leaving ExpenseListFragment
         Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
 
         if (toolbar != null) {

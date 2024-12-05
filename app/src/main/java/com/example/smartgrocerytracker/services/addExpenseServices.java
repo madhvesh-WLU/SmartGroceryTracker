@@ -1,9 +1,6 @@
 package com.example.smartgrocerytracker.services;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
+import android.content.Context;import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -13,10 +10,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.smartgrocerytracker.Config;
-import com.example.smartgrocerytracker.MainActivity;
 import com.example.smartgrocerytracker.utils.SecurePreferences;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,8 +20,8 @@ import java.util.Map;
 
 public class addExpenseServices {
     public interface ExpenseResponseListener {
-        void onExpenseAdded(String expenseId); // Called when the request succeeds
-        void onError(String errorMessage);    // Called when the request fails
+        void onExpenseAdded(String expenseId);
+        void onError(String errorMessage);
     }
         public static void postExpenseDetails(Context context, RequestQueue queue, JSONObject requestData, ExpenseResponseListener listener) {
             String token = SecurePreferences.getAuthToken(context);
@@ -45,7 +40,7 @@ public class addExpenseServices {
                                     JSONObject data = response.getJSONObject("data");
                                     String expense_id = data.getString("expense_id");
 
-                                    // Pass the expense_id to the listener
+
                                     listener.onExpenseAdded(expense_id);
 
                                 }
@@ -67,7 +62,6 @@ public class addExpenseServices {
                     Log.e("Add expense", "Error: " + errorMessage);
                 }
             }) {
-                // Optionally, send headers with your request
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();

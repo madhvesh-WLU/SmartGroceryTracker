@@ -10,14 +10,26 @@
     <string name="action_budget">Budget</string>
 
     <string name="menu_home">Grocery Tracker</string>
-    <string name="menu_gallery">Manage List</string>
+    <string name="menu_gallery">Global Search</string>
     <string name="expenses_fragment">Expenses</string>
     <string name="menu_slideshow">Stores</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="smallheading">Manage your grocery expenses</string>
 
+    <string name="textsize_title">Select Text Size</string>
+    <string name="small">Small</string>
+    <string name="medium">Medium (Default)</string>
+    <string name="large">Large</string>
+    <string name="extra_large">ExtraLarge</string>
 
+    <string name="no_item_found">No Item found</string>
+
+    <string name="detailed_description">Detailed Description</string>
+
+    <string name="apply">Apply</string>
     <!-- Static Information -->
+    <string name="bigheading">Snap Cart</string>
     <string name="authors">Author: Madhvesh Chokshi, Sujani Chandrashekar, Krisha Sakalsawala, Trisha Reddy, Payal Darji</string>
     <string name="app_version">App Version: 1.0.0</string>
     <string name="app_description">This app helps you manage your grocery shopping effortlessly by creating organized lists, tracking inventory at home, setting reminders for overspending, and estimating budgets to control spending. This app simplifies your grocery experience, saving you time and money.</string>
@@ -36,9 +48,13 @@
     <string name="change_language">Change Language</string>
     <string name="save_changes">Save Changes</string>
 
-
+    <string name="spent">Spent</string>
+    <string name="remaining">Remaining</string>
+    <string name="no_active_budget">No active budget</string>
     <string name="create_account_text">Create Account</string>
     <string name="second_text_signup">Join us to start managing your expenses better</string>
+    <string name="welcomeback_login">Welcome back</string>
+    <string name="second_login">We missed you! Login to get started</string>
     <string name="hello_folks">Hello, Folks!</string>
     <string name="user">User</string>
     <string name="username">Username</string>
@@ -48,11 +64,27 @@
     <string name="select_start_date">Select Start Date</string>
     <string name="end_date">End Date</string>
     <string name="start_date">Start Date</string>
-    <string name="enter_your_budget_cad">Enter your budget (CAD)</string>
-    <string name="set_your_budget">Set Your Budget</string>
+    <string name="zero">0</string>
+    <string name="one">0</string>
+    <string name="two">0</string>
+    <string name="three">0</string>
+    <string name="four">0</string>
+    <string name="five">0</string>
+    <string name="six">0</string>
+    <string name="seven">0</string>
+    <string name="eight">0</string>
+    <string name="nine">0</string>
+    <string name="clear">C</string>
+    <string name="night_mode">Night mode</string>
+    <string name="privacy">Privacy</string>
+    <string name="text_size">Text Size</string>
+    <string name="languages">Languages</string>
+    <string name="please_search">Please Search</string>
     <string name="cancel">Cancel</string>
     <string name="reset_password">Reset Password</string>
     <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_budget_cad">Enter your budget</string>
+    <string name="set_your_budget">Set Budgetं</string>
     <string name="Reset_password">Reset Password</string>
     <string name="captured_image">Captured Image</string>
     <string name="close">Close</string>
@@ -103,10 +135,10 @@
     <string name="total_price">Total Price</string>
     <string name="next">Next</string>
     <string name="budget_details">Budget Details</string>
-    <string name="budget_amount_0">Budget Amount: $0</string>
-    <string name="spent_amount_0">Spent Amount: $0</string>
-    <string name="start_date_yyyy_mm_dd">Start Date: YYYY-MM-DD</string>
-    <string name="end_date_yyyy_mm_dd">End Date: YYYY-MM-DD</string>
+    <string name="budget_amount_0">Budget Amount: $</string>
+    <string name="spent_amount_0">Spent Amount: $</string>
+    <string name="start_date_yyyy_mm_dd">Start Date: </string>
+    <string name="end_date_yyyy_mm_dd">End Date: </string>
     <string name="edit_budget">Edit Budget</string>
     <string name="Close">Close</string>
     <string name="Captured_image">captured Image</string>
@@ -134,6 +166,7 @@
     <string name="Delete_item">Delete Item</string>
     <string name="submit">Submit</string>
     <string name="welcome_user">Welcome, User</string>
+    <string name="welcome_message">Hello, %1$s</string>
     <string name="left_to_spend">Left to Spend:</string>
     <string name="_45_00">$45.00</string>
     <string name="out_of">out of</string>

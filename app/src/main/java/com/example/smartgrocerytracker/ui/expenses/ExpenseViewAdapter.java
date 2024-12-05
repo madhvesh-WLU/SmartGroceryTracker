@@ -16,7 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.smartgrocerytracker.Config;
+
 import com.example.smartgrocerytracker.ModelClass.ExpenseModel;
 import com.example.smartgrocerytracker.R;
 
@@ -31,11 +31,11 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
     private List<ExpenseModel> expenseList;
     private final OnExpenseClickListener clickListener;
     private final OnExpenseLongClickListener longClickListener;
-    private String searchQuery; // To store the current query
-    private final Context context; // Store context for accessing resources
+    private String searchQuery;
+    private final Context context;
     private boolean isMultiSelectionMode = false;
     private final List<ExpenseModel> selectedItems = new ArrayList<>();
-    // Interface for handling item clicks
+
     private long lastPosition = -1;
     public interface OnExpenseClickListener {
         void onExpenseClick(ExpenseModel expense);
@@ -65,14 +65,14 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
     public void onBindViewHolder(@NonNull ExpenseViewHolder holder, int position) {
         ExpenseModel expense = expenseList.get(position);
 
-        // Set text for views
+
         holder.storeNameTextView.setText(expense.getBillName() != null ? expense.getBillName() : "N/A");
         String date = formatDate(expense);
         holder.dateOfPurchaseTextView.setText(date);
         holder.totalPriceTextView.setText(String.valueOf("$" + expense.getBillAmount()));
         holder.quantityTotal.setText(String.valueOf("Quantity: " + expense.getTotalQuantity()));
 
-        // Highlight matching text in bill_name
+
         if (searchQuery != null && !searchQuery.isEmpty()) {
             holder.storeNameTextView.setText(getHighlightedText(expense.getBillName(), searchQuery));
         } else {
@@ -88,7 +88,7 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
             holder.checkBox.setChecked(false);
         }
 
-        // Handle item click
+
         holder.itemView.setOnClickListener(v -> {
             if (isMultiSelectionMode) {
                 toggleSelection(expense);
@@ -98,7 +98,7 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
             }
         });
 
-        // Handle long-click to activate multi-selection
+
         holder.itemView.setOnLongClickListener(v -> {
             if (!isMultiSelectionMode) {
                 isMultiSelectionMode = true;
@@ -111,23 +111,14 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
 
         setAnimation(holder.itemView,position);
 
-//        // Handle CheckBox click
-//        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            if (isChecked) {
-//                if (!selectedItems.contains(expense)) {
-//                    selectedItems.add(expense);
-//                }
-//            } else {
-//                selectedItems.remove(expense);
-//            }
-//        });
+
     }
 
     private void setAnimation(View viewToAnimate, int position) {
-        // Apply the animation only if the view is being bound for the first time
+
         if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-            animation.setStartOffset(position * 30); // Delay each item by 100ms * position
+            animation.setStartOffset(position * 30);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
@@ -148,7 +139,7 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
 
     public void updateData(List<ExpenseModel> newExpenses, String query) {
         this.expenseList = newExpenses;
-        this.searchQuery = query; // Update the current query
+        this.searchQuery = query;
         notifyDataSetChanged();
     }
     private Spannable getHighlightedText(String fullText, String query) {
@@ -157,7 +148,7 @@ public class ExpenseViewAdapter extends RecyclerView.Adapter<ExpenseViewAdapter.
         if (start >= 0) {
             int end = start + query.length();
             spannable.setSpan(
-                    new ForegroundColorSpan(context.getResources().getColor(R.color.buttonblue)), // Replace with your highlight color
+                    new ForegroundColorSpan(context.getResources().getColor(R.color.buttonblue)),
                     start,
                     end,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

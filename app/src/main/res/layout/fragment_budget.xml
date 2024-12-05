@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Set Your Budget"
-            android:textColor="#27104e"
+            android:text="@string/set_your_budget"
+            android:textColor="@color/dark_grey"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
-        android:text="Start Date"
+        android:text="@string/start_date"
         android:textColor="#64379f" />
 
     <com.google.android.material.button.MaterialButton
@@ -60,7 +60,7 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Start Date"
+        android:text="@string/select_start_date"
         android:textColor="#27104e" />
 
     <!-- End Date -->
@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
-        android:text="End Date"
+        android:text="@string/end_date"
         android:textColor="#64379f" />
 
     <com.google.android.material.button.MaterialButton
@@ -76,7 +76,7 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select End Date"
+        android:text="@string/select_end_date"
         android:textColor="#27104e" />
 
     <!-- Calculator Keypad -->
@@ -96,7 +96,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="1"
+            android:text="@string/one"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -107,7 +107,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="2"
+            android:text="@string/two"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -118,7 +118,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="3"
+            android:text="@string/three"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -130,7 +130,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="4"
+            android:text="@string/four"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -141,7 +141,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="5"
+            android:text="@string/five"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -152,7 +152,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="6"
+            android:text="@string/six"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -164,7 +164,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="7"
+            android:text="@string/seven"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -175,7 +175,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="8"
+            android:text="@string/eight"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -186,7 +186,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="9"
+            android:text="@string/nine"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -209,7 +209,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="0"
+            android:text="@string/zero"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -220,7 +220,7 @@
             android:layout_height="50dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:text="C"
+            android:text="@string/clear"
             android:background="@drawable/button_selector"
             android:textColor="@color/white"
             android:textSize="16sp" />

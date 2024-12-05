@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bill_background"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -10,19 +11,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bill details"
+            android:textColor="@color/dark_grey"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:textStyle="bold" />
+
         <!-- Store Name -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Store Name"
-            android:textSize="18sp"
+            android:text="Store Name:"
+            android:textColor="@color/vibrant_orange"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/store_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Store Name" />
+            android:layout_height="40dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Enter Store Name"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/vibrant_orange"
+            app:boxStrokeWidth="2dp"
+            app:boxStrokeWidthFocused="3dp"
+            android:textColor="@color/black"
+            app:hintTextColor="@color/black" />
+
 
         <!-- Store Address -->
         <TextView
@@ -30,43 +49,67 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
-            android:text="Store Address" />
+            android:textColor="@color/vibrant_orange"
+            android:textSize="16dp"
+            android:text="Store Address:" />
 
         <!-- Date of Purchase -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date of Purchase"
+            android:textColor="@color/vibrant_orange"
+            android:textSize="16sp"
+            android:text="Date of Purchase:"
             android:paddingTop="8dp" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/date_of_purchase"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Select Date"
-            android:focusable="false"
-            android:clickable="true" />
+            android:layout_height="40dp"
+            android:hint="Date of purchase"
+            android:layout_marginBottom="16dp"
+            app:boxBackgroundMode="outline"
+            android:textColor="@color/black"
+            app:boxStrokeColor="@color/vibrant_orange"
+            app:boxStrokeWidth="2dp"
+            app:boxStrokeWidthFocused="3dp" />
 
         <!-- Description -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description"
-            android:paddingTop="8dp" />
+            android:paddingTop="8dp"
+            android:text="Description:"
+            android:textColor="@color/vibrant_orange"
+            android:textSize="16sp" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Description" />
+            android:layout_height="40dp"
+            android:hint="Description"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/vibrant_orange"
+            app:boxStrokeWidth="2dp"
+            app:boxStrokeWidthFocused="3dp" />
 
         <!-- Total Amount -->
         <TextView
             android:id="@+id/total_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
             android:paddingTop="8dp"
+            android:textColor="@color/vibrant_orange"
             android:text="Total Amount: $" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="8dp"
+            android:background="@android:color/black"/>
 
         <!-- Item List -->
         <androidx.recyclerview.widget.RecyclerView
@@ -88,6 +131,7 @@
                 android:id="@+id/btn_retake"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/vibrant_orange"
                 android:text="Retake" />
 
             <Button
@@ -95,6 +139,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:textColor="@color/vibrant_orange"
+                android:backgroundTint="@color/white"
                 android:text="Submit" />
         </LinearLayout>
 

@@ -37,8 +37,6 @@ import java.util.Objects;
 public class FancyGroceryOptionsDialog extends DialogFragment {
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int CAMERA_REQUEST_CODE = 101;
-    private static final int GALLERY_REQUEST_CODE = 102;
-    private static final int STORAGE_PERMISSION_CODE = 200;
     private RequestQueue requestQueue;
     @Nullable
     @Override
@@ -112,11 +110,10 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
             Uri imageUri = null;
 
             if (data != null) {
-                // Check if the data has a URI (Gallery)
                 imageUri = data.getData();
 
                 if (imageUri != null) {
-                    // Image selected from gallery
+
                     File imageFile = MediaUtils.getFileFromUri(imageUri, requireActivity());
                     if (imageFile != null && imageFile.exists()) {
                         dismiss();
@@ -125,7 +122,7 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
                         Toast.makeText(requireActivity(), "Failed to process selected image.", Toast.LENGTH_SHORT).show();
                     }
                 } else if (data.getExtras() != null) {
-                    // Image captured from camera (thumbnail)
+
                     Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
                     if (capturedImage != null) {
                         File imageFile = MediaUtils.convertBitmapToFile(requireActivity(), capturedImage, "captured_image.jpg");
@@ -138,14 +135,12 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
                     }
                 }
             } else {
-                // Handle the case where data is null (might be full-size image saved to URI)
-                // Implement this if you're using EXTRA_OUTPUT to save the image to a specific URI
                 Toast.makeText(requireActivity(), "No image captured.", Toast.LENGTH_SHORT).show();
             }
         }
 
         // Handle ReviewActivity result
-        if (requestCode == 101) { // ReviewActivity result
+        if (requestCode == 101) {
             if (resultCode == RESULT_OK) {
                 // Submission successful
                 Toast.makeText(requireActivity(), "Items successfully stored!", Toast.LENGTH_SHORT).show();
@@ -155,7 +150,5 @@ public class FancyGroceryOptionsDialog extends DialogFragment {
                 startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
             }
         }
-
-        // Handle other results as necessary
     }
 }

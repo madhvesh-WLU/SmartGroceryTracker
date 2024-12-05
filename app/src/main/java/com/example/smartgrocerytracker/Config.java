@@ -3,9 +3,12 @@ package com.example.smartgrocerytracker;
 
 public class Config {
 
-//    public static final String BASE_URL = "http://10.0.2.2:8000";
-//    public static final String BASE_URL = "http://10.0.0.19:8000";
-public static final String BASE_URL = "http://165.227.35.235";
+        //API to connect with local server
+        //public static final String BASE_URL = "http://10.0.2.2:8000";
+
+        //API to connect with server
+        public static final String BASE_URL = "http://165.227.35.235";
+        public static final String GMAP_API_KEY = "AIzaSyDwXvYsGKTh2JU-C4jLRxslfdaZgwgjCHU";
 
 
 
@@ -38,7 +41,6 @@ public static final String BASE_URL = "http://165.227.35.235";
     public static final String GLOBAL_SEARCH_BILL_NAME = BASE_URL + "/global-search/searchByBillName";
     public static final String GLOBAL_SEARCH_GROCERY_NAME = BASE_URL + "/global-search/searchByGroceryName";
     public static final String GLOBAL_SEARCH_CATEGORY = BASE_URL + "/global-search/searchByCategory";
-
 
 
 }

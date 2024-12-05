@@ -28,7 +28,7 @@ public class ZoomableImageView extends androidx.appcompat.widget.AppCompatImageV
 
     private void init(Context context) {
         scaleDetector = new ScaleGestureDetector(context, new ScaleListener());
-        setScaleType(ScaleType.MATRIX); // Ensures transformations are applied to the image
+        setScaleType(ScaleType.MATRIX);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ZoomableImageView extends androidx.appcompat.widget.AppCompatImageV
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
             scale *= detector.getScaleFactor();
-            scale = Math.max(1f, Math.min(scale, 5f)); // Limit the zoom scale (1x to 5x)
+            scale = Math.max(1f, Math.min(scale, 5f));
 
             matrix.setScale(scale, scale, detector.getFocusX(), detector.getFocusY());
             setImageMatrix(matrix);

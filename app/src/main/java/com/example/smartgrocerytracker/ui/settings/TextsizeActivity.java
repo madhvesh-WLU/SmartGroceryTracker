@@ -32,15 +32,12 @@ public class TextsizeActivity extends AppCompatActivity {
         LanguageUtil.setLocale(this);
         super.onCreate(savedInstanceState);
 
-        // Initialize SharedPreferences before setting the content view or applying text size
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
-        // Apply the saved text size theme
         applyTextSize();
 
         setContentView(R.layout.activity_textsize);
 
-        // Initialize Views
         textSizeRadioGroup = findViewById(R.id.text_size_radio_group);
         smallTextSize = findViewById(R.id.small_text_size);
         mediumTextSize = findViewById(R.id.medium_text_size);
@@ -49,12 +46,9 @@ public class TextsizeActivity extends AppCompatActivity {
         applyButton = findViewById(R.id.apply_text_size_button);
         cancelButton = findViewById(R.id.close_button);
 
-        // Set previously saved text size option
         loadPreferences();
 
-        // Set up the Apply button
         applyButton.setOnClickListener(v -> {
-            // Save the selected text size preference
             int selectedTextSizeId = textSizeRadioGroup.getCheckedRadioButtonId();
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -69,10 +63,6 @@ public class TextsizeActivity extends AppCompatActivity {
             }
 
             editor.apply();
-
-
-
-            // Restart activity to apply the new text size
             applyTextSizeGlobally();
         });
         setupCancelButton();
@@ -100,7 +90,6 @@ public class TextsizeActivity extends AppCompatActivity {
     }
 
     private void applyTextSize() {
-        // This method should set the theme based on the saved preference
         if (sharedPreferences == null) {
             sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         }

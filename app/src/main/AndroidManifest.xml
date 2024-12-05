@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.smartgrocerytracker">
-    <!-- Features and Permissions -->
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -30,35 +30,26 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.SmartGroceryTracker"
         tools:targetApi="31">
-        <!-- API Key (Ensure this is secure and not exposed in version control) -->
+
+        <!--GMap API -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDwXvYsGKTh2JU-C4jLRxslfdaZgwgjCHU" />
         <activity
             android:name=".ui.settings.LanguageActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.settings.TextsizeActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.profile.EditProfileActivity"
             android:exported="false" />
-
-        <!-- API Key (Ensure this is secure and not exposed in version control) -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDwXvYsGKTh2JU-C4jLRxslfdaZgwgjCHU" /> <!-- Activities -->
         <activity
             android:name=".ui.FullScreenImageActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".ui.ReviewActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-
         <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false"
@@ -77,8 +68,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.Login" />
         </activity>
-
-
         <activity
             android:name=".ui.Login"
             android:exported="true" />

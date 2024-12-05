@@ -34,7 +34,7 @@ public class ItemInputDialogFragment extends DialogFragment {
 
     private ImageButton closeButton;
 
-    // Listener interface to handle item addition
+
     public interface OnItemAddedListener {
         void onItemAdded(String name, String category, double price, int quantity);
     }
@@ -43,21 +43,19 @@ public class ItemInputDialogFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        // Make the dialog width match the parent width
+
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
     }
 
     public ItemInputDialogFragment() {
-        // Required empty public constructor
     }
 
-    // Method to set listener from the parent fragment or activity
+
     public void setOnItemAddedListener(OnItemAddedListener listener) {
         this.listener = listener;
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,7 +88,6 @@ public class ItemInputDialogFragment extends DialogFragment {
     private void setupCloseButton()
     {
         closeButton.setOnClickListener(v -> {
-            // Clear focus and dismiss the dialog immediately
             if (getDialog() != null) {
                 getDialog().dismiss();
             }
@@ -98,7 +95,7 @@ public class ItemInputDialogFragment extends DialogFragment {
     }
 
 
-    // Configures the Done button to validate input and add the item
+
     private void setupDoneButton() {
         doneButton.setOnClickListener(v -> {
             // Get text input from EditTexts
@@ -112,7 +109,7 @@ public class ItemInputDialogFragment extends DialogFragment {
                 Toast.makeText(getContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    // Show progress bar and disable button
+
                     progressBar.setVisibility(View.VISIBLE);
                     doneButton.setEnabled(false);
 
@@ -120,24 +117,20 @@ public class ItemInputDialogFragment extends DialogFragment {
                     double itemPrice = Double.parseDouble(itemPriceText);
                     int itemQuantity = Integer.parseInt(itemQuantityText);
 
-                    // Simulate network operation or task (e.g., adding the item)
                     new Handler().postDelayed(() -> {
                         if (listener != null) {
                             listener.onItemAdded(itemName, itemCategory, itemPrice, itemQuantity);
                         }
 
-                        // Hide progress bar and re-enable the button
                         progressBar.setVisibility(View.GONE);
                         doneButton.setEnabled(true);
 
-                        clearFields();  // Reset fields for another input if needed
+                        clearFields();
 
-                        // Optional: show a success message
                         Toast.makeText(getContext(), "Item added successfully", Toast.LENGTH_SHORT).show();
-                    }, 500); // Simulate delay (e.g., network request)
+                    }, 300);
 
                 } catch (NumberFormatException e) {
-                    // Hide progress bar and re-enable button on error
                     progressBar.setVisibility(View.GONE);
                     doneButton.setEnabled(true);
                     Toast.makeText(getContext(), "Please enter valid numbers for price and quantity", Toast.LENGTH_SHORT).show();
@@ -150,7 +143,6 @@ public class ItemInputDialogFragment extends DialogFragment {
     // Configures the Cancel button to dismiss the dialog
     private void setupCancelButton() {
         cancelButton.setOnClickListener(v -> {
-            // Clear focus and dismiss the dialog immediately
             if (getDialog() != null) {
                 getDialog().dismiss();
             }
@@ -160,12 +152,10 @@ public class ItemInputDialogFragment extends DialogFragment {
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
-        // Additional actions or debugging logs if needed
-        Toast.makeText(getContext(), "Dialog dismissed", Toast.LENGTH_SHORT).show();
     }
 
 
-    // Clears input fields after an item is successfully added
+    // Clears input fields after an item
     private void clearFields() {
         itemNameEditText.setText("");
         itemCategoryEditText.setText("");

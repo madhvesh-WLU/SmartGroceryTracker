@@ -1,9 +1,6 @@
 package com.example.smartgrocerytracker.services;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,13 +12,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.smartgrocerytracker.Config;
 import com.example.smartgrocerytracker.ModelClass.BudgetModel;
-import com.example.smartgrocerytracker.ui.Login;
 import com.example.smartgrocerytracker.utils.SecurePreferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,24 +95,3 @@ public class storeBudgetServices {
     }
 
 }
-
-
-
-
-
-
-
-//                            int statusCode = response.getInt("statusCode");
-//                            String message = response.getString("message");
-//                            if (response.getBoolean("success") && statusCode == 201) {
-//                                JSONObject dataArray = response.isNull("data") ? null : response.getJSONObject("data");
-//                                Toast.makeText(context, "Sign Up Successful!", Toast.LENGTH_SHORT).show();
-//                                Intent intent = new Intent(context, Login.class);
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                context.startActivity(intent);
-//                                if (context instanceof Activity) {
-//                                    ((Activity) context).finish();
-//                                }
-//                            } else {
-//                                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-//                            }

@@ -104,20 +104,3 @@ public class fetchExpensesServices {
         queue.add(fetchUserRequest);
 }
 }
-
-
-
-//String username =  data.getString("username");
-//                                String email = data.getString("email");
-//                                String user_id = data.getString("user_id");
-//                                String budget_id = data.getString("user_id");
-//
-//                              UserProfile.getInstance().setUserData(username,email,user_id);
-
-//                                SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PREFS, Context.MODE_PRIVATE);
-//                                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                editor.putString(USERNAME_KEY,username);
-//                                editor.putString(EMAIL_KEY, email);
-//                                editor.putString("user_id", user_id);
-//                                editor.putString("budget_id", budget_id);
-//                                editor.apply();
